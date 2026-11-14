@@ -86,7 +86,7 @@ personal-site/
 
 ### 成本
 
-**0 元，长期 0 元。** 软限制：仓库 1GB、月访问流量 100GB。这个站不到 200KB，一辈子碰不到上限。
+**0 元，长期 0 元。** 软限制：仓库 1GB、月访问流量 100GB。整个目录 260KB 左右（其中 70KB 是分享图，访客打开页面时不会下载它），一辈子碰不到上限。
 
 ### ⚠️ 必须先知道的风险
 
@@ -172,19 +172,13 @@ rmSync(OUT, { recursive: true, force: true })
 
 ### ⚠️ 绑完域名，回去改三处
 
-打开 `index.html`，**搜 `example.com`**（命中 4 处：1 处在开头注释里，3 处是真配置）：
+**这一步已经做好了。** `og:url` / `og:image` / `canonical` 现在填的是方案 A 的落地地址 `https://aot528800-hash.github.io/me/`，分享图 `assets/og-home.png` 也做好了（1200×630）。
 
-| 位置 | 现在 | 改成 |
-|---|---|---|
-| `og:url` | `https://example.com/` | `https://你的域名/` |
-| `og:image` | `https://example.com/og-home.png` | `https://你的域名/og-home.png` |
-| `canonical` | `https://example.com/` | `https://你的域名/` |
+**只有一种情况要改**：你买了自己的域名。那时搜 `aot528800-hash.github.io/me`（命中 3 处），全部换成新域名，别的一个字不用动。
 
-**没买域名、用方案 A 的，也建议改**：把 `https://example.com/` 换成 `https://aot528800-hash.github.io/me/`。这三行是给搜索引擎和微信分享看的，留着 `example.com` 等于告诉搜索引擎「我的主页在别人家」。
+### 分享图长什么样
 
-### 还有一张图要补
-
-`og:image` 指向的 `og-home.png`（1200×630）**现在还不存在**，分享出去卡片是空白的。做一张（1200×630，站名 + 一句身份句就够），命名 `og-home.png`，和 `index.html` 放在一起传。
+`assets/og-home.png`：米白底、深橄榄的 `Chew Teck Wai`、一道金线、一句「在重庆做学生资助 · 踢后腰 · 写公众号」，右边是与首屏同一个头像圆。换头像或改那句话时，这张图要重做——它不参与页面渲染，页面改它不会跟着变。
 
 ---
 
