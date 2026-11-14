@@ -32,13 +32,16 @@
 personal-site/
 ├─ index.html            页面本体（样式和脚本都在里面）
 ├─ .nojekyll             告诉 GitHub 别用 Jekyll 处理，必须有
-├─ assets/               二维码，必须连文件夹一起传
-│   ├─ qr-wechat.png     个人微信
-│   └─ qr-mp.jpg         公众号
+├─ assets/               头像 + 二维码，必须连文件夹一起传
+│   ├─ avatar-640.webp   头像（640×640，46KB）
+│   ├─ qr-wechat-2x.png  个人微信（336×336）
+│   └─ qr-mp-2x.png      公众号（336×336）
 └─ README.md             可选，方便自己以后翻
 ```
 
-`assets` 里的路径在 `index.html` 里是写死的（`assets/qr-wechat.png`）。**只把两张图传到根目录、不建 `assets` 文件夹，二维码就是破图。**
+`assets` 里的路径在 `index.html` 里是写死的（`assets/qr-wechat-2x.png`）。**只把图传到根目录、不建 `assets` 文件夹，图就是破图。**
+
+三个文件名都带尺寸或倍率，是因为它们是按显示尺寸 2 倍导出的：头像显示 319px、二维码显示 168px，2 倍刚好够 retina，再大只是浪费流量。换图时按这个尺寸重新导出，文件名保持一致。
 
 照片那两项（Hero 竖照、球场照）填上之后，也放同一个文件夹里，和 `index.html` 一起传。
 
@@ -71,7 +74,7 @@ personal-site/
    - 实在找不到，就先传别的，然后在 GitHub 网页上 `Add file` → `Create new file`，文件名填 `.nojekyll`，内容留空，直接提交。
 3. 下面提交框随便写一句（比如 `first upload`），点绿色的 `Commit changes`。
 
-传完仓库首页应该是：`index.html`、`.nojekyll`、`assets/` 三项。**如果 `assets` 里显示的是 `qr-wechat.png` 和 `qr-mp.jpg` 两个文件缩略图，而不是一个文件夹，说明拖错了，删掉重传。**
+传完仓库首页应该是：`index.html`、`.nojekyll`、`assets/` 三项。**如果 `assets` 里显示的是 `avatar-640.webp` 这类文件缩略图，而不是一个文件夹，说明拖错了，删掉重传。**
 
 ### 第 3 步 · 打开 Pages（约 1 分钟 + 等 1–3 分钟）
 
@@ -189,7 +192,7 @@ rmSync(OUT, { recursive: true, force: true })
 
 ### 1. 文件名和文件夹名的大小写
 
-GitHub Pages 和 Cloudflare Pages 的服务器**区分大小写**。`Index.html` ≠ `index.html`，`Assets/qr-wechat.png` ≠ `assets/qr-wechat.png`。
+GitHub Pages 和 Cloudflare Pages 的服务器**区分大小写**。`Index.html` ≠ `index.html`，`Assets/qr-wechat-2x.png` ≠ `assets/qr-wechat-2x.png`。
 
 症状很好认：网址打得开但页面 404，或者页面正常但二维码是破图。**所有文件名、文件夹名一律小写英文，一个空格都不要有。**
 
