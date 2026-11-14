@@ -1,0 +1,7 @@
+# 系统垃圾
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 手工备份不进门
+*.bak-*

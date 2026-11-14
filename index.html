@@ -1,0 +1,2417 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-route="/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Chew Teck Wai</title>
+<meta name="description" content="在重庆做学生资助，之前在中国银行做了五年理财经理。踢后腰，写公众号。">
+<link rel="icon" href="data:,">
+
+<!-- B2 首页 OG / Twitter / canonical 一套。静态写死，不靠 JS（微信爬虫不执行 JS）
+     【待补：域名】—— og:url / canonical 现用 https://example.com/ 占位
+     【待补：OG 预览图 1200×630】—— 现指向 /og-home.png 占位路径 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Chew Teck Wai">
+<meta property="og:title" content="Chew Teck Wai">
+<meta property="og:description" content="在重庆做学生资助，之前在中国银行做了五年理财经理。踢后腰，写公众号。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:url" content="https://example.com/">
+<meta property="og:image" content="https://example.com/og-home.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://example.com/">
+
+<!-- B1 结构化数据：只放已授权事实，域名未定不写 url -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Chew Teck Wai","jobTitle":"学生资助管理","affiliation":{"@type":"CollegeOrUniversity","name":"重庆工程职业技术大学"}}
+</script>
+
+<!-- JS 门控第一层：必须在 CSS 之前加上 js 类，禁用 JS 时正文 100% 可读（PRD S2） -->
+<script>document.documentElement.classList.add('js');</script>
+<style>
+/* ==========================================================================
+   设计令牌 · 全部取自《设计规范.md》A 节。页面中不出现任何散落硬编码色值。
+   ========================================================================== */
+:root{
+  /* A-1 色彩 */
+  --color-bg:#FBFAF4;
+  --color-surface:#F2EFE7;
+  --color-text-primary:#1E1C18;
+  --color-text-secondary:#5A564E;
+  --color-text-tertiary:#6F6B62;
+  --color-border-subtle:rgba(30,28,24,.08);
+  --color-border:rgba(30,28,24,.15);
+  --color-border-strong:rgba(30,28,24,.30);
+  --color-accent:#3F6B52; /* 全站唯一非灰阶色，仅用于：/story 阅读进度线 + :focus-visible 焦点环 */
+
+  /* A-2 字体 */
+  --font-sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,
+              "PingFang SC","Hiragino Sans GB","Microsoft YaHei UI","Microsoft YaHei",
+              "Source Han Sans SC","Noto Sans CJK SC",sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,
+              "Liberation Mono","Courier New",monospace;
+
+  /* A-2-2 字号阶梯 · 360 档基准（只有 display / h2 / h2-xl 随断点缩放） */
+  --fs-display:32px;
+  --fs-h2-xl:32px;
+  --fs-h2:26px;
+  --fs-lead:16px;
+  --fs-body:16px;
+  --fs-story:16px;
+  --fs-small:14px;
+  --fs-micro:12px;
+
+  /* A-3 间距 */
+  --space-1:4px;  --space-2:8px;   --space-3:12px;  --space-4:16px;
+  --space-5:20px; --space-6:24px;  --space-7:32px;  --space-8:48px;
+  --space-9:64px; --space-10:96px; --space-11:128px; --space-12:160px;
+
+  /* A-4 圆角与描边 */
+  --radius-img:3px;
+  --border-w:1px;
+
+  /* D 动效 */
+  --dur-fast:140ms;
+  --dur-base:240ms;
+  --dur-slow:400ms;
+  --ease:cubic-bezier(.2,0,0,1);
+
+  /* D-3 下划线（中文/中英混排一律 0.25em） */
+  --ul-offset:.25em;
+
+  /* C 栅格 · 360 档 */
+  --pad-inline:20px;
+  --content-max:1120px;
+
+  /* 纵向节奏 · 360 档 */
+  --section-gap:64px;
+  --hero-top:40px;
+
+  /* B-9 长文 measure */
+  --measure:612px;
+}
+
+/* C-1 · 768 档 */
+@media (min-width:768px){
+  :root{
+    --fs-display:44px; --fs-h2:28px; --fs-h2-xl:36px;
+    --fs-lead:17px; --fs-story:17px;
+    --pad-inline:40px;
+    --section-gap:96px; --hero-top:64px;
+  }
+}
+/* C-1 · 1024 档 */
+@media (min-width:1024px){
+  :root{
+    --fs-display:56px; --fs-h2:30px; --fs-h2-xl:40px; --fs-micro:13px;
+    --section-gap:128px; --hero-top:80px;
+  }
+}
+/* C-1 · 1200 以上留白 56；1440 档字号 */
+@media (min-width:1200px){ :root{ --pad-inline:56px; } }
+@media (min-width:1440px){
+  :root{
+    --fs-display:64px; --fs-h2:32px; --fs-h2-xl:40px; --fs-micro:13px;
+    --section-gap:160px; --hero-top:96px;
+  }
+}
+
+/* A-6 暗色：逐条覆盖，不新增令牌 */
+@media (prefers-color-scheme:dark){
+  :root{
+    --color-bg:#131614;
+    --color-surface:#1B1E1C;
+    --color-text-primary:#E8E5DC;
+    --color-text-secondary:#A9A69C;
+    --color-text-tertiary:#8E8B82;
+    --color-border-subtle:rgba(232,229,220,.09);
+    --color-border:rgba(232,229,220,.17);
+    --color-border-strong:rgba(232,229,220,.42);
+    --color-accent:#9CC9AE;
+  }
+  /* A-6 照片只降亮度，不叠 contrast / saturate */
+  img{ filter:brightness(.88); }
+}
+
+/* ==========================================================================
+   基础
+   ========================================================================== */
+*,*::before,*::after{ box-sizing:border-box; }
+
+html{
+  font-family:var(--font-sans);
+  font-synthesis:none;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-size-adjust:100%;
+  color-scheme:light dark;
+  background:var(--color-bg);
+}
+body{
+  margin:0;
+  background:var(--color-bg);
+  color:var(--color-text-primary);
+  font-size:var(--fs-body);
+  line-height:1.75;
+}
+h1,h2,h3,p,ol,ul,figure,blockquote{ margin:0; padding:0; }
+ol,ul{ list-style:none; }
+a{ color:inherit; text-decoration:none; }
+img{ display:block; max-width:100%; }
+
+.num{
+  font-family:var(--font-mono);
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.01em;
+}
+
+/* D-4 焦点环 · 全站统一，瞬态无过渡 */
+:focus-visible{
+  outline:2px solid var(--color-accent);
+  outline-offset:3px;
+  border-radius:var(--radius-img);
+}
+:focus:not(:focus-visible){ outline:none; }
+
+/* ==========================================================================
+   布局
+   ========================================================================== */
+.container{
+  width:100%;
+  max-width:calc(var(--content-max) + var(--pad-inline) * 2);
+  margin-inline:auto;
+  padding-inline:var(--pad-inline);
+}
+
+.cols{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  column-gap:16px;
+}
+@media (min-width:768px){
+  .cols{ grid-template-columns:repeat(8,minmax(0,1fr)); column-gap:20px; }
+}
+@media (min-width:1024px){
+  .cols{ grid-template-columns:repeat(12,minmax(0,1fr)); column-gap:24px; }
+}
+
+.section{ margin-top:var(--section-gap); }
+
+/* 每个视图的第一个 section 用 Hero 上边距，不叠加区块间距 */
+.view > .section:first-child{ margin-top:0; padding-top:var(--hero-top); }
+
+/* ==========================================================================
+   排版原子
+   ========================================================================== */
+.h1{ font-size:var(--fs-display); font-weight:500; letter-spacing:0; line-height:1.15; }
+.h1--latin{ letter-spacing:-.03em; line-height:1.05; }
+
+.h2{ font-size:var(--fs-h2); font-weight:500; line-height:1.3; letter-spacing:0; }
+.h2--xl{ font-size:var(--fs-h2-xl); line-height:1.2; }
+
+.micro{
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.04em;
+  line-height:1.5;
+}
+
+/* 占位符：页面上永远可见的灰色提示（内容清单 §D 规则 2）
+   规则本体放在样式表末尾 —— 它必须压过 .field-val / .blog-title / .ct-val
+   这些区块级的 color 声明，否则占位符会显示成正文黑，看着像真内容。 */
+
+/* D-3 链接下划线与 hover 展开 —— 全站动效 #1 */
+.link{
+  position:relative;
+  color:var(--color-text-primary);
+  display:inline-block;
+}
+.link::after{
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  bottom:calc(-1 * var(--ul-offset));
+  height:1px;
+  background:currentColor;
+  transform:scaleX(0);
+  transform-origin:left center;
+  transition:transform var(--dur-base) var(--ease);
+}
+.link:hover::after,
+.link:focus-visible::after{ transform:scaleX(1); }
+
+.arrow{ color:var(--color-text-tertiary); }
+
+/* ==========================================================================
+   B-0 Header（静态，不吸顶）
+   ========================================================================== */
+.site-header .header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:56px;
+}
+@media (min-width:768px){
+  .site-header .header-inner{ height:64px; }
+}
+.brand{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size:12px;
+  color:var(--color-text-tertiary);
+  letter-spacing:.02em;
+  padding-block:12px;   /* 撑到 ≥44px 热区，视觉不变 */
+}
+/* 单线头像 · 放在「说句话」左栏，当签名用。
+   为什么不做页头 28–40px 的小头像：原图 1024px、线宽 6px，缩到 40px 只剩 0.37px，
+   会灰成一团认不出人；这张图能认出来的下限大约 72px。**不要再缩小到 48px 以下。**
+   底色固定纸白：暗色模式全站有 img{filter:brightness(.88)}，必须 filter:none，
+   压暗会让本来就细的蓝线在近黑底上彻底消失；线也必须落在浅底上。 */
+.ct-avatar{
+  display:block;
+  width:72px;
+  height:72px;
+  margin-top:var(--space-7);
+  border-radius:50%;
+  background:var(--page-bg);
+  filter:none;
+}
+@media (min-width:768px){ .brand{ font-size:13px; } }
+
+.site-nav{ display:flex; gap:20px; }
+@media (min-width:768px){ .site-nav{ gap:32px; } }
+.site-nav a{
+  font-size:13px;
+  color:var(--color-text-tertiary);
+  padding-block:12px;
+  /* 点击区补到 44×44（WCAG 2.2 SC 2.5.8 / Apple HIG 最小可点尺寸）。
+     用负 margin 把多出来的 8px 抵回去，视觉间距和原来一模一样：
+     纯文字链的宽度只有 28–42px，手指点不准。 */
+  padding-inline:8px;
+  margin-inline:-8px;
+}
+/* 导航当前页不做下划线、不加粗、不改色（B-0） */
+
+/* ==========================================================================
+   B-2 ① Hero
+   ========================================================================== */
+.hero-inner{ row-gap:var(--space-5); }
+.hero-text{ grid-column:1 / -1; }
+.hero-media{ grid-column:1 / -1; }
+
+@media (min-width:768px){
+  .hero-text{ grid-column:1 / span 8; }
+  .hero-media{ grid-column:1 / span 5; }
+}
+@media (min-width:1024px){
+  .hero-text{ grid-column:1 / span 6; }
+  .hero-media{ grid-column:8 / span 5; }
+}
+
+.hero-name{ margin:0; }
+.hero-claim{
+  margin-top:var(--space-6);      /* 24 */
+  font-size:var(--fs-lead);
+  color:var(--color-text-secondary);
+  line-height:1.9;                /* 三拍之间要断开，不能连读 */
+  text-wrap:pretty;               /* 只影响折行美化，不支持时退化为普通换行 */
+}
+.hero-place{
+  margin-top:var(--space-6);      /* 24 */
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.04em;
+  line-height:1.5;
+}
+
+/* 照片容器：hover 微放大 —— 全站动效 #3 */
+.photo-frame{
+  position:relative;
+  overflow:hidden;
+  border-radius:var(--radius-img);
+}
+.photo-frame img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transform:scale(1);
+  transition:transform var(--dur-slow) var(--ease);
+}
+.photo-frame:hover img{ transform:scale(1.03); }
+
+/* B-2 无照片状态：格子不动，只换格子里的内容 */
+.photo-empty{
+  aspect-ratio:4 / 5;                       /* 360 档用 4:5（C-3） */
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:flex-start;
+  padding:var(--space-6);
+  background:var(--color-surface);
+  border:var(--border-w) solid var(--color-border-strong);  /* 内描边，box-sizing 保证换图不跳版 */
+  border-radius:var(--radius-img);
+}
+@media (min-width:768px){
+  .photo-empty{ aspect-ratio:3 / 4; }       /* 768 起 3:4 */
+}
+.pe-label{
+  font-size:var(--fs-micro);
+  color:var(--color-text-secondary);   /* C1：tertiary on surface 仅 4.31:1，提到 secondary 后 6.11:1 */
+  letter-spacing:.04em;
+  line-height:1.5;
+}
+.pe-note{
+  margin-top:var(--space-1);
+  font-size:var(--fs-micro);
+  color:var(--color-text-secondary);   /* C1：同上，6.11 / 暗色 6.62 */
+  line-height:1.6;
+  text-align:left;
+}
+
+/* ==========================================================================
+   B-3 ② 来路（时间线 · 3 节点）
+   ========================================================================== */
+.timeline{ margin-top:var(--space-6); }
+
+.tl-item{
+  display:grid;
+  grid-template-columns:1fr;
+  row-gap:var(--space-1);
+  padding-block:var(--space-5);   /* 上下各 20 */
+}
+.tl-rail{ display:none; }          /* 360 档去掉圆点与竖线（C-2） */
+.tl-time{
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.01em;
+}
+.tl-org{
+  font-size:var(--fs-body);
+  color:var(--color-text-primary);
+  line-height:1.75;
+}
+.tl-place{
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.04em;
+}
+
+@media (min-width:768px){
+  .tl-item{
+    grid-template-columns:120px 24px minmax(0,1fr);
+    column-gap:8px;
+    row-gap:0;
+    align-items:start;
+  }
+  .tl-time{ text-align:right; padding-top:2px; }
+  .tl-rail{
+    display:block;
+    position:relative;
+    align-self:stretch;
+    /* 负外边距让竖线穿过行内上下 20px 的内边距，首尾圆点之间的线才不会断 */
+    margin-block:calc(-1 * var(--space-5));
+  }
+  /* 竖线 1px，只从第 1 个圆点画到第 3 个圆点 */
+  .tl-rail::before{
+    content:"";
+    position:absolute;
+    top:0; bottom:0;
+    left:calc(50% - .5px);
+    width:1px;
+    background:var(--color-border);
+  }
+  .tl-item:first-child .tl-rail::before{ top:34px; }
+  .tl-item:last-child .tl-rail::before{ top:0; bottom:auto; height:34px; }
+  /* 圆点 5px 实心 */
+  .tl-dot{
+    position:absolute;
+    top:34px;
+    left:calc(50% - 2.5px);
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:var(--color-text-primary);
+    transform:scale(1);
+    transform-origin:center;
+    transition:transform var(--dur-fast) var(--ease);  /* 全站动效 #4 */
+  }
+  .tl-item:hover .tl-dot{ transform:scale(1.4); }
+}
+@media (min-width:1024px){
+  .tl-item{ grid-template-columns:132px 24px minmax(0,1fr); }
+}
+
+.turn-more{
+  margin-top:var(--space-7);     /* 32 */
+  font-size:var(--fs-body);
+}
+/* 「完整时间线 ↗」自带 28px 高的行内框，直接加 padding 会把 ::after 的下划线一起推下去
+   （下划线以 padding box 定位）。改用一层透明伪元素把命中区撑到 44px，版式完全不动。 */
+.turn-more .link::before{
+  content:"";
+  position:absolute;
+  inset:-8px -6px;
+}
+
+/* ==========================================================================
+   B-5 ④ 后腰
+   ========================================================================== */
+.fb-intro,.fb-fields,.fb-photo{ grid-column:1 / -1; }
+.fb-fields{ margin-top:var(--space-6); }
+
+@media (min-width:1024px){
+  .fb-inner{ row-gap:0; }
+  .fb-intro{ grid-column:1 / span 6; }
+  .fb-fields{ grid-column:8 / span 5; margin-top:0; }
+  .fb-photo{ grid-column:1 / span 8; margin-top:var(--space-8); }
+}
+
+.field-group{
+  border-top:var(--border-w) solid var(--color-border-subtle);
+  border-bottom:var(--border-w) solid var(--color-border-subtle);
+  padding-block:var(--space-5);
+}
+.field-row{
+  display:grid;
+  grid-template-columns:88px minmax(0,1fr);
+  column-gap:var(--space-4);
+  align-items:baseline;
+}
+.field-row + .field-row{ margin-top:var(--space-4); }   /* 行间 16，不加线 */
+.field-key{
+  font-size:var(--fs-micro);
+  /* 原来是 tertiary(#74716B)，12px 小字只有 4.31:1，不够 4.5 —— 降到 secondary 的 6.11:1 */
+  color:var(--color-text-secondary);
+  letter-spacing:.04em;
+  line-height:1.5;
+}
+.field-val{
+  font-size:var(--fs-body);
+  color:var(--color-text-primary);
+  line-height:1.75;
+}
+/* 窄屏把标签列收窄：两个字的标签占 88px 太浪费，值那一列本来最容易折行 */
+@media (max-width:560px){
+  .field-row{ grid-template-columns:64px minmax(0,1fr); column-gap:12px; }
+}
+
+/* 球场照 3:2（C-2：360 下 320×213 已是 3:2，全断点统一） */
+.fb-photo .photo-empty,
+.fb-photo-wide .photo-empty{ aspect-ratio:3 / 2; }
+
+/* ==========================================================================
+   B-10 /football 页内专用
+   ========================================================================== */
+.fb-lead{
+  margin-top:var(--space-6);      /* 24 */
+  max-width:var(--measure);
+  font-size:var(--fs-lead);       /* 17px，本页主体 */
+  line-height:1.75;
+  color:var(--color-text-primary);
+}
+.fb-field-group{
+  margin-top:var(--space-8);      /* 48 */
+  max-width:738px;                /* 与下方球场照左边缘对齐 */
+}
+.fb-photo-wide{ max-width:738px; }
+
+/* ==========================================================================
+   B-8 ⑦ 说句话
+   ========================================================================== */
+.ct-left,.ct-right{ grid-column:1 / -1; }
+.ct-right{ margin-top:var(--space-6); }
+@media (min-width:1024px){
+  .ct-left{ grid-column:1 / span 5; }
+  .ct-right{ grid-column:7 / span 6; margin-top:0; }
+}
+.ct-call{
+  margin-top:var(--space-3);      /* 约球一句紧跟 H2，在邮箱之前 */
+  font-size:var(--fs-lead);
+  color:var(--color-text-secondary);
+  line-height:1.7;
+}
+.ct-row{
+  display:grid;
+  grid-template-columns:88px minmax(0,1fr);
+  column-gap:var(--space-4);
+  align-items:baseline;
+  padding-block:var(--space-4);
+}
+.ct-row + .ct-row{ border-top:var(--border-w) solid var(--color-border-subtle); }
+.ct-row:first-child{ border-top:var(--border-w) solid var(--color-border-subtle); }
+.ct-key{
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.04em;
+  line-height:1.5;
+}
+.ct-val{
+  font-size:var(--fs-body);
+  color:var(--color-text-primary);
+  line-height:1.75;
+}
+.ct-sub{
+  display:block;
+  margin-top:3px;
+  font-size:var(--fs-micro);
+  line-height:1.6;
+  color:var(--color-text-secondary);
+}
+/* C9 二维码：默认折叠。极简站不把两张码怼进视线，扫码是主动动作，
+   用零 JS 的 details 承载；summary 排成与上面三行同构的 88px 标签列。 */
+.qr{ border-top:var(--border-w) solid var(--color-border-subtle); }
+.qr > summary{
+  display:grid;
+  grid-template-columns:88px minmax(0,1fr) auto;   /* 第三列放 ＋/－，靠右成行尾的展开提示 */
+  column-gap:var(--space-4);
+  align-items:baseline;
+  padding-block:var(--space-4);
+  cursor:pointer;
+  list-style:none;
+}
+.qr > summary::-webkit-details-marker{ display:none; }
+.qr-sum-key{
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.04em;
+  line-height:1.5;
+}
+.qr-sum-val{
+  font-size:var(--fs-body);
+  color:var(--color-text-primary);
+  line-height:1.75;
+}
+.qr-sign{ font-size:var(--fs-body); color:var(--color-text-secondary); line-height:1.5; }  /* 全行唯一的可点暗示，不能落到 4.31:1 的三级灰 */
+.qr-sign::before{ content:"＋"; }
+.qr[open] .qr-sign::before{ content:"－"; }
+.qr-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:var(--space-6);
+  padding-bottom:var(--space-5);
+}
+.qr-card{ margin:0; }
+.qr-card img{
+  display:block;
+  width:168px; height:168px;
+  padding:var(--space-2);
+  background:#fff;                 /* 码必须落在浅底上，暗色模式也不例外 */
+  border-radius:2px;
+  filter:none;                     /* 压过暗色的 img{filter:brightness(.88)}，压暗会掉扫码成功率 */
+}
+.qr-card figcaption{
+  margin-top:var(--space-3);
+  font-size:var(--fs-micro);
+  color:var(--color-text-secondary);
+  line-height:1.5;
+}
+.qr-card figcaption span{ display:block; color:var(--color-text-tertiary); }
+@media (max-width:767px){
+  .qr-row{ gap:var(--space-5); }
+  .qr-card img{ width:140px; height:140px; }
+}
+
+/* ==========================================================================
+   B-0 Footer
+   ========================================================================== */
+.site-footer{
+  margin-top:var(--space-10);     /* 96 */
+  padding-bottom:var(--space-8);  /* 48 */
+}
+.site-footer p{
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.04em;
+  line-height:1.5;
+}
+
+/* ==========================================================================
+   B-9 /story 阅读版式
+   最容易做错的一条：正文 measure 612px 独立居中，不受 1120 通用容器约束。
+   /story 全站禁止滚动位移 / 淡入 / 视差（C-1、E-12）
+   ========================================================================== */
+.progress{
+  position:fixed;
+  top:0; left:0;
+  width:100%;
+  height:2px;
+  background:var(--color-accent);
+  transform:scaleX(var(--p,0));
+  transform-origin:left center;
+  transition:none;
+  z-index:10;
+}
+
+.story-note{ margin-top:var(--space-4); }   /* A4：/story 示例文案的可见提示，只给间距，不新造视觉 */
+
+.story-head{
+  padding-top:var(--hero-top);
+}
+.story-body{
+  margin-top:var(--space-8);      /* 64 */
+  font-size:var(--fs-story);
+  line-height:1.88;
+  color:var(--color-text-primary);
+}
+/* /story 标题下的一句说明：只交代这一页放什么，不写任何感受 */
+.story-lead{
+  margin-top:var(--space-4);
+  font-size:var(--fs-lead);
+  line-height:1.75;
+  color:var(--color-text-secondary);
+}
+.story-body p + p{ margin-top:28px; }            /* 段间距 28 > 0.8 倍行高 */
+.story-body p{
+  overflow-wrap:break-word;
+}
+
+/* 时间线下方的一行学历注记 */
+.tl-note{ margin-top:var(--space-5); }
+
+/* /football 赛事记录：按学段分组，每行一条赛事 */
+.fb-races-title{ margin-top:var(--space-9); }
+
+.race-group{ margin-top:var(--space-7); }
+.race-group-head{
+  display:flex;
+  align-items:baseline;
+  gap:9px;
+  flex-wrap:wrap;
+  padding-bottom:9px;
+  border-bottom:1.5px solid var(--brand-ink);
+}
+.race-group-title{
+  font-size:var(--fs-body);
+  font-weight:600;
+  color:var(--brand-ink);
+}
+.race-group-sub{
+  font-size:var(--fs-micro);
+  color:var(--color-text-secondary);
+}
+.race-group-count{
+  margin-left:auto;
+  font-size:var(--fs-micro);
+  font-weight:700;
+  color:var(--brand-accent-text);
+  white-space:nowrap;
+}
+
+.race-list{ list-style:none; margin:0; padding:0; }
+.race-row{
+  display:grid;
+  grid-template-columns:84px minmax(0,1fr) auto;
+  align-items:baseline;
+  gap:2px 14px;
+  padding:15px 0;
+  border-bottom:1px solid var(--color-border-subtle);
+}
+.race-row:last-child{ border-bottom:0; }
+.race-grade{
+  font-family:var(--font-mono);
+  font-size:var(--fs-micro);
+  font-weight:600;
+  color:var(--brand-accent-text);
+  white-space:nowrap;
+}
+.race-name{
+  margin:0;
+  font-size:var(--fs-body);
+  line-height:1.45;
+  color:var(--color-text-primary);
+  overflow-wrap:break-word;
+}
+.race-meta{
+  margin:5px 0 0;
+  font-size:var(--fs-micro);
+  line-height:1.55;
+  color:var(--color-text-secondary);
+}
+.race-meta span + span::before{ content:" · "; }
+.race-meta strong{ font-weight:500; color:var(--color-text-primary); }
+.race-detail{
+  margin:4px 0 0;
+  font-size:var(--fs-micro);
+  line-height:1.55;
+  color:var(--brand-accent-text);
+}
+.race-result{
+  font-size:var(--fs-micro);
+  color:var(--color-text-secondary);
+  white-space:nowrap;
+  text-align:right;
+}
+.race-result--win{ color:var(--brand-ink); font-weight:700; }
+/* 全国前三单列一档：右侧加淡蓝底，与「冠军」的纯粗体拉开层次 */
+.race-result--national{
+  color:var(--brand-ink);
+  font-weight:700;
+  background:var(--brand-tint);
+  border-radius:2px;
+  padding:3px 8px;
+}
+.race-group-note{
+  /* 这段是解释「超级组」的正文，不是脚注：12px 撑 60 个字读着吃力，抬到 14px。
+     4 行压在组头和第一条赛事之间会打断列表，所以加一道左竖线，让它退成注解块。 */
+  margin:14px 0 8px;
+  padding-left:14px;
+  border-left:2px solid var(--color-border-strong);
+  max-width:56ch;
+  font-size:var(--fs-small);
+  line-height:1.78;
+  color:var(--color-text-secondary);
+}
+.race-note{
+  /* 与 .race-group-note 同级：都是解释性正文，不该一个 14px 一个 12px */
+  margin-top:var(--space-6);
+  max-width:72ch;
+  font-size:var(--fs-small);
+  line-height:1.78;
+  color:var(--color-text-secondary);
+}
+@media (max-width:720px){
+  .race-row{
+    grid-template-columns:minmax(0,1fr) auto;
+    row-gap:5px;
+    padding:13px 0;
+  }
+  .race-grade{ grid-column:1; grid-row:1; }
+  .race-result{ grid-column:2; grid-row:1; }
+  .race-body{ grid-column:1 / -1; grid-row:2; }
+}
+
+/* 区块 ②½ 做过的东西：一条一件，靠 1px 线分，不套卡片 */
+.work-list{
+  list-style:none;
+  margin:var(--space-6) 0 0;
+  padding:0;
+}
+.work-row{
+  padding:18px 0;
+  border-top:1px solid var(--color-border-subtle);
+}
+.work-row:first-child{
+  border-top:0;
+  padding-top:2px;
+}
+.work-head{
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.work-name{
+  margin:0;
+  font-size:var(--fs-body);
+  font-weight:600;
+  color:var(--brand-ink);
+}
+.work-tag{
+  font-size:var(--fs-micro);
+  color:var(--brand-accent-text);
+  background:var(--brand-tint);
+  border-radius:999px;
+  padding:2px 10px;
+  white-space:nowrap;
+}
+.work-desc{
+  margin:8px 0 0;
+  font-size:var(--fs-small);
+  line-height:1.8;
+  color:var(--color-text-secondary);
+}
+/* 短句版：一句一行，行距放大；组与组之间靠 p+p 的 28px 断开 */
+.story-body--lines p{ line-height:2.05; }
+.story-body--lines p + p{ margin-top:38px; }
+.story-body h2{
+  font-size:var(--fs-h2);
+  font-weight:500;
+  line-height:1.3;
+  letter-spacing:0;
+  margin-top:var(--space-9);                     /* 64 */
+}
+.story-body h2 + p{ margin-top:var(--space-6); } /* H2 后 24 */
+@media (min-width:1024px){
+  /* 1440/1024：612px 居中，一行约 36 字 */
+  .story-measure{ max-width:var(--measure); margin-inline:auto; }
+  .story-body h2{ margin-top:var(--space-10); }  /* 96 */
+}
+
+/* ==========================================================================
+   D-2 滚动淡入 · 全站动效 #2
+   红线 1：必须 html.js 门控 + reduced-motion 双保险。禁用 JS 时正文全可读。
+   ========================================================================== */
+html.js .reveal{
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity var(--dur-slow) var(--ease),
+             transform var(--dur-slow) var(--ease);
+}
+html.js .reveal.is-in{
+  opacity:1;
+  transform:none;
+}
+
+/* ==========================================================================
+   D-1 reduced-motion 降级：#2 #3 #4 全关；#1 保留但无过渡
+   ========================================================================== */
+@media (prefers-reduced-motion:reduce){
+  html.js .reveal{
+    opacity:1 !important;
+    transform:none !important;
+    transition:none !important;
+  }
+  .link::after,
+  .photo-frame img,
+  .tl-dot{
+    transition:none !important;
+  }
+  .photo-frame:hover img{ transform:none; }
+  .tl-item:hover .tl-dot{ transform:scale(1); }
+}
+
+/* ==========================================================================
+   B-9 /story 正文流：H1 之后 64px 进入正文，不再叠加区块间距
+   ========================================================================== */
+.story-flow{ margin-top:0; }
+
+/* 页面内的紧邻区块（/football 的 48 节奏，B-10） */
+.section--tight{ margin-top:var(--space-8); }
+
+/* ==========================================================================
+   B-10 「最近一场」：已取消，不再建
+   本人 2026-11-13 明确决定不写「最近一场 · 日期 + 对手 + 比分」，也不写赛后
+   那句话。理由是这一栏本身不成立——他的正式比赛止于 2014 年，今天再挂一个
+   「最近一场」，只会显得在撑。**不要以任何形式恢复这一块**：
+   不加 <details>、不加字段行、不加一句「好久没踢了」的补白。
+   赛事记录（.race-group / .race-row）取代了它的位置，只写有记录的正式比赛。
+   ========================================================================== */
+
+/* ==========================================================================
+   B-12 /blog 博客列表
+   行规格平移自原「现在 3 条」，零新增颜色 / 字重 / 动效 / 字号档。
+   ========================================================================== */
+.blog-list{ margin-top:var(--space-5); }
+
+.blog-count{
+  margin-top:14px;
+  font-family:var(--font-mono);
+  font-size:var(--fs-micro);
+  color:var(--color-text-secondary);
+}
+/* 与文章页大标题同一尺度：56px 压在一条 680 的栏上太重了 */
+#blog-h1{
+  font-size:var(--fs-h2-xl);
+  line-height:1.28;
+  letter-spacing:-.01em;
+}
+
+/* 列表收成一根阅读栏（宽度由 #view-blog 的卡片决定，见 v3 段）。 */
+
+/* 年份：一个数字加一条细线，安静地分段，不抢戏 */
+.blog-year{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  margin-top:var(--space-8);
+  padding-bottom:10px;
+  font-family:var(--font-mono);
+  font-size:var(--fs-micro);
+  letter-spacing:.08em;
+  color:var(--color-text-secondary);
+}
+.blog-year:first-child{ margin-top:var(--space-6); }
+/* 年份自带那条线就是分隔，紧跟其后的第一行不再画一条 */
+.blog-year + .blog-row{ border-top:0; }
+.blog-year::after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:var(--color-border-subtle);
+}
+
+/* 一行 = 左边窄轨（日期 / 时长）+ 右边正文。
+   窄轨只有 76px，「5 分钟」不再被甩到屏幕另一头。 */
+.blog-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  grid-template-areas:
+    "meta"
+    "title"
+    "desc";
+  row-gap:5px;
+  padding-block:24px;
+  border-top:1px solid var(--color-border-subtle);
+}
+.blog-row:last-child{ border-bottom:1px solid var(--color-border-subtle); }
+@media (min-width:768px){
+  .blog-row{
+    grid-template-columns:76px minmax(0,1fr);
+    grid-template-areas:
+      "meta title"
+      "meta desc";
+    column-gap:20px;
+    row-gap:7px;
+    align-items:start;
+  }
+}
+
+.blog-meta{
+  grid-area:meta;
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  font-family:var(--font-mono);
+  font-size:var(--fs-micro);
+  line-height:1.5;
+  color:var(--color-text-secondary);
+  white-space:nowrap;
+}
+@media (min-width:768px){
+  .blog-meta{ flex-direction:column; gap:3px; }
+}
+
+.blog-title{
+  grid-area:title;
+  margin:0;
+  font-size:19px;
+  font-weight:600;
+  line-height:1.45;
+  color:var(--color-text-primary);
+  transition:color var(--dur-fast) var(--ease);
+}
+.blog-desc{
+  grid-area:desc;
+  font-size:15px;
+  line-height:1.7;
+  color:var(--color-text-secondary);
+}
+.blog-row:hover .blog-title{ color:var(--brand-accent-text); }
+
+
+/* ==========================================================================
+   v3 视觉重做 · 依据用户 2026-11-14 给的三张参考案例
+   共同语言：品牌主色 / 超大双色标题 / 卡片 / 实心按钮 / 真人照片主视觉 / 装饰点阵
+   本段只覆盖视觉层，不动路由、动效降级、语义结构。
+   ========================================================================== */
+:root{
+  --brand-ink:#2C3B26;   /* 深橄榄：比纯森林绿偏黄 50°，是「英国黄绿」的深色版，和土金同属暖土色系 */
+  --brand-accent:#8A6A2F;
+  --brand-accent-text:#7E6229; /* 金的深版，专给 12–13px 小字用：4.80:1 在米白底上够 AA；浅金 #B08D4A 只有 2.97:1，不能承载小字 */
+  --brand-tint:#EEF1E2;
+  --card-bg:#FFFFFF;
+  --card-border:#E3E6DA;
+  --card-shadow:0 2px 14px rgba(44,59,38,.07);
+  --radius-card:14px;
+  --radius-btn:9px;
+  --page-bg:#FBFAF4;   /* 暖米白：纯白 #FFFFFF 在整屏大块时会顶眼，米白像纸。必须走变量，写死会在暗色下变「白底浅字」 */
+}
+body{ background:var(--page-bg); }
+
+/* ---- Header：深色品牌栏 + 实心 CTA（参考案例 1 与 3） ---- */
+.site-header{ background:var(--brand-ink); }
+.site-header .header-inner{ height:64px; }
+@media (min-width:768px){ .site-header .header-inner{ height:72px; } }
+.brand{
+  color:#fff; font-size:17px; font-weight:600; letter-spacing:-.01em;
+}
+.site-nav a{ color:#D6E2F5; font-size:14px; }
+.site-nav a:hover{ color:#fff; }
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:44px; padding:0 20px;
+  border-radius:var(--radius-btn);
+  font-size:14px; font-weight:600; line-height:1;
+  transition:transform .18s ease, filter .18s ease;
+}
+.btn:hover{ transform:translateY(-1px); filter:brightness(1.08); }
+/* 次按钮改描边金：原来和主按钮一样是实心，金色又把深绿压过去，主次颠倒。
+   实心金只留给导航里的「联系我」——那一处需要跳出深绿条。 */
+.btn--blue{ background:transparent; color:var(--brand-accent-text); border:1.5px solid var(--brand-accent); }
+.btn--blue:hover{ background:var(--brand-tint); filter:none; }
+.header-cta.btn--blue{ background:var(--brand-accent); color:#fff; border-color:var(--brand-accent); }
+.header-cta.btn--blue:hover{ background:var(--brand-accent); filter:brightness(1.08); }
+.btn--ink{ background:var(--brand-ink); color:#fff; }
+.btn--ghost{ background:transparent; color:var(--brand-ink); border:1.5px solid var(--brand-ink); }
+.btn-row{ display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+.header-cta{ display:none; }
+@media (min-width:768px){ .header-cta{ display:inline-flex; min-height:44px; padding:0 16px; font-size:13px; } }
+.header-nav-wrap{ display:flex; align-items:center; gap:28px; }
+
+/* ---- Hero：超大双色标题 + 圆形照片 + 点阵（参考案例 3） ---- */
+.hero-wrap{ padding-block:56px 40px; }
+@media (min-width:1024px){ .hero-wrap{ padding-block:88px 56px; } }
+.hero-eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:13px; font-weight:600; color:var(--brand-accent);
+  letter-spacing:.02em;
+}
+.hero-eyebrow::before{
+  content:""; width:8px; height:8px; border-radius:50%;
+  background:var(--brand-accent); flex:none;
+}
+.hero-name{
+  font-size:clamp(40px,7vw,72px); font-weight:700;
+  color:var(--brand-ink); letter-spacing:-.035em; line-height:1.06;
+  margin-top:18px;
+}
+.hero-big{
+  margin-top:20px;
+  font-size:clamp(26px,3.4vw,42px); font-weight:700;
+  line-height:1.32; letter-spacing:-.02em;
+  color:var(--brand-ink);
+}
+.hero-big em{ font-style:normal; color:var(--brand-accent); }
+.hero-desc{
+  margin-top:20px; max-width:34em;
+  font-size:16px; line-height:1.85; color:var(--color-text-secondary);
+}
+.hero-photo{
+  position:relative; display:flex; align-items:center; justify-content:center;
+  aspect-ratio:1/1; width:100%; max-width:420px; margin-inline:auto;
+  border-radius:50%;
+  background:var(--brand-tint);
+  overflow:hidden;
+}
+.hero-photo img{
+  width:76%; height:76%; object-fit:contain;
+  /* 头像是蓝色线稿，放绿金配色里会撞色。sepia 先把颜色归一到暖褐、再转到绿，
+     结果不依赖原图色相（比直接 hue-rotate 稳），饱和度压到 .55 融进淡绿底。 */
+  filter:sepia(1) hue-rotate(65deg) saturate(.55) brightness(.92);
+  border-radius:50%;
+  /* 原图自带一个浅色圆盘底，滤镜改不掉；正片叠底让它跟着卡片底色走 */
+  mix-blend-mode:multiply;
+  background:transparent;
+}
+.hero-dots{
+  position:absolute; left:-6%; top:8%;
+  width:88px; height:76px;
+  background-image:radial-gradient(var(--brand-accent) 1.4px, transparent 1.4px);
+  background-size:12px 12px; opacity:.45;
+}
+@media (max-width:1023px){ .hero-photo{ max-width:300px; margin-top:32px; } .hero-dots{ left:2%; } }
+
+/* ---- 卡片化：首页 Hero 之后各区块、博客页（参考案例 1 双列卡片） ---- */
+.card-surface{
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:var(--radius-card);
+  box-shadow:var(--card-shadow);
+  padding:28px 26px;
+}
+@media (min-width:768px){ .card-surface{ padding:36px 40px; } }
+#view-home > section:not(:first-child) > .container,
+#view-blog > section > .container,
+#view-football > section > .container{
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:var(--radius-card);
+  box-shadow:var(--card-shadow);
+  padding:28px 26px;
+  max-width:calc(var(--content-max) + 52px);
+}
+@media (min-width:768px){
+  #view-home > section:not(:first-child) > .container,
+  #view-blog > section > .container,
+  #view-football > section > .container{ padding:36px 40px; }
+}
+/* 博客页：一间窄卡片。
+   全站是卡片语言，博客如果光秃秃铺在白底上，会和其它页像两个网站；
+   但卡片一旦拉满 1172px，一行字又长到没法读。折中：卡片本身收窄到 760，
+   里面一根 680 的正文栏 —— 既在同一套语言里，又是可读的行长。 */
+#view-blog > section > .container{
+  max-width:760px;
+  padding:28px 22px;
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:var(--radius-card);
+  box-shadow:var(--card-shadow);
+}
+@media (min-width:768px){
+  #view-blog > section > .container{ padding:40px 40px 44px; }
+}
+.section-kicker{
+  font-size:12px; font-weight:700; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--brand-accent);
+  margin:0 0 10px;
+}
+.h2{ color:var(--brand-ink); }
+.h1{ color:var(--brand-ink); }
+
+/* 博客列表：不套卡片。外层 .container 本身就是白卡，卡片套卡片会让行失去呼吸 */
+#view-blog .blog-row .blog-title{ color:var(--brand-ink); font-weight:600; }
+#view-blog .blog-list{ margin-top:var(--space-4); }
+
+/* ---- 二维码：默认可见的双卡片（用户明确要求「可以直接调用」） ---- */
+.qr-block{ margin-top:18px; }
+.qr-block h3{
+  font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--brand-accent); margin:0 0 14px;
+}
+.qr-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.qr-card{
+  margin:0; padding:14px; text-align:center;
+  background:#fff; border:1px solid var(--card-border);
+  border-radius:12px; box-shadow:var(--card-shadow);
+}
+.qr-card img{
+  width:100%; max-width:168px; height:auto; aspect-ratio:1/1;
+  padding:0; border-radius:6px; background:#fff; filter:none;
+}
+.qr-card figcaption{
+  margin-top:10px; font-size:14px; font-weight:600; color:var(--brand-ink);
+}
+.qr-card figcaption span{
+  display:block; margin-top:3px; font-size:12px; font-weight:400;
+  color:var(--color-text-secondary);
+}
+@media (max-width:520px){ .qr-row{ grid-template-columns:1fr; } }
+
+/* ---- 图片卡（获奖原表 / 操场照）：直接用用户给的原图，零转录零编造 ---- */
+.figure-card{
+  margin:22px 0 0; padding:18px;
+  background:#fff; border:1px solid var(--card-border);
+  border-radius:12px; box-shadow:var(--card-shadow);
+}
+.figure-card img{
+  display:block; width:100%; height:auto; border-radius:6px;
+  filter:none; background:#fff;
+}
+.figure-card figcaption{
+  margin-top:12px; font-size:13px; line-height:1.7;
+  color:var(--color-text-secondary);
+}
+.figure-card--wide img{ max-height:420px; object-fit:contain; }
+
+/* 暗色下卡片跟随系统，避免白块刺眼 */
+@media (prefers-color-scheme:dark){
+  :root{
+    --card-bg:#1C201D; --card-border:#3A4038; --brand-tint:#2A3024;
+    --card-shadow:0 2px 14px rgba(0,0,0,.42);
+    --page-bg:#131614;
+    /* 土金在暗底上只有 2.5:1，直接换变量，省得漏掉某一处小字。
+       金只被拿去当文字/描边/点阵，不当大面积背景，所以整体提亮是安全的。 */
+    --brand-accent:#D9C08A;
+    --brand-accent-text:#D9C08A;
+  }
+  /* 唯一的例外：拿金当实心背景的两处，作者色要退回深金，否则白字糊在金上 */
+  .header-cta.btn--blue{ background:#8A6A2F; border-color:#8A6A2F; color:#fff; }
+  .btn--blue{ border-color:#8A6A2F; }
+  /* 头像在暗色下必须反相：正片叠底会让深色线稿乘进深背景，整块糊成黑。
+     反相后线稿变成浅色，再 sepia 加暖，就不会是死白。 */
+  .hero-photo img{
+    filter:invert(1) sepia(1) hue-rotate(60deg) saturate(.6) brightness(1.05);
+    mix-blend-mode:normal;
+  }
+  #view-home > section:not(:first-child) > .container,
+  #view-blog > section > .container,
+  #view-football > section > .container,
+  .card-surface, .qr-card, .figure-card{ background:#1C201D; }
+  /* --brand-ink 是深橄榄，暗色下会糊成一片：凡是用它当文字色的地方一律提亮。
+     注意不能直接覆盖变量本身 —— .btn--ink 拿它当背景，覆盖了按钮就没底了。 */
+  .hero-big, .hero-name, .h1, .h2, .qr-card figcaption,
+  .race-group-title, .race-result--win, .race-result--national,
+  .work-name{ color:#E4EFE6; }
+  #view-blog .blog-row{ background:#1C201D; }
+  #view-blog .blog-row .blog-title{ color:#E4EFE6; }
+  .btn--ghost{ color:#E4EFE6; border-color:#93AE9B; }
+}
+
+.fb-intro-line{ margin-top:10px; font-size:var(--fs-body); color:var(--brand-accent); font-weight:600; }
+
+/* ==========================================================================
+   B-14 /post 博客详情（站内全文）
+   正文用 p/h2/h3/blockquote/ul/ol/hr 六种块，不引入任何富文本控件。
+   ========================================================================== */
+.post-measure{ max-width:none; }
+
+/* 文章页与博客列表同一间卡片、同一根栏宽，点进去不会「换了个网站」 */
+#view-post > section > .container{
+  max-width:760px;
+  padding:28px 22px;
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:var(--radius-card);
+  box-shadow:var(--card-shadow);
+}
+@media (min-width:768px){
+  #view-post > section > .container{ padding:44px 40px; }
+}
+
+/* 窄屏护栏（2026-11-14 修）：卡片必须离屏幕边缘留一道缝。
+   卡片的边框与圆角一直挂在 .container 自己身上，而 .container 是 width:100%，
+   窄屏下 max-width 不起作用，盒子左边缘就直接顶到 x=0 —— 圆角贴着屏幕边，
+   看上去像被裁掉一块。第 2 个问题是贴边之后，标题几乎怼到屏幕边框。
+   这里只补一道 14px 的外缝，内边距同比例收一点，保证 375 宽下正文还有 300px。 */
+@media (max-width:767px){
+  #view-home > section:not(:first-child) > .container,
+  #view-blog > section > .container,
+  #view-football > section > .container,
+  #view-post > section > .container{
+    width:auto;
+    margin-inline:14px;
+    padding:24px 20px;
+  }
+}
+
+.post-back{
+  display:inline-block;
+  margin-bottom:var(--space-5);
+  font-size:var(--fs-micro);
+  color:var(--color-text-secondary);
+}
+.post-back:hover{ color:var(--brand-accent-text); }
+
+/* 标题下面先给一句导语，再给元信息。
+   原来只有标题 + 一行小字，整页看着是「一个孤零零的 h1」，这是它显得空的主因。 */
+#post-h1{
+  font-size:var(--fs-h2-xl);
+  line-height:1.28;
+  letter-spacing:-.01em;
+}
+.post-lede{
+  margin:16px 0 0;
+  font-size:18px;
+  line-height:1.72;
+  color:var(--color-text-secondary);
+}
+.post-meta{
+  margin-top:20px;
+  padding-top:14px;
+  border-top:1px solid var(--color-border-subtle);
+  font-family:var(--font-mono);
+  font-size:var(--fs-micro);
+  color:var(--color-text-secondary);
+}
+
+.post-body{
+  margin-top:var(--space-7);
+  font-size:18px;
+  line-height:1.85;
+  color:var(--color-text-primary);
+}
+.post-body > *:first-child{ margin-top:0; }
+.post-body p{ margin:0 0 1.4em; }
+.post-body h2{
+  /* 1.32em 而不是 --fs-h2：那是页面级标题的尺度，放进正文会把段落节奏砸碎 */
+  margin:2.6em 0 .9em;
+  font-size:1.32em;
+  font-weight:600;
+  line-height:1.45;
+  letter-spacing:0;
+}
+.post-body h3{
+  margin:2.1em 0 .7em;
+  font-size:1.04em;
+  font-weight:600;
+  line-height:1.6;
+  color:var(--brand-ink);
+}
+.post-body h2 + p,
+.post-body h3 + p,
+.post-body h2 + ul,
+.post-body h3 + ul{ margin-top:0; }
+.post-body blockquote{
+  margin:1.9em 0;
+  padding:2px 0 2px 1.1em;
+  border-left:2px solid var(--brand-accent);
+  color:var(--color-text-secondary);
+}
+.post-body blockquote p{ margin:0; }
+.post-body ul{ margin:0 0 1.4em; padding-left:1.35em; list-style:disc; }
+.post-body ol{ margin:0 0 1.4em; padding-left:1.5em; list-style:decimal; }
+.post-body li{ margin-bottom:.5em; padding-left:.15em; }
+.post-body li::marker{ color:var(--brand-accent-text); }
+.post-body hr{
+  /* 杂志式分隔：一小截居中的线，不是横贯整行的长条 */
+  width:46px;
+  margin:2.8em auto;
+  border:0;
+  border-top:1px solid var(--color-border-strong);
+}
+.post-body a{ color:var(--brand-accent-text); text-decoration:underline; text-underline-offset:3px; }
+.post-body strong{ font-weight:600; color:var(--brand-ink); }
+.post-body img{ margin:var(--space-6) 0; border-radius:var(--radius-img); }
+
+.post-body table{
+  width:100%;
+  margin:1.9em 0;
+  border-collapse:collapse;
+  font-size:.92em;
+  line-height:1.65;
+}
+.post-body th,
+.post-body td{
+  padding:10px 12px 10px 0;
+  border-bottom:1px solid var(--color-border-subtle);
+  text-align:left;
+  vertical-align:top;
+}
+.post-body th{
+  font-weight:500;
+  color:var(--brand-ink);
+  border-bottom:1.5px solid var(--brand-ink);
+}
+/* 三列表的前两列按内容定宽、不折行，把宽度让给后面写长句的那一列：
+   否则「认知模式」被挤成三行，整张表又高又碎。data-cols 由转换器写出。 */
+.post-body table[data-cols="3"] th:first-child,
+.post-body table[data-cols="3"] td:first-child,
+.post-body table[data-cols="3"] th:nth-child(2),
+.post-body table[data-cols="3"] td:nth-child(2){
+  width:1%;
+  white-space:nowrap;
+  padding-right:20px;
+}
+.post-body th + th,
+.post-body td + td{ padding-left:12px; }
+.post-body code{
+  font-family:var(--font-mono);
+  font-size:.9em;
+  background:var(--brand-tint);
+  border-radius:3px;
+  padding:1px 5px;
+}
+
+/* 文末收束：细线 + 回到列表。文章读完要有个落点，不能直接撞进页脚 */
+.post-foot{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:var(--space-4);
+  margin-top:var(--space-9);
+  padding-top:var(--space-5);
+  border-top:1px solid var(--color-border-subtle);
+  font-size:var(--fs-micro);
+  color:var(--color-text-secondary);
+}
+.post-foot a{ color:var(--color-text-secondary); }
+.post-foot a:hover{ color:var(--brand-accent-text); }
+@media (max-width:720px){
+  .post-body table{ display:block; overflow-x:auto; }
+}
+
+a.blog-row{ text-decoration:none; }
+a.blog-row:hover .blog-title{ color:var(--brand-accent-text); }
+
+@media (prefers-color-scheme:dark){
+  .post-body h3, .post-body strong, .post-body th{ color:#E4EFE6; }
+  .post-body code{ background:#26302A; }
+  /* --brand-accent-text(#7E6229) 在 #1C201D 上只有 3.2:1，正文里的链接与列表圆点要提亮 */
+  .post-body a, .post-body li::marker{ color:#B7D8BE; }
+  .post-back:hover, .post-foot a:hover,
+  .blog-row:hover .blog-title, .blog-row:hover .blog-link{ color:var(--brand-accent); }
+}
+
+/* ==========================================================================
+   占位符统一色 · 必须留在样式表最末
+   与 .field-val / .blog-title / .ct-val 同特异度，靠顺序取胜。
+   ========================================================================== */
+.ph{ color:var(--color-text-secondary); }  /* 4.31:1 -> 6.11:1；同站内 357/364 行先例 */
+
+/* ==========================================================================
+   视图切换（hash 路由）。禁用 JS 时 4 个视图顺序全展开，正文 100% 可读。
+   ========================================================================== */
+html.js .view{ display:none; }
+html.js .view.is-active{ display:block; }
+</style>
+</head>
+<body>
+
+<!-- /story 顶部阅读进度线 · 全站唯一非灰阶色使用处之一 -->
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<!-- B-0 全站公共 Header：静态不吸顶，右侧导航 3 项 -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#/" lang="en">Chew Teck Wai</a>
+    <div class="header-nav-wrap">
+      <nav class="site-nav" aria-label="主导航">
+        <a href="#/story">时间线</a>
+        <a href="#/football">足球</a>
+        <a href="#/blog">博客</a>
+      </nav>
+      <a class="btn btn--blue header-cta" href="#/" data-contact>联系我</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ======================================================================
+       视图 1 · 首页（PRD v1.2 附录 A.2，4 个区块）
+       ====================================================================== -->
+  <div class="view is-active" data-view="/" id="view-home">
+
+    <!-- 区块 ① Hero：PRD M1 / 内容清单 A-① / 设计规范 B-2 -->
+    <section class="section" aria-labelledby="hero-name">
+      <div class="container hero-wrap">
+        <div class="cols hero-inner">
+          <div class="hero-text">
+            <p class="hero-eyebrow">重庆 · 学生资助 · 后腰</p>
+            <h1 class="hero-name" id="hero-name" lang="en">Chew Teck Wai</h1>
+            <p class="hero-big">在重庆做学生资助<br><em>把资助政策整理成能查的网站</em></p>
+            <p class="hero-desc">2014 年进中国银行做理财经理，2019 年到学校。21 个资助项目整理成网页和安卓 App。踢后腰，写公众号。</p>
+            <p class="btn-row">
+              <a class="btn btn--ink" href="#/story">时间线</a>
+              <a class="btn btn--blue" href="#/football">足球记录</a>
+            </p>
+          </div>
+          <div class="hero-media">
+            <div class="hero-photo">
+              <span class="hero-dots" aria-hidden="true"></span>
+              <!-- 头像是在 1024 线稿上按亮度重新键出 alpha、再按原构图裁 604 方框得到的：
+                   既有真正的透明底，又有 640 的真实分辨率（旧图是 256 放大，retina 上发虚）。
+                   46KB 的 WebP，比原来 53KB 的 256px PNG 还小，却清晰一倍。
+                   没用 AVIF：36KB 更小，但 GitHub Pages 的 .avif MIME 无法在本机验证，
+                   <source> 加载失败不会回落到 <img>，赌不起。 -->
+              <img src="assets/avatar-640.webp" alt="Chew Teck Wai 的卡通头像" width="640" height="640" decoding="async">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 区块 ② 来路：PRD M2 / 内容清单 A-② 方案 B（4 节点） / 设计规范 B-3 -->
+    <section class="section reveal" aria-labelledby="tl-title">
+      <div class="container">
+        <h2 class="h2" id="tl-title">来路</h2>
+        <ol class="timeline">
+          <li class="tl-item">
+            <span class="tl-time num">2004 – 2010</span>
+            <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+            <p class="tl-org">重庆市第七中学校 <span class="tl-place">· 初中、高中</span></p>
+          </li>
+          <li class="tl-item">
+            <span class="tl-time num">2010 – 2014</span>
+            <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+            <p class="tl-org">西安财经大学 <span class="tl-place">· 本科（当时校名为西安财经学院，2018 年更名）</span></p>
+          </li>
+          <li class="tl-item">
+            <span class="tl-time num">2014.6 – 2019.7</span>
+            <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+            <p class="tl-org">中国银行股份有限公司 <span class="tl-place">· 理财经理，2016 年调北京总行</span></p>
+          </li>
+          <li class="tl-item">
+            <span class="tl-time num">2019.9 –</span>
+            <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+            <p class="tl-org">重庆工程职业技术大学 <span class="tl-place">· 两所学院专职辅导员，2022.9 转资助中心</span></p>
+          </li>
+        </ol>
+        <p class="tl-note micro">教育学硕士 · 华东交通大学　2020.9 – 2023.6</p>
+        <p class="turn-more"><a class="link" href="#/story">完整时间线 <span class="arrow" aria-hidden="true">↗</span></a></p>
+      </div>
+    </section>
+
+    <!-- 区块 ②½ 做过的东西：事实全部来自本人 GitHub（aot528800-hash）与其站点，
+         数字照抄，不添加任何未披露的功能描述 -->
+    <section class="section reveal" aria-labelledby="work-title">
+      <div class="container">
+        <h2 class="h2" id="work-title">做过的东西</h2>
+        <ol class="work-list">
+          <li class="work-row">
+            <div class="work-head">
+              <h3 class="work-name">CQPUE 资助政策</h3>
+              <span class="work-tag">网页 + 安卓 App</span>
+            </div>
+            <p class="work-desc">把散在十几个文件里的学生资助政策整理成能查的站：21 个项目、13 份政策依据、47 项业务、10 个月段日程。先做安卓应用，后来搬到网页上。不投放广告，不收集个人信息。</p>
+          </li>
+          <li class="work-row">
+            <div class="work-head">
+              <h3 class="work-name">大学生资助全攻略</h3>
+              <span class="work-tag">公众号 · 24 篇</span>
+            </div>
+            <p class="work-desc">2024 年 9 月写到 2026 年 8 月，把困难认定、助学贷款、奖学金、民主评议这些流程逐条拆开；最近六篇是 2026 年开学季写给新生的。</p>
+          </li>
+          <li class="work-row">
+            <div class="work-head">
+              <h3 class="work-name">足球数据分析</h3>
+              <span class="work-tag">公众号 · 8 篇</span>
+            </div>
+            <p class="work-desc">2026 年上半年，先写球员数据术语和清洗方法，再用中超前 15 轮的数据出了 6 份分析报告。</p>
+          </li>
+          <li class="work-row">
+            <div class="work-head">
+              <h3 class="work-name">ETF 投资教程</h3>
+              <span class="work-tag">公众号 · 9 篇</span>
+            </div>
+            <p class="work-desc">2025 年 8 月到 12 月，从怎么买第一支 ETF 开始，写到净值、成本、宽基与行业分类，最后一篇收尾。</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 区块 ③ 后腰：PRD M4 / 内容清单 A-④ / 设计规范 B-5 -->
+    <section class="section reveal" aria-labelledby="fb-title" aria-label="后腰简介">
+      <div class="container">
+        <div class="cols fb-inner">
+          <div class="fb-intro">
+            <h2 class="h2 h2--xl" id="fb-title">后腰</h2>
+            <p class="fb-intro-line">2005 年到 2019 年，一直踢这个位置。</p>
+          </div>
+          <div class="fb-fields">
+            <div class="field-group">
+              <div class="field-row">
+                <span class="field-key">位置</span>
+                <span class="field-val">后腰（防守型中场）</span>
+              </div>
+              <div class="field-row">
+                <span class="field-key">球龄</span>
+                <span class="field-val">小学三四年级起</span>
+              </div>
+              <div class="field-row">
+                <span class="field-key">球队</span>
+                <span class="field-val">重庆市第七中学校 · 西安财经大学 · 中国银行总行足球队</span>
+              </div>
+              <div class="field-row">
+                <span class="field-key">记录</span>
+                <span class="field-val">19 项正式赛事 · 2005 – 2019</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 区块 ④ 说句话：PRD M7 / 内容清单 A-⑦ / 设计规范 B-8。全站不设任何表单 -->
+    <section class="section reveal" aria-labelledby="ct-title">
+      <div class="container">
+        <div class="cols">
+          <div class="ct-left">
+            <h2 class="h2" id="ct-title">说句话</h2>
+            <p class="ct-call">在重庆，有事可以直接找我。</p>
+          </div>
+          <div class="ct-right">
+            <div class="ct-row">
+              <span class="ct-key">邮箱</span>
+              <span class="ct-val ph">【待补：邮箱地址】</span>
+            </div>
+            <div class="ct-row">
+              <span class="ct-key">公众号</span>
+              <span class="ct-val">停不下来的独行侠<span class="ct-sub">2020 年写到 2026 年，141 篇；眼下主要写学生资助，也写足球数据和 ETF</span></span>
+            </div>
+            <div class="qr-block" id="contact">
+              <h3>扫码找到我</h3>
+              <div class="qr-row">
+                <figure class="qr-card">
+                  <img src="assets/qr-wechat-2x.png" alt="个人微信二维码" width="168" height="168" loading="lazy" decoding="async">
+                  <figcaption>微信<span>扫码添加，注明来意</span></figcaption>
+                </figure>
+                <figure class="qr-card">
+                  <img src="assets/qr-mp-2x.png" alt="微信公众号「停不下来的独行侠」二维码" width="168" height="168" loading="lazy" decoding="async">
+                  <figcaption>公众号<span>停不下来的独行侠</span></figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /视图 1 · 首页 -->
+
+  <!-- ======================================================================
+       视图 2 · /story（PRD M3 / 内容清单 C-1 / 设计规范 B-9）
+       ====================================================================== -->
+  <div class="view" data-view="/story" id="view-story">
+
+    <section class="section story-head" aria-labelledby="story-h1">
+      <div class="container">
+        <div class="story-measure">
+          <h1 class="h1" id="story-h1">时间线</h1>
+          <p class="story-lead">日期、单位、每次换的原因。没有别的。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section story-flow" aria-label="正文">
+      <div class="container">
+        <div class="story-measure">
+          <!-- 事实全部来自本人 2021-02 的公众号文章《30岁，我的人生旅程刚开始》，
+               只取「时间 + 单位 + 换工作的原因」，抒情段落一律不入。 -->
+          <ol class="timeline">
+            <li class="tl-item">
+              <span class="tl-time num">1991</span>
+              <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+              <p class="tl-org">出生 <span class="tl-place">· 重庆</span></p>
+            </li>
+            <li class="tl-item">
+              <span class="tl-time num">小学四年级起</span>
+              <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+              <p class="tl-org">寄宿在老师家 <span class="tl-place">· 父母工作忙</span></p>
+            </li>
+            <li class="tl-item">
+              <span class="tl-time num">2004 – 2010</span>
+              <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+              <p class="tl-org">重庆市第七中学校 <span class="tl-place">· 初中、高中，足球学校，离家更远</span></p>
+            </li>
+            <li class="tl-item">
+              <span class="tl-time num">2010.9 – 2014.6</span>
+              <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+              <p class="tl-org">西安财经大学 <span class="tl-place">· 本科（当时校名西安财经学院），以足球高水平运动员身份入学；期间在陕西人和足球俱乐部实习，做数据分析</span></p>
+            </li>
+            <li class="tl-item">
+              <span class="tl-time num">2014.6</span>
+              <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+              <p class="tl-org">毕业 <span class="tl-place">· 回重庆陪家人</span></p>
+            </li>
+            <li class="tl-item">
+              <span class="tl-time num">2014.6 – 2019.7</span>
+              <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+              <p class="tl-org">中国银行股份有限公司 <span class="tl-place">· 理财经理；2016 年调北京总行；父亲建议入行，因足球特长去了总行队，在这里开始做基金投资研究</span></p>
+            </li>
+            <li class="tl-item">
+              <span class="tl-time num">2018</span>
+              <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+              <p class="tl-org">注册公众号「停不下来的独行侠」 <span class="tl-place">· 起因是考教师资格证时发现「输出」是最好的学习方式</span></p>
+            </li>
+            <li class="tl-item">
+              <span class="tl-time num">2019.9 – 2020.1</span>
+              <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+              <p class="tl-org">重庆工程职业技术大学 电气学院 <span class="tl-place">· 专职辅导员；妻子建议来的</span></p>
+            </li>
+            <li class="tl-item">
+              <span class="tl-time num">2020.1 – 2022.9</span>
+              <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+              <p class="tl-org">重庆工程职业技术大学 智能制造与交通学院 <span class="tl-place">· 专职辅导员</span></p>
+            </li>
+            <li class="tl-item">
+              <span class="tl-time num">2020.9 – 2023.6</span>
+              <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+              <p class="tl-org">华东交通大学 <span class="tl-place">· 教育学硕士，在读期间仍在学校工作</span></p>
+            </li>
+            <li class="tl-item">
+              <span class="tl-time num">2022.9 –</span>
+              <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+              <p class="tl-org">重庆工程职业技术大学 资助中心 <span class="tl-place">· 至今</span></p>
+            </li>
+            <li class="tl-item">
+              <span class="tl-time num">2026.10</span>
+              <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+              <p class="tl-org">CQPUE 资助政策 <span class="tl-place">· 上线，21 个项目 · 13 份政策依据 · 47 项业务</span></p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /视图 2 · story -->
+
+  <!-- ======================================================================
+       视图 3 · /football（PRD M4 / 内容清单 C-2 / 设计规范 B-10）
+       ====================================================================== -->
+  <div class="view" data-view="/football" id="view-football">
+
+    <section class="section" aria-labelledby="f1-h1">
+      <div class="container">
+        <h1 class="h1" id="f1-h1">后腰</h1>
+        <p class="fb-lead">2005 到 2013 年在重庆市第七中学校、西安财经大学读书；2014 年进中国银行，2016 年调总行后进总行足球队。</p>
+
+        <div class="field-group fb-field-group">
+          <div class="field-row">
+            <span class="field-key">位置</span>
+            <span class="field-val">后腰（防守型中场）</span>
+          </div>
+          <div class="field-row">
+            <span class="field-key">球龄</span>
+            <span class="field-val">小学三四年级起（约 1999 年）</span>
+          </div>
+          <div class="field-row">
+            <span class="field-key">球队</span>
+            <span class="field-val">重庆市第七中学校 · 西安财经大学 · 中国银行总行足球队</span>
+          </div>
+          <div class="field-row">
+            <span class="field-key">资格</span>
+            <span class="field-val">国家二级足球运动员、中国足协 C 级教练员、中国足协二级裁判员、体育教师资格证</span>
+          </div>
+        </div>
+
+        <h2 class="h2 fb-races-title">赛事</h2>
+        <p class="section-kicker">19 项 · 2005 – 2019</p>
+
+        <div class="race-group">
+          <div class="race-group-head">
+            <span class="race-group-title">初中 · 重庆市第七中学校</span>
+            <span class="race-group-sub">2005 – 2007</span>
+            <span class="race-group-count">2 项</span>
+          </div>
+          <ol class="race-list">
+            <li class="race-row">
+              <span class="race-grade">初二上学期</span>
+              <div class="race-body">
+                <p class="race-name">重庆市中学生足球锦标赛 · 初中组</p>
+                <p class="race-meta"><span>2005.10–11</span><span>重庆</span><span>代表<strong>重庆市第七中学校</strong></span></p>
+              </div>
+              <span class="race-result race-result--win">冠军</span>
+            </li>
+            <li class="race-row">
+              <span class="race-grade">初三下学期</span>
+              <div class="race-body">
+                <p class="race-name">重庆市中学生足球锦标赛 · 初中组</p>
+                <p class="race-meta"><span>2007.5</span><span>重庆</span><span>代表<strong>重庆市第七中学校</strong></span></p>
+              </div>
+              <span class="race-result race-result--win">冠军</span>
+            </li>
+          </ol>
+        </div>
+
+        <div class="race-group">
+          <div class="race-group-head">
+            <span class="race-group-title">高中 · 重庆市第七中学校</span>
+            <span class="race-group-sub">2007 – 2009</span>
+            <span class="race-group-count">7 项</span>
+          </div>
+          <ol class="race-list">
+            <li class="race-row">
+              <span class="race-grade">高一上学期</span>
+              <div class="race-body">
+                <p class="race-name">重庆市中学生足球锦标赛 · 高中组</p>
+                <p class="race-meta"><span>2007.11</span><span>重庆</span><span>代表<strong>重庆市第七中学校</strong></span></p>
+              </div>
+              <span class="race-result race-result--win">冠军</span>
+            </li>
+            <li class="race-row">
+              <span class="race-grade">高一下学期</span>
+              <div class="race-body">
+                <p class="race-name">重庆市第三届运动会 男子足球青少年甲组（高中组）</p>
+                <p class="race-meta"><span>2008.7</span><span>重庆</span><span>代表<strong>沙坪坝区</strong></span></p>
+              </div>
+              <span class="race-result race-result--win">冠军</span>
+            </li>
+            <li class="race-row">
+              <span class="race-grade">高一暑假</span>
+              <div class="race-body">
+                <p class="race-name">全国中学生足球锦标赛 · 高中组</p>
+                <p class="race-meta"><span>2008 暑期</span><span>海口</span><span>代表<strong>重庆市第七中学校</strong></span></p>
+              </div>
+              <span class="race-result race-result--national">全国亚军</span>
+            </li>
+            <li class="race-row">
+              <span class="race-grade">高二下学期</span>
+              <div class="race-body">
+                <p class="race-name">第十届全国中学生运动会 男子足球（高中组）南京赛区预选赛</p>
+                <p class="race-meta"><span>2009.3</span><span>南京</span><span>代表<strong>重庆市</strong></span></p>
+              </div>
+              <span class="race-result">赛区亚军</span>
+            </li>
+            <li class="race-row">
+              <span class="race-grade">高二暑假</span>
+              <div class="race-body">
+                <p class="race-name">全国中学生足球联赛 · 全国总决赛（高中组）</p>
+                <p class="race-meta"><span>2009.7</span><span>重庆</span><span>代表<strong>重庆市第七中学校</strong></span></p>
+              </div>
+              <span class="race-result race-result--national">全国亚军</span>
+            </li>
+            <li class="race-row">
+              <span class="race-grade">高二暑假</span>
+              <div class="race-body">
+                <p class="race-name">第十届全国中学生运动会 男子足球（高中组）全国总决赛</p>
+                <p class="race-meta"><span>2009.8.16–21</span><span>长沙</span><span>代表<strong>重庆市</strong></span></p>
+              </div>
+              <span class="race-result">全国决赛阶段参赛</span>
+            </li>
+            <li class="race-row">
+              <span class="race-grade">高三上学期</span>
+              <div class="race-body">
+                <p class="race-name">重庆市中学生足球锦标赛 · 高中组</p>
+                <p class="race-meta"><span>2009.10</span><span>重庆</span><span>代表<strong>重庆市第七中学校</strong></span></p>
+              </div>
+              <span class="race-result race-result--win">冠军</span>
+            </li>
+          </ol>
+        </div>
+
+        <div class="race-group">
+          <div class="race-group-head">
+            <span class="race-group-title">大学 · 西安财经大学</span>
+            <span class="race-group-sub">2010 – 2013</span>
+            <span class="race-group-count">7 项</span>
+          </div>
+          <p class="race-group-note">「超级组」是大学生联赛的最高组别，按高水平运动员招生办法录取的学生只能打这一组，不能打普通高考生比的「校园组」。我 2010 年以高水平运动员身份入学，分组从 2012-2013 赛季才开始，前两季打的是不分组的大联赛，参赛的是同一批高水平运动队。</p>
+          <ol class="race-list">
+            <li class="race-row">
+              <span class="race-grade">大一上学期</span>
+              <div class="race-body">
+                <p class="race-name">2010-2011 李宁中国大学生足球联赛 · 陕西赛区</p>
+                <p class="race-meta"><span>2010.10–11</span><span>西安</span><span>代表<strong>西安财经大学</strong></span></p>
+              </div>
+              <span class="race-result race-result--win">冠军</span>
+            </li>
+            <li class="race-row">
+              <span class="race-grade">大一下学期</span>
+              <div class="race-body">
+                <p class="race-name">2010-2011 李宁中国大学生足球联赛 · 北区决赛</p>
+                <p class="race-meta"><span>2011.5</span><span>延吉</span><span>代表<strong>西安财经大学</strong></span></p>
+              </div>
+              <span class="race-result">第四名</span>
+            </li>
+            <li class="race-row">
+              <span class="race-grade">大一下学期</span>
+              <div class="race-body">
+                <p class="race-name">2010-2011 李宁中国大学生足球联赛 · 全国总决赛</p>
+                <p class="race-meta"><span>2011.6</span><span>北京</span><span>代表<strong>西安财经大学</strong></span></p>
+              </div>
+              <span class="race-result">并列第五名</span>
+            </li>
+            <li class="race-row">
+              <span class="race-grade">大二上学期</span>
+              <div class="race-body">
+                <p class="race-name">2011-2012 陕西省大学生足球联赛</p>
+                <p class="race-meta"><span>2011.10–11</span><span>西安</span><span>代表<strong>西安财经大学</strong></span></p>
+              </div>
+              <span class="race-result race-result--win">冠军</span>
+            </li>
+            <li class="race-row">
+              <span class="race-grade">大二下学期</span>
+              <div class="race-body">
+                <p class="race-name">2011-2012 李宁中国大学生足球联赛 · 北区决赛</p>
+                <p class="race-meta"><span>2012.5.22–29</span><span>秦皇岛</span><span>代表<strong>西安财经大学</strong></span></p>
+              </div>
+              <span class="race-result">亚军</span>
+            </li>
+            <li class="race-row">
+              <span class="race-grade">大三上学期</span>
+              <div class="race-body">
+                <p class="race-name">2012-2013 陕西省大学生足球联赛</p>
+                <p class="race-meta"><span>2012.10–11</span><span>西安</span><span>代表<strong>西安财经大学</strong></span></p>
+              </div>
+              <span class="race-result race-result--win">冠军</span>
+            </li>
+            <li class="race-row">
+              <span class="race-grade">大四上学期</span>
+              <div class="race-body">
+                <p class="race-name">2013-2014 特步中国大学生足球联赛 · 陕西赛区（超级组）</p>
+                <p class="race-meta"><span>2013.11.5–13</span><span>西安</span><span>代表<strong>西安财经大学</strong></span></p>
+              </div>
+              <span class="race-result race-result--win">冠军</span>
+            </li>
+          </ol>
+        </div>
+
+        <div class="race-group">
+          <div class="race-group-head">
+            <span class="race-group-title">中国银行总行足球队</span>
+            <span class="race-group-sub">2016 – 2019.7</span>
+          </div>
+          <ol class="race-list">
+            <li class="race-row">
+              <span class="race-grade">在职</span>
+              <div class="race-body">
+                <p class="race-name">首届全国行业职工足球联赛</p>
+                <p class="race-meta"><span>2016.9</span><span>天津滨海新区</span><span>代表<strong>中国金融体协</strong>，与中信银行联合组队</span></p>
+                <p class="race-detail">总行委派，五场四胜一负；对煤矿体协 5:1、对中建体协 6:0，两场各进 1 球、2 球，队内最佳射手。</p>
+              </div>
+              <span class="race-result race-result--national">全国亚军</span>
+            </li>
+            <li class="race-row">
+              <span class="race-grade">在职</span>
+              <div class="race-body">
+                <p class="race-name">中国职工足球联赛总决赛 · 十一人制行业组</p>
+                <p class="race-meta"><span>2018.11.30–12.2</span><span>惠州</span><span>代表<strong>中国银行</strong></span></p>
+              </div>
+              <span class="race-result">行业组第六名</span>
+            </li>
+          </ol>
+        </div>
+
+        <div class="race-group">
+          <div class="race-group-head">
+            <span class="race-group-title">重庆市城市冠军杯</span>
+            <span class="race-group-sub">2019.8</span>
+          </div>
+          <ol class="race-list">
+            <li class="race-row">
+              <span class="race-grade">2019</span>
+              <div class="race-body">
+                <p class="race-name">2019 年重庆市城市冠军杯足球赛</p>
+                <p class="race-meta"><span>2019.8</span><span>永川</span><span>代表<strong>江津区</strong></span></p>
+              </div>
+              <span class="race-result race-result--win">冠军</span>
+            </li>
+          </ol>
+        </div>
+
+        <p class="race-note">「代表」是参赛单位。市级赛事代表就读学校，市运会代表沙坪坝区，全国中学生运动会是以重庆队出战，大学生联赛代表西安财经大学，在中国银行那两场分别代表中国金融体协和中国银行。</p>
+        <!-- 校勘留档（2026-11-14：原先是可见文案，访客不需要看考据，移到注释里）：
+             前三组 16 行按原表逐行转录，未增删；其余各场的赛事名称、时间、地点
+             依据赛事主办方公开记录与本人提供材料补全。 -->
+      </div>
+    </section>
+
+  </div><!-- /视图 3 · football -->
+
+  <!-- ======================================================================
+       视图 4 · /blog（PRD v1.2 附录 A.4 / 博客页内容清单 / 博客页设计规范）
+       列表由 <div id="articles"> 里的 template 生成，本视图只留空容器。
+       按年份分组、显示字数的时长都在 buildBlogList() 里算，不写死在 HTML。
+       ====================================================================== -->
+  <div class="view" data-view="/blog" id="view-blog">
+
+    <section class="section" aria-labelledby="blog-h1">
+      <div class="container">
+        <div class="blog-wrap">
+          <h1 class="h1" id="blog-h1">博客</h1>
+          <p class="blog-count num" id="blog-count"></p>
+          <div class="blog-list"></div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /视图 4 · blog -->
+
+  <!-- ======================================================================
+       视图 4½ · /post（博客详情，站内全文）
+       每篇文章 = 一个 <template data-art>；博客列表由脚本据此生成，只维护一处。
+       ====================================================================== -->
+  <div class="view" data-view="/post" id="view-post">
+
+    <section class="section post-section" aria-labelledby="post-h1">
+      <div class="container">
+        <div class="post-measure">
+          <a class="post-back" href="#/blog">← 全部文章</a>
+          <h1 class="h1" id="post-h1">文章</h1>
+          <p class="post-lede" id="post-lede"></p>
+          <p class="post-meta" id="post-meta"></p>
+          <div class="post-body" id="post-body"></div>
+          <div class="post-foot">
+            <a href="#/blog">← 全部文章</a>
+            <span id="post-foot-note"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /视图 4½ · post -->
+
+</main>
+
+<!-- 文章库：一篇一个 template，脚本据此生成列表与正文。
+     加文章的写法（照抄结构即可，属性名不要改）：
+     <template data-art="唯一英文短名" data-title="标题" data-date="2021.2" data-desc="一行说明">
+       <p>正文段落</p>
+     </template>
+     正文只允许 p / h2 / h3 / blockquote / ul / ol / li / hr / strong / em / a /
+     table / thead / tbody / tr / th / td / code 这些标签。
+     没有任何 template 时，博客页保留 4 条占位，不显示「暂无文章」。 -->
+<div id="articles" hidden>
+  <!-- 2026-11-14 第二轮选文：只留「所思所想」。资助类全部撤下（本人明确不要）；
+       ETF 教程与中超单场报告也撤下 —— 同为工具/报告，放进来会把博客变成第二作品栏。
+       原文配图仍全部移除：图走 mmbiz.qpic.cn 防盗链，站外引用会裂图。 -->
+  <template data-art="three-hours-interview" data-title="花三小时看了一场访谈" data-date="2026.07.16" data-desc="马斯克和彼得·迪亚曼迪斯那场对谈，我分两天看完，有一段倒回去听了三遍。">
+    <p>周末看了马斯克和彼得·迪亚曼迪斯的一场对谈，今年一月录的，在德州那个超级工厂里。全长将近三个小时，我分了两天看完。</p>
+    <p>大部分内容你可以猜到。聊 AI、聊机器人、聊火星、聊能源。这些话题马斯克讲了十几年了，不算新鲜。</p>
+    <p>但有一段话我反复倒回去听了三遍。</p>
+    <blockquote><p>有人问他，对现在的年轻人有什么建议。他说了一句很直白的话： <strong>「不用上大学。大学只剩下社交价值了。」</strong></p></blockquote>
+    <p>以后每个人都会有一个 AI 私人导师，比任何教授教得都好。</p>
+    <p>然后他补了一句更狠的：</p>
+    <blockquote><p><strong>「别存钱养老。那没有意义。」</strong></p></blockquote>
+    <p>我当时以为他在开玩笑。他不是。</p>
+    <h2>财富的基本单位，正在被拆掉重建</h2>
+    <p>他说，未来十到二十年，财富的衡量方式会彻底改变。</p>
+    <p>今天我们用的货币，本质上是稀缺性的代理。但当一个 AI 加机器人可以无限生产商品和服务的时代到来，钱的稀缺性就会被拆掉。替代它的是两样东西： <strong>能源</strong> 和 <strong>算力</strong>。</p>
+    <p>谁掌握了更低成本的能源和更强的算力，谁就掌握了未来的「货币」。</p>
+    <p>这句话的逻辑链条是这样的：我们现在觉得钱重要，是因为大多数东西需要用钱去买，而钱的总量是有限的。但如果能源变得几乎免费，机器人可以 24 小时不停地把能源转化成商品和服务，那还有什么东西是稀缺的？</p>
+    <blockquote><p>到那个时候， <strong>一瓦特的电，比一块钱的钞票更有意义。</strong></p></blockquote>
+    <p>他说这个转折会在 2030 年 前后发生。不是科幻，是他从工程角度倒推出来的时间线。</p>
+    <p>AGI 今年就可能实现。到 2030 年，地球上 AI 的智力总和会超过全人类的总和。</p>
+    <h3>这不是「可能」。是「正在」。</h3>
+    <h2>外科医生，还剩三年</h2>
+    <p>然后他聊到了机器人做手术。</p>
+    <p>有人问他 Optimus 什么时候能上手术台。他说三年。</p>
+    <blockquote><p><strong>三年之内，地球上能做精细外科手术的 Optimus 机器人，数量会比所有人类外科医生加起来还多。</strong> 而且能力更强。</p></blockquote>
+    <p>他说这件事的时候语气很平淡，像是在报一个项目排期。</p>
+    <p>但这句话背后藏着一个让我消化了很久的推论：连外科医生这种人类智力金字塔尖上的职业，都排在「被替代」的第三年。</p>
+    <h3>那其他行业还剩几年？</h3>
+    <h2>三到七年：超音速海啸的过渡期</h2>
+    <p>聊完这些之后，他给了一个时间窗口： <strong>三到七年</strong>。</p>
+    <p>这是他反复强调的一个区间。不是终点，是过渡期。他原话用的是：</p>
+    <blockquote><p><strong>「非常难熬的动荡期。」</strong></p></blockquote>
+    <p>短期内会有剧烈的阵痛。旧的职业在消失，新的还没长出来。社会结构、教育体系、退休制度——所有这些我们以为是「默认设置」的东西，都会在十年内被拆掉重建。</p>
+    <p>他形容这个过程是 超音速海啸。你没反应过来之前，水已经在头顶了。</p>
+    <hr>
+    <p>看完这场访谈之后，我坐在那儿想了一会儿。</p>
+    <p>坦白说，我没办法验证他说的每一件事。2030 年是不是真的会那样？机器人三年后能不能做手术？能源经济到底什么时候来？这些我都不知道。</p>
+    <p>但他说的那几条底层的「线」，我越想越觉得方向是对的。</p>
+    <h3>第一条：学历这件事正在烂掉。</h3>
+    <p>不是大学本身的问题，是它的性价比已经崩了。花四年时间、几十万块钱，换来一张市场越来越不看重的纸。而另一边，一个会用 AI 工具的高中生，可以在三个月内做出以前一个团队花一年才能做的东西。</p>
+    <p>我自己不会写代码，但这几年用 Claude Code 和 WorkBuddy，效率比很多会写的人还高。不是因为我比他们聪明，是因为工具把门槛拆了。</p>
+    <p>以后用人单位不看你会什么， <strong>看你用工具能做出什么。</strong></p>
+    <h3>第二条：别再盯着「存钱」这两个字了。</h3>
+    <p>不是说现在就去挥霍。而是你得意识到，未来几十年财富的定义本身在变。如果你的全部安全感都押在银行存款和退休金上，你可能会发现到了那一天，这些数字买不到你真正需要的东西。</p>
+    <p>真正值钱的是什么？ <strong>能产生价值的东西。能持续产生能源的东西。能在新体系里占据一个位置的东西。</strong></p>
+    <h3>第三条：接下来这几年会很颠簸，但别慌。</h3>
+    <p>动荡不是末日，是换轨道。关键在于你别在旧轨道上死守。旧的职业定义、旧的教育路径、旧的财富观念——这些都不是真理，只是上一代人的临时方案。</p>
+    <h3>临时方案过期了，就换。</h3>
+    <h2>最后，关于我儿子</h2>
+    <p>我这几年一直在想，到底该给他准备什么。</p>
+    <p>不是钱。不是学区房。不是那个被卷烂了的起跑线。是让他在 AI 时代到来的时候，不是站在岸边发抖的那个人，而是知道自己能干什么的人。</p>
+    <p>这跟会不会写代码没关系。跟考第几名也没关系。跟有没有那张文凭更没关系。</p>
+    <p>有关系的是三件事：</p>
+    <p><strong>第一</strong>，他能不能用 AI 工具把想法变成现实。</p>
+    <p><strong>第二</strong>，他能不能在不同领域之间找到连接——技术、商业、人性、能源，不要求都精通，但至少不陌生。</p>
+    <p><strong>第三</strong>，他能不能在所有人都慌的时候，稳住自己的判断。</p>
+    <p>这三条，我到现在也还在练。但我至少知道方向在哪了。</p>
+    <hr>
+    <p>本文提及的访谈为 Elon Musk 与 Peter Diamandis 在 Moonshots Podcast #220 的对谈，2026 年 1 月 6 日录制于 Giga Texas。完整视频可搜索「Musk Moonshots Peter Diamandis」观看，已超过百万播放。</p>
+  </template>
+  <template data-art="learn-by-doing" data-title="有一种学习方法我用了六年才知道它不算学习" data-date="2026.07.13" data-desc="在银行学的那些，辞职以后基本用不上。后来换了个学法。">
+    <p>前几天看到一个视频。Dan Koe 的，标题很夸张：「用 AI 把学习速度拉到 10 倍」。</p>
+    <p>这种标题我一般会划走。但那天没有。视频开头他问了一个问题：你有没有发现自己学了很多东西，但生活一点都没变？</p>
+    <p>这个问题我太熟了。</p>
+    <p>我 2014 年大学毕业，进了一家国有银行做理财经理。五年。那五年里我学了基金知识、保险产品、KPI 考核体系、客户沟通话术、Excel 报表。每一样都认真学了。但五年之后，我对着一排 ATM 机，脑子里只有一个念头：这些东西学完了，然后呢？</p>
+    <p>然后我辞职了。</p>
+    <p>亲戚觉得我疯了。银行碗不要，去高校当一个合同制的辅导员，从零开始。那段时间我自己也说不清楚。不是想清楚了才走的，是先走了才慢慢想清楚的。</p>
+    <p>现在回头看，那个从银行到教育的转身，就是我人生里第一次「用中学」。</p>
+    <hr>
+    <p>Dan Koe 的方法论拆开来看只有三步。</p>
+    <h3>第一步：画出你不要的人生，再画出你想要的。</h3>
+    <p>他说大部分人学习失败，不是因为不够努力，是没想清楚「我学这个东西到底要去哪」。</p>
+    <p>我做理财经理那几年，每天穿西装打领带，在柜台后面给客户讲年化收益率。表面光鲜。但我知道我不要什么。我不要那种「每天在 Excel 崩溃和咬肌抽筋之间反复横跳」的日子。我见过四十岁的同事是什么样，我不想变成那样。</p>
+    <p>那我想要什么？当时说不清楚。但有一件事是确定的：我喜欢跟年轻人待在一起。大学踢足球那几年，队里的师兄带过我，被前辈拉一把的感觉我一直记得。</p>
+    <p>所以我去考了教育学硕士。不是因为规划好了职业路径，是我先画出了「不要什么」，剩下的方向自己浮出来了。</p>
+    <p>Dan Koe 管这叫「人生地图」。名字有点大，说白了就一个问题：你现在站在哪，想走到哪。</p>
+    <h3>第二步：别学了，直接做个项目。</h3>
+    <p>Dan Koe 有句话我印象很深：「学习最好的方式不是先学再做，是先做再学。」</p>
+    <p>你有一个想做的项目，直接上手。遇到不会的，当场查。卡住了，问 AI。做出来了，你就学会了。全程没上过一节课。</p>
+    <p>我在资助管理中心工作的时候，面对几千份学生申请，光靠手工审核根本做不完。我以前在银行学过 Excel，但不是那种精通数据透视表的水平。我是那种「知道这玩意能帮我省钱但不知道咋用」的水平。</p>
+    <p>然后我就硬上了。</p>
+    <p>用 AI 帮我写 Excel 公式。用 Python 做数据清洗——我不会写代码，全靠 Claude Code 一行一行帮我生成。把足球比赛里盯人的逻辑套到困难生识别上。哪些学生从来不来申请？哪些看起来不符合条件但实际很困难？这些不是政策文件教我的，是做项目做出来的。</p>
+    <p>他管这叫「项目制学习」。我管这叫被逼出来的本事。名字不重要，原理是一样的：知识在你需要用它的那一刻，吸收效率是最高的。不是三倍五倍，是十倍。</p>
+    <h3>第三步：教给别人。</h3>
+    <p>最后一步最简单也最反人性。你学会了一个东西，试着讲给别人听。讲不清楚的地方，就是你没真懂的地方。</p>
+    <p>我 2018 年开始写公众号。最开始纯粹是自己整理投资笔记，后来慢慢变成写工作心得、写教育观察、写 AI 工具的使用体验。</p>
+    <p>写了一段时间之后发现一件事：写的过程帮我发现了自己哪些地方没想明白。</p>
+    <p>你以为你懂了。一动笔，第一段都写不顺。那好，回去重想。写到读者能看懂，才算真懂。这个过程反复了六年。我从一个不会写作的理财经理，变成了一个至少能把话说清楚的人。</p>
+    <p>费曼说教是最好的学。Dan Koe 说每周至少输出一篇教学文章。我没有刻意按任何方法来。我只做了一件事：把自己正在学的东西，写出来给别人看。六年，167 篇文章。这件事本身就是我的学习引擎。</p>
+    <hr>
+    <p>这三个阶段串起来，不是什么神奇的公式。</p>
+    <p>就是一句话：想清楚你不要什么，然后直接动手做一件事，做完了把它教给别人。</p>
+    <p>我在不知道 Dan Koe 是谁的时候，已经把这三步走了一遍。辞职是第一步，用 AI 做项目是第二步，写公众号是第三步。每一步都不是计划好的，但每一步都踩在这个逻辑上。</p>
+    <p>现在回头看，那个在银行柜台后面迷茫的自己，并不是缺乏学习能力。他是缺一个非学不可的理由。</p>
+    <p>项目给你理由。教学给你检验。人生地图给你方向。</p>
+    <p>这三样齐了，你不需要「坚持学习」。学习会变成你解决问题的副产品。</p>
+  </template>
+  <template data-art="soccer-data-clean" data-title="足球数据分析师：数据计算的第一步为什么是「删数据」" data-date="2026.06.16" data-desc="只踢 10 分钟进 1 球的前锋，G/90 会算到 9.0——所以先砍样本。">
+    <p>后台收到一个很实在的提问：“费半天劲爬下来的所有球员数据，为什么在写代码的时候，还要专门加一行条件，把出场不足 450 分钟的人踢掉？”</p>
+    <p>这其实是个很好的实战问题。在真实的足球数据业务里，这步操作叫 <strong>“样本量控制”</strong>。今天简单聊聊，为什么做数据的第一步，往往是学会 <strong>“挤水分”</strong>。</p>
+    <h2>一、警惕“小样本”的欺骗性</h2>
+    <p>如果不设出场时间门槛，你做出来的图表基本没法看，业务结论也会跟着跑偏。</p>
+    <p>举个常见的例子：某队的一名替补小将，整个赛季只在最后一场的垃圾时间上了 <strong>10</strong> 分钟。刚好在这 <strong>10</strong> 分钟里，他远射打进一球。</p>
+    <p>如果你在处理数据时不剔除他，按照系统逻辑折算，他的 “每90分钟进球数（G/90）” 会高达 <strong>9.0</strong>，射门转化率是 <strong>100%</strong>。当你把全中超的前锋拉到一个散点图里，这个只踢了 <strong>10</strong> 分钟的球员会直接顶在图表最右上角，数据表现一骑绝尘。而像武磊这样实打实踢了 <strong>2500</strong> 分钟、进了 <strong>20</strong> 个球的绝对核心，反而会被图表的比例尺挤压，显得平平无奇。</p>
+    <p>这就是生数据（<code>Raw Data</code>）不经清洗带来的直接后果。</p>
+    <h2>二、为什么行业门槛定在 450 分钟？</h2>
+    <p>在主流数据库里， <strong>450 分钟</strong> 折算下来刚好是 5 个完整的 90 分钟（5场全场）。这也是机构在做初筛时常用的及格线。背后的逻辑很直接：</p>
+    <ul><li><strong>过滤战术水分</strong>：能在一线队累计踢满 450 分钟，说明球员是常态战术轮换的一部分，而不是只有己方大比分领先、对手体能崩盘时才上场走过场的边缘人。他面对的防守强度具有参考价值。</li><li><strong>均值回归</strong>：足球比赛偶然性极大。前锋可能偶尔一场脚风顺，后卫也可能单场抢断上双。但把时间拉长到 5 场比赛以后，运气成分被逐渐稀释，数据才能相对真实地反映一个球员的平均水平下限。</li><li><strong>按业务需求调整</strong>：450 分钟只是个参考值，具体要看联赛进度。赛季刚打 10 轮，用 450 分钟很合适；但如果是年终的深度球探盘点，分析师通常会把门槛拉高到 <strong>900 分钟</strong> （10个全场）。</li></ul>
+    <p>明白了这个逻辑，代码才算真正服务于业务。</p>
+    <hr>
+    <p>现在，你可以试着运行一下加了过滤条件的代码，把清洗后的干净数据喂给图表工具。去看看剔除掉“伪神锋”后，那两百多名中超主力在四象限图里的真实落位。</p>
+  </template>
+  <template data-art="own-your-brain" data-title="从租用大脑到拥有大脑" data-date="2026.03.13" data-desc="在自己硬盘上跑模型之后，我重新理解「拥有」和「租用」这两个词。">
+    <p>人们对待当下的 AI 浪潮，就像在对待一场没有尽头的跑轮测试。大多数人要么在焦虑地追踪最新的巨型模型，要么在疯狂地学习下周可能就会过时的工具技巧。</p>
+    <p>但这是一种极其低效的策略。新工具的半衰期太短了。</p>
+    <p>如果你去观察那些在历次技术变革中真正获益的人，会发现他们不在乎零散的坐标，他们在画一张地图。你需要的是一套认知框架，一套能把工具、职业、产业甚至人文思考串联起来的系统。</p>
+    <blockquote><p>只有拥有这张地图，你才能在剧变的时代找到自己的锚点。</p></blockquote>
+    <h2>1. 夺回技术的控制权</h2>
+    <p>构建这张地图的第一步，却恰恰违背了我们当下的直觉：你必须先把技术的控制权从巨头手里拿回来。</p>
+    <p>我是在调试本地 AI 知识库时意识到这一点的。</p>
+    <p>过去几年，我们潜意识里接受了一个设定：智能是一种像自来水一样的公共设施。你只要接上云端，就能源源不断地获取它。作为交换，我们把所有的家当、资料、思考痕迹，全都放进了别人家的保险柜里。理智告诉你这存在隐患，但便利性让你选择了妥协。</p>
+    <p>把所有资料和思考痕迹放在云端，意味着我们在用隐私交换便利。</p>
+    <p>但本地 AI 知识库完全不同。它让人联想到个人电脑（PC）诞生初期的那种极客精神。</p>
+    <h2>2. 本地 AI 的罕见确定性</h2>
+    <p>当你关掉网络，打开像 <code>Cherry Studio</code> 这样的客户端，在自己的笔记本硬盘里跑起一个小参数模型（比如 <code>Qwen3</code>）时，那种震撼是非常强烈的。</p>
+    <p>它虽然小，但工具调用、多模态功能一应俱全。在这个干净利落的本地环境里，你的模型拥有了一个确切的身份标识。这串在系统里看似毫无意义的乱码，意味着一种罕见的确定性：</p>
+    <ul><li>隐私安全：数据全在你的硬盘里，完全不用担心隐私</li><li>极速响应：秒出结果，没有任何网络延迟</li><li>彻底自由：你想怎么调就怎么调，获得了彻底的自由</li></ul>
+    <h2>3. 知识方式的底层重构</h2>
+    <p>当本地大模型的能力与你的个人知识体系深度绑定时，它就不再是一个简单的工具了。你的工作文档、学习笔记、项目资料，全部可以通过自然语言直接对话。</p>
+    <p>这就好像你给自己配了一个 24 小时待命的超级助理。</p>
+    <p>它知道你所有的工作细节，知道你上周那个方案放在哪个文件夹，知道你三个月前做过类似的项目。而且，最重要的是，它只耗电，你再也不需要为思考的过程支付任何“计件工资”。</p>
+    <p>想象一下，你脑子里的每一个想法原本都是散落的纸片。嵌入模型所做的，不是帮你建立一个索引目录，而是给你的每一张纸片分配了一个极其精确的数学坐标。</p>
+    <p>当你向这个本地 AI 提问时，它不再像传统的搜索引擎那样傻傻地去匹配关键字。它是直接飞到那个高维空间的坐标附近，把相邻的、逻辑上高度相关的想法一把抓起来。</p>
+    <p>从被动检索到主动对话，从碎片化信息到结构化知识网络。这真的是知识工作方式的一次底层重构。</p>
+    <h2>4. 智商与上下文的博弈</h2>
+    <p>你可能会说，本地的小模型太笨了，它比不上云端的千亿参数巨兽。</p>
+    <p>这似乎是事实。但这里有一个容易被忽视的细节：</p>
+    <p>在处理个人的生活和工作时，上下文比原始智商重要得多。</p>
+    <p>一个智力普通但完全掌握你所有背景的助理，远比一个绝顶聪明但每次都要你从头解释一遍的云端专家要有价值。</p>
+    <h2>5. 时代的终局与分水岭</h2>
+    <p>我们总以为技术的终局，是全人类都在访问同一个无所不知的云端上帝。</p>
+    <p>但我猜，真正的未来可能恰恰相反。它可能看起来更像 1970 年代末微型计算机取代大型机的那个时刻—— 每个人都在自己的硬盘里，耐心地喂养和调试着一个只属于自己的智能体。</p>
+    <p>当那一天到来时，数字世界里最大的分水岭，或许不再是“用 AI 的人”和“不用 AI 的人”：</p> <p>而是“租用大脑的人”，和“拥有大脑的人”。</p>
+  </template>
+  <template data-art="no-pre-made-knowledge" data-title="别吃知识的预制菜" data-date="2026.02.27" data-desc="把一本书压成三条要点，是一种很隐蔽的偷懒。">
+    <h2>一、效率的错觉：当书本沦为检索库</h2>
+    <p>人们正在把书变成效率低下的检索库。找个人工智能把几百页纸压缩成三条要点，扫一眼就觉得自己掌握了精髓。这听起来无懈可击。花三分钟拿到现成答案，总比熬上三十个小时划线做笔记显得聪明。</p>
+    <p>这种错觉其实是长期应试教育留下的后遗症。上学时我们被训练成答题机器，衡量聪明的标准是你记住了多少标准答案。既然现在的机器能在一秒钟内吐出所有正确的结论，自己苦哈哈地去啃大部头，看起来就像是坚持用算盘计算轨道参数一样可笑。</p>
+    <h2>二、知识的伪装：便利贴与神经回路</h2>
+    <blockquote><p><strong>问题在于，事实和结论根本算不上真正的知识。</strong></p></blockquote>
+    <p>当你直接吞下别人咀嚼过的结论时，你的大脑里根本没有长出支撑这个结论的神经回路。你只是把它像一张便利贴一样啪地贴在脑门上。风一吹，或者遇到稍微复杂的现实情况，这张纸条立刻就飞了。</p>
+    <p>拿编程来打比方，我们可以清晰地看到两种认知获取模式的本质区别：</p>
+    <table data-cols="3"><thead><tr><th scope="col">认知模式</th><th scope="col">编程隐喻</th><th scope="col">运作逻辑与现实后果</th></tr></thead><tbody><tr><td><strong>获取提纯信息</strong></td><td><strong>封装好的执行程序</strong></td><td>别人喂给你的精炼知识就像是已经封装好的执行程序。你可以直接双击运行它，处理手头的小麻烦。但你摸不到它的底层逻辑，也无法修改它。只要外部环境稍有变动，程序报错崩溃，你就只能干瞪眼。</td></tr><tr><td><strong>进行深度阅读</strong></td><td><strong>最原始的代码</strong></td><td>自己去读书，去死磕那些晦涩的概念，则是拿到了最原始的代码。你得用自己的大脑去重新编译它。</td></tr></tbody></table>
+    <h2>三、阻力即机制：阅读的真正价值</h2>
+    <p>这个重构的过程绝对不舒服。你会卡壳，会停下来发呆，会用自己踩过的坑去反驳作者。但这恰恰是最关键的一步。</p>
+    <ul><li><strong>思维拼接：</strong> 阅读那些厚重纸页的过程，强制你把独有的经历、残缺的心智模型，和作者的思维纹理强行拼接在一起。</li><li><strong>结构性重塑：</strong> 读书的根本价值与你最后背诵的几句金言毫无关系。那漫长的几百页阅读过程中，你的大脑为了消化信息而产生结构性重塑，这才是重点。</li><li><strong>核心机制：</strong> 阻力本身就是核心机制，它绝非某种设计失误。</li></ul>
+    <h2>四、工具的边界与未来的鸿沟</h2>
+    <p>当然，经过提纯的信息并非毫无用处。如果你只是需要查阅某个软件的接口文档，或者搞清楚某场战役的具体年份，用机器直接提取信息无疑是最高效的。谁也不会闲得去深读一张冰箱说明书。</p>
+    <h3>但对于那些真正用来塑造我们认知世界的思想，走捷径就是在自我阉割。</h3>
+    <p>如果你习惯了只吞咽那些被预先咀嚼过的残渣，智力的消化系统迟早会彻底退化。我怀疑未来社会最大的分层，根本不取决于你用不用那些聪明的算法工具。真正的鸿沟，将横亘在：</p>
+    <ol><li>那些依然保留了从原始代码构建认知能力的人；</li><li>与那些大脑里只装满别人写好的执行程序的躯壳之间。</li></ol>
+  </template>
+  <template data-art="age-30" data-title="30 岁，我的人生旅程刚开始" data-date="2021.02.22" data-desc="2021 年生日写的，时间线上大部分节点出自这里。">
+    <p>今年2月4号是我三十岁的生日，30年来，父母助力我实现了诸多的理想，我很庆幸有这么优秀的父母，也庆幸自己的人生沿着光照亮的道路稳步前行着。或许是因为面对爸爸妈妈不好表达爱意，《请回答1988》里的种种小故事才如此感人。爸爸妈妈，您二老辛苦了，请不要为我担心，我爱您！</p>
+    <p>都说三十而立，立的是什么？立在哪里？立的是成家立业，立在心智的成熟。近几年的科学统计人的平均寿命已经能达到八十岁左右，预计再过二十年，人类平均寿命突破百岁也不是一个梦想。旧语三十而立的三十对应的寿命终点是在七十岁，如果按照终点是百岁换算一下，三十岁才只是青春期。对于我来说，这一切只是一个刚刚开始。</p>
+    <h3>（一）Where am I from?</h3>
+    <p>2014年，我拿到了本科学士学位，结束了长达16年的求学之旅，随即便开始了全新的人生旅程。我像大多数同学一样毕业之后就马上踏上工作岗位，还没完全想明白我想要什么样的人生，就稀里糊涂地开始自己的人生。但我的内心中有一个声音在告诉我，请坚持去做自己真正热爱的事情，因为人生是只有一次的体验。毕业时，我婉拒了在广州、陕西工作的机会执意回到老家重庆，只因一个非常单纯的想法——回家多陪伴家人。从小学四年级开始，因为父母工作繁忙，我便长期被寄宿在老师家里，初高中我又去了离家更远一些的足球学校，而大学4年时间基本都在西安度过。从中学到大学的10年时间，算起来陪伴父母的时间少的可怜。所以一心只想回到父母身边。在父亲的建议下，我的第一份工作去到了中国银行。正因为这样的机缘，我开始接触到基金投资研究，同样因为巧合，自己的足球特长在单位得到发挥，并以此为契机很荣幸去到中国银行总行。最后又因妻子的建议来到了现在的单位工作。</p>
+    <p>上面的几段话寥寥数语，看起来轻松，其实当面临人生抉择的时候一点也不轻松。以后可以和大家慢慢分享。人生是一场无限的游戏，所有的选择都没有绝对意义上的对错。舍得舍得，有舍有得。人会走很多岔路口，每一条都会看到别样的风景，遇见别样的伙伴。没有什么好后悔的，虚掷光阴，碌碌无为，不能活出精彩的自我才是遗憾的。因此，我遵循自己的内心，选择坚持做自己热爱的事情。</p>
+    <h3>（二）公众号与我的初心</h3>
+    <p>在考试教师资格证的时候，我了解到输出是一种极好的学习方式。高中学习的时候，老师也告诉我文科生想在社会安身立命，须得有笔杆子。但是我一直以来都是很懒惰的人，也从来没有写日记的习惯。</p>
+    <p>在2018年，通过与朋友聊天，我第一次知道了微信公众号是如何运营的，如何带来流量的，收到新鲜事物冲击的我随即注册。彼时的自己其实并不知道公众号可以衍生出很多的商业模式，纯粹的是想整理一些自己的投资知识和工作经验，以及通过输出来学习知识。</p>
+    <p>再到后来，我阅读到一本非常棒的书《软技能》，我又给我的公众号有了一个新的定位，那就是展示我自己的一个窗口，想以此为契机获得更多的机会。</p>
+    <p>现在，特别是在小孩出生以后，我更想去写/记录一些我的所思所想和现在的生活，给小朋友留下些以后可以阅读的内容。同样，也会分享我本职工作的点滴。多数时候，我并不关心眼前最直接的经济价值，而是关心自己的实力有没有变得更强，自己有没有真正为大家创造价值。得道者多助，失道者寡助。我想努力成为得道者，这样自己的未来应该不会很差。</p>
+    <h3>（三）无限的游戏与无限的憧憬</h3>
+    <p>30岁，我的人生旅程要正式开始了，做自己热爱的事情，还能获得一些收入用来养家糊口，我觉得这是非常让人幸福的事情。</p>
+    <p>细数一下，我觉得现在的自己每日脸上的笑容有很多很多</p>
+    <p>人们喜欢定义别人，也喜欢被人定义，但真正的青春是无界的。30岁不是只能用稳定、妥协、成功或失败来片面定义的。成年的意义应当是不断地检验和推翻年轻时全然仰赖的“真理”。只有不停地打破这个世界对自己的禁锢，才能获得解锁世界的更多权限。</p>
+    <p>最后我想说的是：不管愿不愿意接受，在亿万年之后，属于人类文明的一切痕迹都将被抹去！不管你曾创造出多么辉煌的成就，不管你是领袖，还是伟人，我们都会永远消失。就像从没在宇宙中出现过一样......</p>
+    <p>在宇宙的大尺度范围下，仔细想想，关于我们人类的一切，其实根本就不值一提！我们的存在与消失，对宇宙来说，也没有丝毫的影响。可能只有在接近死亡时，才会明白，精神上的富足远远要比物质上的堆砌来的更加宝贵。我们主观意识下的车与房，其实根本就没有任何的意义与价值。我们拼尽全力赚取的金钱在脱离了人类社会体系后，也不过就是一张张纸而已。那些所谓的物质与金钱，其实，都没有那么重要！你唯一能带走的，是你的精神与信仰，是永不磨灭的意识，与灵魂！</p>
+  </template>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© Chew Teck Wai</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------------- 路由表 ---------------- */
+  var ROUTES = ['/', '/story', '/football', '/blog', '/post'];
+  var TITLES = {
+    '/': 'Chew Teck Wai',
+    '/story': '时间线 — Chew Teck Wai',
+    '/football': '后腰 — Chew Teck Wai',
+    '/blog': '博客 — Chew Teck Wai',
+    '/post': '博客 — Chew Teck Wai'
+  };
+
+  var views = Array.prototype.slice.call(document.querySelectorAll('.view'));
+  var progress = document.getElementById('progress');
+  var root = document.documentElement;
+
+  /* ---------------- 文章库 ----------------
+     每个 <template data-art="slug" data-title data-date data-desc> 即一篇文章。
+     列表与正文同源，不两处维护。 */
+  var POSTS = [];
+  var POST_BY_SLUG = {};
+  var artHost = document.getElementById('articles');
+
+  if (artHost) {
+    Array.prototype.forEach.call(artHost.querySelectorAll('template[data-art]'), function (t) {
+      var post = {
+        slug: t.getAttribute('data-art'),
+        title: t.getAttribute('data-title') || '',
+        date: t.getAttribute('data-date') || '',
+        desc: t.getAttribute('data-desc') || '',
+        frag: t.content || null
+      };
+      if (!post.slug) return;
+      // 字数与阅读时长由正文自己算，不写死在属性里，免得改文后对不上
+      var plain = (t.content && t.content.textContent) || '';
+      post.chars = plain.replace(/\s+/g, '').length;
+      post.minutes = Math.max(1, Math.round(post.chars / 400));
+      POSTS.push(post);
+      POST_BY_SLUG[post.slug] = post;
+    });
+  }
+
+  function parseHash(hash) {
+    var h = String(hash || '').replace(/^#/, '');
+    if (!h || h === '/') return { route: '/', slug: null };
+    h = h.replace(/\/+$/, '');
+
+    var m = /^\/blog\/([A-Za-z0-9_-]+)$/.exec(h);
+    if (m && POST_BY_SLUG[m[1]]) return { route: '/post', slug: m[1] };
+
+    return { route: ROUTES.indexOf(h) > -1 ? h : '/', slug: null };
+  }
+
+  /* ---------------- 滚动淡入（全站动效 #2） ----------------
+     reduced-motion 下不注册 observer，元素由 CSS !important 直接可见。 */
+  var reduceQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var io = null;
+
+  if (!reduceQuery.matches && 'IntersectionObserver' in window) {
+    io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0 });
+  }
+
+  function observePending() {
+    if (!io) return;
+    var nodes = document.querySelectorAll('.reveal:not(.is-in)');
+    Array.prototype.forEach.call(nodes, function (el) { io.observe(el); });
+  }
+
+  /* ---------------- 阅读进度线（仅 /story） ---------------- */
+  var rafId = 0;
+
+  function paintProgress() {
+    rafId = 0;
+    if (!progress) return;
+    var isStory = root.getAttribute('data-route') === '/story';
+    var max = root.scrollHeight - window.innerHeight;
+    var p = (isStory && max > 0) ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    progress.style.setProperty('--p', String(p));
+  }
+
+  function queueProgress() {
+    if (!rafId) rafId = window.requestAnimationFrame(paintProgress);
+  }
+
+  window.addEventListener('scroll', queueProgress, { passive: true });
+  window.addEventListener('resize', queueProgress);
+
+  /* ---------------- 视图切换 ----------------
+     C10：只在路由真的变化时滚回顶部；首次进入不动，保留浏览器原生滚动恢复。 */
+  var prevKey = null;
+
+  function renderPost(slug) {
+    var post = POST_BY_SLUG[slug];
+    if (!post) return;
+
+    var h1 = document.getElementById('post-h1');
+    var lede = document.getElementById('post-lede');
+    var meta = document.getElementById('post-meta');
+    var body = document.getElementById('post-body');
+    var footNote = document.getElementById('post-foot-note');
+    if (!body) return;
+
+    if (h1) h1.textContent = post.title;
+    if (lede) lede.textContent = post.desc;
+    if (meta) {
+      meta.textContent = post.date + ' · ' +
+        String(post.chars).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' 字 · 约 ' +
+        post.minutes + ' 分钟';
+    }
+    if (footNote) footNote.textContent = post.date;
+
+    if (body.getAttribute('data-slug') === slug) return;
+    while (body.firstChild) body.removeChild(body.firstChild);
+    if (post.frag) body.appendChild(post.frag.cloneNode(true));
+    body.setAttribute('data-slug', slug);
+  }
+
+  function buildBlogList() {
+    var list = document.querySelector('.blog-list');
+    if (!list || !POSTS.length) return;
+
+    while (list.firstChild) list.removeChild(list.firstChild);
+
+    var lastYear = null;
+    POSTS.forEach(function (p) {
+      var year = (p.date || '').slice(0, 4);
+      if (year && year !== lastYear) {
+        var y = document.createElement('div');
+        y.className = 'blog-year num';
+        y.textContent = year;
+        list.appendChild(y);
+        lastYear = year;
+      }
+
+      var row = document.createElement('a');
+      row.className = 'blog-row';
+      row.href = '#/blog/' + p.slug;
+
+      var meta = document.createElement('span');
+      meta.className = 'blog-meta';
+
+      var d = document.createElement('span');
+      d.className = 'num';
+      d.textContent = (p.date || '').slice(5);
+
+      var l = document.createElement('span');
+      l.className = 'num';
+      l.textContent = p.minutes + ' 分钟';
+
+      meta.appendChild(d);
+      meta.appendChild(l);
+
+      // h2 不是 h3：页面 h1 是「博客」，列表项再往下跳一级会出现 heading-order 违规
+      var t = document.createElement('h2');
+      t.className = 'blog-title';
+      t.textContent = p.title;
+
+      var s = document.createElement('span');
+      s.className = 'blog-desc';
+      s.textContent = p.desc;
+
+      row.appendChild(meta);
+      row.appendChild(t);
+      row.appendChild(s);
+      list.appendChild(row);
+    });
+
+    var count = document.getElementById('blog-count');
+    if (count) {
+      var years = POSTS.map(function (p) { return (p.date || '').slice(0, 4); })
+                       .filter(Boolean).sort();
+      count.textContent = POSTS.length + ' 篇 · ' +
+        (years.length ? years[0] + ' – ' + years[years.length - 1] : '');
+    }
+  }
+
+  function applyRoute() {
+    var parsed = parseHash(window.location.hash);
+    var route = parsed.route;
+    var key = route + (parsed.slug ? '/' + parsed.slug : '');
+    var changed = prevKey !== null && key !== prevKey;
+
+    if (route === '/post') renderPost(parsed.slug);
+
+    views.forEach(function (view) {
+      view.classList.toggle('is-active', view.getAttribute('data-view') === route);
+    });
+    root.setAttribute('data-route', route);
+
+    var post = parsed.slug ? POST_BY_SLUG[parsed.slug] : null;
+    document.title = post ? post.title + ' — Chew Teck Wai' : TITLES[route];
+
+    if (changed) window.scrollTo(0, 0);
+    prevKey = key;
+
+    observePending();
+    queueProgress();
+  }
+
+  buildBlogList();
+
+  if (!window.location.hash) {
+    try { window.history.replaceState(null, '', '#/'); } catch (e) {}
+  }
+
+  window.addEventListener('hashchange', applyRoute);
+  applyRoute();
+
+  /* 页头「联系我」：切回首页后滚到二维码区 */
+  document.querySelectorAll('[data-contact]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      setTimeout(function () {
+        var el = document.getElementById('contact');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 60);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
