@@ -404,15 +404,15 @@ img{ display:block; max-width:100%; }
 }
 
 /* ==========================================================================
-   B-3 ② 来路（时间线 · 3 节点）
+   B-3 ② 来路（时间线）
    ========================================================================== */
 .timeline{ margin-top:var(--space-6); }
 
 .tl-item{
   display:grid;
   grid-template-columns:1fr;
-  row-gap:var(--space-1);
-  padding-block:var(--space-5);   /* 上下各 20 */
+  row-gap:var(--space-2);
+  padding-block:18px;            /* 呼吸感：条目之间留出空隙，比 1fr 单列时更从容 */
 }
 .tl-rail{ display:none; }          /* 360 档去掉圆点与竖线（C-2） */
 .tl-time{
@@ -420,52 +420,61 @@ img{ display:block; max-width:100%; }
   color:var(--color-text-tertiary);
   letter-spacing:.01em;
 }
+/* 单位 / 事件是每一条的主线，保持正文字号。 */
 .tl-org{
   font-size:var(--fs-body);
+  font-weight:600;                 /* 加粗：单位是这一条里最该被看见的词 */
   color:var(--color-text-primary);
-  line-height:1.75;
+  line-height:1.6;
 }
+/* 说明是副行：从「紧跟单位的一串小字」改成独立一行，字大一级、墨色浅一级。
+   这样扫时间线时先读到单位，想看细节再看说明，两级信息不再互相干扰。 */
 .tl-place{
-  font-size:var(--fs-micro);
-  color:var(--color-text-tertiary);
-  letter-spacing:.04em;
+  display:block;
+  margin-top:6px;
+  max-width:56ch;                  /* 长说明折行不越过版心，保持阅读节奏 */
+  font-size:var(--fs-small);
+  font-weight:400;
+  color:var(--color-text-secondary);
+  letter-spacing:0;
+  line-height:1.7;
 }
 
 @media (min-width:768px){
   .tl-item{
-    grid-template-columns:120px 24px minmax(0,1fr);
-    column-gap:8px;
+    grid-template-columns:132px 24px minmax(0,1fr);
+    column-gap:16px;
     row-gap:0;
     align-items:start;
   }
-  .tl-time{ text-align:right; padding-top:2px; }
+  .tl-time{ text-align:right; padding-top:4px; }
   .tl-rail{
     display:block;
     position:relative;
     align-self:stretch;
-    /* 负外边距让竖线穿过行内上下 20px 的内边距，首尾圆点之间的线才不会断 */
-    margin-block:calc(-1 * var(--space-5));
+    /* 负外边距让竖线穿过行内上下 padding，首尾圆点之间的线才不会断 */
+    margin-block:-18px;
   }
-  /* 竖线 1px，只从第 1 个圆点画到第 3 个圆点 */
+  /* 竖线 1px，比原来更浅（subtle），让它在场但不抢内容 */
   .tl-rail::before{
     content:"";
     position:absolute;
     top:0; bottom:0;
     left:calc(50% - .5px);
     width:1px;
-    background:var(--color-border);
+    background:var(--color-border-subtle);
   }
-  .tl-item:first-child .tl-rail::before{ top:34px; }
-  .tl-item:last-child .tl-rail::before{ top:0; bottom:auto; height:34px; }
-  /* 圆点 5px 实心 */
+  .tl-item:first-child .tl-rail::before{ top:36px; }
+  .tl-item:last-child .tl-rail::before{ top:0; bottom:auto; height:36px; }
+  /* 圆点 5px 实心 · 品牌金：时间线上的"此刻"，是这条色系的锚点色 */
   .tl-dot{
     position:absolute;
-    top:34px;
+    top:36px;
     left:calc(50% - 2.5px);
     width:5px;
     height:5px;
     border-radius:50%;
-    background:var(--color-text-primary);
+    background:var(--brand-accent);
     transform:scale(1);
     transform-origin:center;
     transition:transform var(--dur-fast) var(--ease);  /* 全站动效 #4 */
