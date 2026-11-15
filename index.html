@@ -858,6 +858,34 @@ img{ display:block; max-width:100%; }
   border-radius:2px;
   padding:3px 8px;
 }
+/* J-32 · 省市一级：这一档分的是「谁派你去的」，不是名次。
+   原有两档（冠军=琥珀粗体、全国前三=琥珀细描边）分的是成绩，别混用。
+   只点亮代表单位：颜色 + 600 字重 + 细下划线，不动成绩栏、不新增字号档。 */
+.race-row--region .race-meta strong{
+  color:var(--brand-accent-text);
+  font-weight:600;
+  text-decoration:underline;
+  text-decoration-color:var(--brand-accent-text);
+  text-decoration-thickness:1px;
+  text-underline-offset:3px;
+}
+.race-legend{
+  margin:var(--space-4) 0 0;
+  max-width:72ch;
+  font-size:var(--fs-small);
+  line-height:1.85;
+  color:var(--color-text-secondary);
+}
+.race-legend-key{
+  display:inline-block;
+  margin-right:9px;
+  color:var(--brand-accent-text);
+  font-weight:600;
+  border:1px solid var(--brand-accent-text);
+  border-radius:2px;
+  padding:2px 8px;
+  white-space:nowrap;
+}
 /* 个人高光的单独一档：金色底白字，是全赛绩里唯一的「个人荣誉」标记，
    与团队成绩（冠军=深绿加粗 / 全国前三=淡绿底）彻底区分。 */
 .race-honor{
@@ -2570,6 +2598,7 @@ html.js .view.is-active{ display:block; }
 
         <h2 class="h2 fb-races-title">赛事</h2>
         <p class="section-kicker">19 项 · 2005 – 2019</p>
+        <p class="race-legend"><span class="race-legend-key">省市一级</span>名单里带琥珀下划线的代表单位，是代表省、直辖市或区县出战，或从省级赛区一级级打上去的场次。大学生联赛按省内赛、大区赛、全国总决赛三级打，规程里一个省能进大区赛的名额通常只有一两个，各届略有调整。这里标的是级别，不是名次。</p>
 
         <div class="race-group">
           <div class="race-group-head">
@@ -2612,7 +2641,7 @@ html.js .view.is-active{ display:block; }
               </div>
               <span class="race-result race-result--win">冠军</span>
             </li>
-            <li class="race-row">
+            <li class="race-row race-row--region">
               <span class="race-grade">高一下学期</span>
               <div class="race-body">
                 <p class="race-name">重庆市第三届运动会 男子足球青少年甲组（高中组）</p>
@@ -2628,7 +2657,7 @@ html.js .view.is-active{ display:block; }
               </div>
               <span class="race-result race-result--national">全国亚军</span>
             </li>
-            <li class="race-row">
+            <li class="race-row race-row--region">
               <span class="race-grade">高二下学期</span>
               <div class="race-body">
                 <p class="race-name">第十届全国中学生运动会 男子足球（高中组）南京赛区预选赛</p>
@@ -2644,7 +2673,7 @@ html.js .view.is-active{ display:block; }
               </div>
               <span class="race-result race-result--national">全国亚军</span>
             </li>
-            <li class="race-row">
+            <li class="race-row race-row--region">
               <span class="race-grade">高二暑假</span>
               <div class="race-body">
                 <p class="race-name">第十届全国中学生运动会 男子足球（高中组）全国总决赛</p>
@@ -2675,7 +2704,7 @@ html.js .view.is-active{ display:block; }
           </div>
           <p class="race-group-note">「超级组」是大学生联赛的最高组别，按高水平运动员招生办法录取的学生只能打这一组，不能打普通高考生比的「校园组」。我 2010 年以高水平运动员身份入学，分组从 2012-2013 赛季才开始，前两季打的是不分组的大联赛，参赛的是同一批高水平运动队。</p>
           <ol class="race-list">
-            <li class="race-row">
+            <li class="race-row race-row--region">
               <span class="race-grade">大一上学期</span>
               <div class="race-body">
                 <p class="race-name">2010-2011 李宁中国大学生足球联赛 · 陕西赛区</p>
@@ -2683,7 +2712,7 @@ html.js .view.is-active{ display:block; }
               </div>
               <span class="race-result race-result--win">冠军</span>
             </li>
-            <li class="race-row">
+            <li class="race-row race-row--region">
               <span class="race-grade">大一下学期</span>
               <div class="race-body">
                 <p class="race-name">2010-2011 李宁中国大学生足球联赛 · 北区决赛</p>
@@ -2691,7 +2720,7 @@ html.js .view.is-active{ display:block; }
               </div>
               <span class="race-result">第四名</span>
             </li>
-            <li class="race-row">
+            <li class="race-row race-row--region">
               <span class="race-grade">大一下学期</span>
               <div class="race-body">
                 <p class="race-name">2010-2011 李宁中国大学生足球联赛 · 全国总决赛</p>
@@ -2699,7 +2728,7 @@ html.js .view.is-active{ display:block; }
               </div>
               <span class="race-result">并列第五名</span>
             </li>
-            <li class="race-row">
+            <li class="race-row race-row--region">
               <span class="race-grade">大二上学期</span>
               <div class="race-body">
                 <p class="race-name">2011-2012 陕西省大学生足球联赛</p>
@@ -2707,7 +2736,7 @@ html.js .view.is-active{ display:block; }
               </div>
               <span class="race-result race-result--win">冠军</span>
             </li>
-            <li class="race-row">
+            <li class="race-row race-row--region">
               <span class="race-grade">大二下学期</span>
               <div class="race-body">
                 <p class="race-name">2011-2012 李宁中国大学生足球联赛 · 北区决赛</p>
@@ -2715,7 +2744,7 @@ html.js .view.is-active{ display:block; }
               </div>
               <span class="race-result">亚军</span>
             </li>
-            <li class="race-row">
+            <li class="race-row race-row--region">
               <span class="race-grade">大三上学期</span>
               <div class="race-body">
                 <p class="race-name">2012-2013 陕西省大学生足球联赛</p>
@@ -2723,7 +2752,7 @@ html.js .view.is-active{ display:block; }
               </div>
               <span class="race-result race-result--win">冠军</span>
             </li>
-            <li class="race-row">
+            <li class="race-row race-row--region">
               <span class="race-grade">大四上学期</span>
               <div class="race-body">
                 <p class="race-name">2013-2014 特步中国大学生足球联赛 · 陕西赛区（超级组）</p>
@@ -2775,7 +2804,7 @@ html.js .view.is-active{ display:block; }
             <span class="race-group-sub">2019.8</span>
           </div>
           <ol class="race-list">
-            <li class="race-row">
+            <li class="race-row race-row--region">
               <span class="race-grade">2019</span>
               <div class="race-body">
                 <p class="race-name">2019 年重庆市城市冠军杯足球赛</p>
