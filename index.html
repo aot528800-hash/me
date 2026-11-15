@@ -882,75 +882,98 @@ img{ display:block; max-width:100%; }
   .race-body{ grid-column:1 / -1; grid-row:2; }
 }
 
-/* 区块 ②½ 作品：编辑部式编号列表，序号是视觉锚点 */
-.work-list{
-  list-style:none;
-  margin:var(--space-8) 0 0;
-  padding:0;
+/* ==========================================================================
+   J-27 · 区块 ② 兴趣是主角，作品退成从属
+   旧版四条大编号「作品」里三条都是公众号系列，主角错位；现在把原「顺带」那句
+   升成章节主句，兴趣展开成轻清单，作品只留三条紧凑小行（公众号系列只留两条）。
+   ========================================================================== */
+.play-lead{
+  margin:var(--space-7) 0 0;
+  max-width:22ch;
+  font-size:var(--fs-h2-xl);
+  font-weight:500;
+  line-height:1.5;
+  letter-spacing:-.015em;
+  color:var(--brand-ink);
 }
-.work-row{
-  display:grid;
-  grid-template-columns:56px minmax(0,1fr);
-  column-gap:var(--space-5);
-  padding:var(--space-7) 0;
+.play-list{
+  list-style:none;
+  margin:var(--space-9) 0 0;
+  padding:0;
   border-top:1px solid var(--color-border-subtle);
 }
-.work-row:first-child{
-  border-top:0;
-  padding-top:var(--space-2);
-}
-.work-num{
-  font-family:var(--font-mono);
-  font-size:var(--fs-h2);
-  font-weight:300;
-  color:var(--brand-accent-text);
-  opacity:.88;
-  line-height:1;
-  padding-top:2px;
-  font-variant-numeric:tabular-nums;
-}
-.work-head{
-  display:flex;
+.play-list li{
+  display:grid;
+  grid-template-columns:180px minmax(0,1fr);
+  gap:var(--space-5);
   align-items:baseline;
-  gap:12px;
-  flex-wrap:wrap;
+  padding:var(--space-4) 0;
+  border-bottom:1px solid var(--color-border-subtle);
 }
-.work-name{
-  margin:0;
-  font-size:clamp(20px,2.2vw,26px);
+.play-key{
+  font-size:var(--fs-lead);
   font-weight:600;
+  line-height:1.6;
   color:var(--brand-ink);
-  letter-spacing:-.015em;
-  line-height:1.3;
 }
-.work-tag{
-  font-family:var(--font-mono);
-  font-size:var(--fs-micro);
-  color:var(--brand-accent-text);
-  letter-spacing:.04em;
-  white-space:nowrap;
-  padding-top:4px;
-}
-.work-desc{
-  margin:var(--space-3) 0 0;
-  max-width:58ch;
-  font-size:var(--fs-body);
+.play-note{
+  font-size:var(--fs-small);
   line-height:1.85;
   color:var(--color-text-secondary);
 }
-.work-also{
-  margin-top:var(--space-8);
-  padding-top:var(--space-6);
+.play-work{
+  margin-top:var(--space-9);
+  padding-top:var(--space-5);
+  border-top:var(--border-w) solid var(--color-border);
+}
+.play-work-head{
+  margin:0 0 var(--space-4);
+  font-family:var(--font-mono);
+  font-size:var(--fs-micro);
+  letter-spacing:.06em;
+  color:var(--brand-accent-text);
+}
+.play-work-list{ list-style:none; margin:0; padding:0; }
+.play-work-list li{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:4px var(--space-5);
+  align-items:baseline;
+  padding:var(--space-4) 0;
   border-top:1px solid var(--color-border-subtle);
-  max-width:52ch;
-  font-size:var(--fs-lead);
-  line-height:1.9;
+}
+.play-work-list li:first-child{ border-top:0; padding-top:0; }
+.play-work-name{
+  font-size:var(--fs-body);
+  font-weight:600;
+  color:var(--brand-ink);
+}
+.play-work-tag{
+  font-family:var(--font-mono);
+  font-size:var(--fs-micro);
+  text-align:right;
+  color:var(--color-text-tertiary);
+}
+.play-work-desc{
+  grid-column:1 / -1;
+  font-size:var(--fs-small);
+  line-height:1.8;
   color:var(--color-text-secondary);
 }
-.work-also strong{ font-weight:600; color:var(--brand-ink); }
-@media (min-width:768px){
-  .work-row{ grid-template-columns:72px minmax(0,1fr); column-gap:var(--space-6); }
-  .work-num{ font-size:var(--fs-h2-xl); }
+.play-work-foot{
+  margin:var(--space-5) 0 0;
+  font-size:var(--fs-micro);
+  line-height:1.8;
+  color:var(--color-text-tertiary);
+}
+@media (max-width:640px){
+  .play-list li{ grid-template-columns:1fr; gap:2px; }
+  .play-key{ font-size:var(--fs-body); }
+  .play-work-list li{ grid-template-columns:1fr; gap:2px; }
+  .play-work-tag{ text-align:left; }
+}
+@media (prefers-color-scheme:dark){
+  .play-lead, .play-key, .play-work-name{ color:#E8EDF2; }
 }
 /* 短句版：一句一行，行距放大；组与组之间靠 p+p 的 28px 断开 */
 .story-body--lines p{ line-height:2.05; }
@@ -1516,15 +1539,12 @@ body{ background:var(--page-bg); }
      注意不能直接覆盖变量本身 —— .btn--ink 拿它当背景，覆盖了按钮就没底了。 */
   .hero-big, .hero-name, .h1, .h2,
   .race-group-title, .race-result--win, .race-result--national,
-  .work-name, .fb-stat-num,
+  .fb-stat-num,
   /* 纸面化 header 后品牌字吃 --brand-ink，暗色下深字压深底看不见，一并提亮 */
   .site-header .brand{ color:#E8EDF2; }
   #view-blog .blog-row{ background:#1E2630; }
   #view-blog .blog-row .blog-title{ color:#E8EDF2; }
   .btn--ghost{ color:#E8EDF2; border-color:#7A8BA0; }
-  /* 作品序号是装饰性大字，暗色下提亮到可辨识 */
-  .work-num{ color:#D9955C; opacity:.72; }
-  .work-tag{ color:#D9955C; }
   .sec-num{ color:#D9955C; }
 }
 
@@ -2205,60 +2225,62 @@ html.js .view.is-active{ display:block; }
       </div>
     </section>
 
-    <!-- 区块 ②½ 做过的东西：事实全部来自本人 GitHub（aot528800-hash）与其站点，
-         数字照抄，不添加任何未披露的功能描述 -->
-    <section class="section reveal" aria-labelledby="work-title">
+    <!-- 区块 ② 一直在玩（J-27 重排）：兴趣是主角，原「顺带」那句升为章节主句；
+         作品退成三条从属例证，公众号系列由 3 条砍到 2 条，主页不做公众号目录。 -->
+    <section class="section reveal" aria-labelledby="play-title">
       <div class="container">
         <div class="sec-open">
           <span class="sec-num" aria-hidden="true">02</span>
-          <h2 class="h2" id="work-title">作品</h2>
-          <span class="h2-sub">做过的几件事</span>
+          <h2 class="h2" id="play-title">一直在玩</h2>
+          <span class="h2-sub">兴趣挺杂的</span>
         </div>
-        <ol class="work-list">
-          <li class="work-row">
-            <span class="work-num" aria-hidden="true">01</span>
-            <div>
-              <div class="work-head">
-                <h3 class="work-name">足球数据分析</h3>
-                <span class="work-tag">公众号 · 8 篇</span>
-              </div>
-              <p class="work-desc">先把球员数据的术语和清洗方法讲清楚，再用中超前 15 轮的原始数据做了 6 份分析报告——进球、被犯规、机会浪费，各写各的。</p>
-            </div>
+
+        <p class="play-lead">投资理财、足球、读书、旅行，还有用 AI 折腾各种新东西——兴趣挺杂的，一直在玩。</p>
+
+        <ul class="play-list" aria-label="平时在玩的几件事">
+          <li>
+            <span class="play-key">投资理财</span>
+            <span class="play-note">从怎么买第一支 ETF 写到净值、成本和分类，给普通人讲成人话。</span>
           </li>
-          <li class="work-row">
-            <span class="work-num" aria-hidden="true">02</span>
-            <div>
-              <div class="work-head">
-                <h3 class="work-name">ETF 投资教程</h3>
-                <span class="work-tag">公众号 · 9 篇</span>
-              </div>
-              <p class="work-desc">从怎么买第一支 ETF 讲起，一路写到净值、成本、宽基与行业分类，9 篇收尾——给普通人的投资入门，讲成人话的那种。</p>
-            </div>
+          <li>
+            <span class="play-key">足球</span>
+            <span class="play-note">踢了十几年后腰，现在主要是看球和分析数据。</span>
           </li>
-          <li class="work-row">
-            <span class="work-num" aria-hidden="true">03</span>
-            <div>
-              <div class="work-head">
-                <h3 class="work-name">CQPUE 资助政策</h3>
-                <span class="work-tag">网站 + 安卓 App</span>
-              </div>
-              <p class="work-desc">自己开发了一个网站和一个安卓 App：把散在十几个文件里的 21 个资助项目（13 份政策依据、47 项业务、10 个月段日程）整理成一个学生自己就能查的地方。先做 App，再做网站。不投广告，不收集个人信息。</p>
-            </div>
+          <li>
+            <span class="play-key">读书</span>
+            <span class="play-note">读完一本拿去解决一个真问题，不做打卡。</span>
           </li>
-          <li class="work-row">
-            <span class="work-num" aria-hidden="true">04</span>
-            <div>
-              <div class="work-head">
-                <h3 class="work-name">大学生资助全攻略</h3>
-                <span class="work-tag">公众号 · 24 篇</span>
-              </div>
-              <p class="work-desc">写了 24 篇：困难认定、助学贷款、奖学金、民主评议，逐条拆开讲清楚。最近六篇是开学季写给新生的。</p>
-            </div>
+          <li>
+            <span class="play-key">旅行</span>
+            <span class="play-note">2017 年在美国待了三个星期，后来又去过韩国、日本、澳大利亚。</span>
           </li>
-        </ol>
-        <!-- 顺带：顶级个人站的惯用收尾（Dan Eden 的 In my spare time…、
-             Tania 的 Also: …）——作品是作品，人还有作品之外的活法。 -->
-        <p class="work-also">顺带：投资理财、足球、读书、旅行，还有用 AI 折腾各种新东西——兴趣挺杂的，一直在玩。</p>
+          <li>
+            <span class="play-key">用 AI 折腾</span>
+            <span class="play-note">写过几篇关于 AI 和学习的文章，也在自己硬盘上跑过模型。</span>
+          </li>
+        </ul>
+
+        <div class="play-work">
+          <p class="play-work-head">顺手做出来的，留三条</p>
+          <ul class="play-work-list">
+            <li>
+              <span class="play-work-name">足球数据分析</span>
+              <span class="play-work-tag">公众号 · 8 篇</span>
+              <span class="play-work-desc">先讲清数据术语和清洗，再用中超前 15 轮做了 6 份分析报告。</span>
+            </li>
+            <li>
+              <span class="play-work-name">ETF 投资教程</span>
+              <span class="play-work-tag">公众号 · 9 篇</span>
+              <span class="play-work-desc">从第一支 ETF 讲到净值、成本与分类，9 篇收尾。</span>
+            </li>
+            <li>
+              <span class="play-work-name">CQPUE 资助政策</span>
+              <span class="play-work-tag">网站 + 安卓 App</span>
+              <span class="play-work-desc">把 21 个资助项目整理成学生自己就能查的地方。</span>
+            </li>
+          </ul>
+          <p class="play-work-foot">同一个公众号还写过别的系列，不在这儿一条条列了。</p>
+        </div>
       </div>
     </section>
 
