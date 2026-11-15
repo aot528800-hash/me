@@ -69,19 +69,19 @@
   --font-mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Monaco,Consolas,
               "Liberation Mono","Courier New",monospace;
 
-  /* A-2-2 字号阶梯 · 360 档基准（只有 display / h2 / h2-xl 随断点缩放） */
-  --fs-display:32px;
-  --fs-h2-xl:32px;
-  --fs-h2:26px;
-  --fs-lead:16px;
-  --fs-body:16px;
-  --fs-story:16px;
+  /* A-2-2 字号阶梯 · 编辑部式：display 与 body 拉开到 6 倍层级 */
+  --fs-display:clamp(56px,9vw,104px);   /* 姓名 · 全站唯一超大字 */
+  --fs-h2-xl:clamp(36px,5vw,56px);      /* 区块大标题（后腰） */
+  --fs-h2:clamp(24px,3vw,32px);         /* 区块标题 */
+  --fs-lead:18px;                        /* 导语 */
+  --fs-body:16px;                        /* 正文 */
+  --fs-story:17px;                       /* 长文正文 */
   --fs-small:14px;
   --fs-micro:12px;
 
-  /* A-3 间距 */
+  /* A-3 间距 · 4px 网格（UNSLOP tokens），区块呼吸加大 */
   --space-1:4px;  --space-2:8px;   --space-3:12px;  --space-4:16px;
-  --space-5:20px; --space-6:24px;  --space-7:32px;  --space-8:48px;
+  --space-5:20px; --space-6:24px;  --space-7:32px;  --space-8:40px;
   --space-9:64px; --space-10:96px; --space-11:128px; --space-12:160px;
 
   /* A-4 圆角与描边 */
@@ -109,27 +109,21 @@
   --measure:612px;
 }
 
-/* C-1 · 768 档 */
+/* C-1 · 断点只管栅格与节奏；字号交给 clamp 自适应，禁止在断点里写死字号 */
 @media (min-width:768px){
   :root{
-    --fs-display:44px; --fs-h2:28px; --fs-h2-xl:36px;
-    --fs-lead:17px; --fs-story:17px;
     --pad-inline:40px;
     --section-gap:96px; --hero-top:64px;
   }
 }
-/* C-1 · 1024 档 */
 @media (min-width:1024px){
   :root{
-    --fs-display:56px; --fs-h2:30px; --fs-h2-xl:40px; --fs-micro:13px;
     --section-gap:128px; --hero-top:80px;
   }
 }
-/* C-1 · 1200 以上留白 56；1440 档字号 */
 @media (min-width:1200px){ :root{ --pad-inline:56px; } }
 @media (min-width:1440px){
   :root{
-    --fs-display:64px; --fs-h2:32px; --fs-h2-xl:40px; --fs-micro:13px;
     --section-gap:160px; --hero-top:96px;
   }
 }
@@ -248,6 +242,32 @@ img{ display:block; max-width:100%; }
   line-height:1.5;
 }
 
+/* ---- 章节开篇：序号 + 标题 + 细线（编辑部式） ---- */
+.sec-open{
+  display:flex;
+  align-items:baseline;
+  gap:var(--space-4);
+  padding-top:var(--space-6);
+  border-top:var(--border-w) solid var(--color-border);
+}
+.sec-num{
+  font-family:var(--font-mono);
+  font-size:var(--fs-small);
+  font-weight:400;
+  color:var(--brand-accent-text);
+  letter-spacing:.06em;
+  line-height:1;
+  flex-shrink:0;
+}
+.sec-open .h2{ margin:0; }
+.sec-open .h2-sub{
+  font-size:var(--fs-small);
+  font-weight:400;
+  color:var(--color-text-tertiary);
+  letter-spacing:.02em;
+  margin-left:var(--space-2);
+}
+
 /* 占位符：页面上永远可见的灰色提示（内容清单 §D 规则 2）
    规则本体放在样式表末尾 —— 它必须压过 .field-val / .blog-title / .ct-val
    这些区块级的 color 声明，否则占位符会显示成正文黑，看着像真内容。 */
@@ -335,20 +355,13 @@ img{ display:block; max-width:100%; }
 /* ==========================================================================
    B-2 ① Hero
    ========================================================================== */
-.hero-inner{ row-gap:var(--space-5); }
-.hero-text{ grid-column:1 / -1; }
-.hero-media{ grid-column:1 / -1; }
+/* 旧的 .hero-inner 网格已废除：杂志式布局由 .hero-plate 接管 */
+.hero-text{ min-width:0; }
+.hero-media{ display:flex; justify-content:center; }
 
-@media (min-width:768px){
-  .hero-text{ grid-column:1 / span 8; }
-  .hero-media{ grid-column:1 / span 5; }
-}
-@media (min-width:1024px){
-  .hero-text{ grid-column:1 / span 6; }
-  .hero-media{ grid-column:8 / span 5; }
-}
 
-.hero-name{ margin:0; }
+
+
 .hero-claim{
   margin-top:var(--space-6);      /* 24 */
   font-size:var(--fs-lead);
@@ -521,6 +534,39 @@ img{ display:block; max-width:100%; }
    ========================================================================== */
 .fb-intro,.fb-fields,.fb-photo{ grid-column:1 / -1; }
 .fb-fields{ margin-top:var(--space-6); }
+
+.fb-intro-line{
+  max-width:42em;
+  margin-top:var(--space-4);
+  font-size:var(--fs-lead);
+  font-weight:600;
+  line-height:1.85;
+  color:var(--brand-accent-text);
+}
+
+/* 数字锚点：后腰区的视觉重心 */
+.fb-stats{
+  display:flex;
+  gap:var(--space-8);
+  margin-top:var(--space-7);
+  padding-top:var(--space-6);
+  border-top:1px solid var(--color-border-subtle);
+}
+.fb-stat{ display:flex; flex-direction:column; gap:var(--space-1); }
+.fb-stat-num{
+  font-family:var(--font-mono);
+  font-size:clamp(36px,5vw,56px);
+  font-weight:300;
+  color:var(--brand-ink);
+  line-height:1;
+  letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;
+}
+.fb-stat-label{
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.06em;
+}
 
 @media (min-width:1024px){
   .fb-inner{ row-gap:0; }
@@ -889,55 +935,75 @@ img{ display:block; max-width:100%; }
   .race-body{ grid-column:1 / -1; grid-row:2; }
 }
 
-/* 区块 ②½ 做过的东西：一条一件，靠 1px 线分，不套卡片 */
+/* 区块 ②½ 作品：编辑部式编号列表，序号是视觉锚点 */
 .work-list{
   list-style:none;
-  margin:var(--space-6) 0 0;
+  margin:var(--space-8) 0 0;
   padding:0;
 }
 .work-row{
-  padding:18px 0;
+  display:grid;
+  grid-template-columns:56px minmax(0,1fr);
+  column-gap:var(--space-5);
+  padding:var(--space-7) 0;
   border-top:1px solid var(--color-border-subtle);
 }
 .work-row:first-child{
   border-top:0;
+  padding-top:var(--space-2);
+}
+.work-num{
+  font-family:var(--font-mono);
+  font-size:var(--fs-h2);
+  font-weight:300;
+  color:var(--brand-accent-text);
+  opacity:.88;
+  line-height:1;
   padding-top:2px;
+  font-variant-numeric:tabular-nums;
 }
 .work-head{
   display:flex;
   align-items:baseline;
-  gap:10px;
+  gap:12px;
   flex-wrap:wrap;
 }
 .work-name{
   margin:0;
-  font-size:var(--fs-body);
+  font-size:clamp(20px,2.2vw,26px);
   font-weight:600;
   color:var(--brand-ink);
+  letter-spacing:-.015em;
+  line-height:1.3;
 }
 .work-tag{
+  font-family:var(--font-mono);
   font-size:var(--fs-micro);
-  color:var(--color-text-secondary);
-  background:var(--brand-tint);
-  border-radius:999px;
-  padding:2px 10px;
+  color:var(--brand-accent-text);
+  letter-spacing:.04em;
   white-space:nowrap;
+  padding-top:4px;
+}
+.work-desc{
+  margin:var(--space-3) 0 0;
+  max-width:58ch;
+  font-size:var(--fs-body);
+  line-height:1.85;
+  color:var(--color-text-secondary);
 }
 .work-also{
-  margin-top:var(--space-7);
-  padding-top:var(--space-5);
+  margin-top:var(--space-8);
+  padding-top:var(--space-6);
   border-top:1px solid var(--color-border-subtle);
-  max-width:56ch;
-  font-size:var(--fs-small);
-  line-height:1.8;
+  max-width:52ch;
+  font-size:var(--fs-lead);
+  line-height:1.9;
   color:var(--color-text-secondary);
 }
-.work-also strong{ font-weight:600; color:var(--color-text-primary); }
-.work-desc{
-  margin:8px 0 0;
-  font-size:var(--fs-small);
-  line-height:1.8;
-  color:var(--color-text-secondary);
+.work-also strong{ font-weight:600; color:var(--brand-ink); }
+@media (min-width:768px){
+  .work-row{ grid-template-columns:72px minmax(0,1fr); column-gap:var(--space-6); }
+  .work-num{ font-size:var(--fs-h2-xl); }
 }
 /* 短句版：一句一行，行距放大；组与组之间靠 p+p 的 28px 断开 */
 .story-body--lines p{ line-height:2.05; }
@@ -1175,32 +1241,55 @@ body{ background:var(--page-bg); }
   padding-block:56px 48px;
   border-bottom:1px solid var(--color-border-subtle);
 }
-@media (min-width:1024px){ .hero-wrap{ padding-block:88px 56px; } }
+/* 杂志封面式 Hero：姓名是绝对主角，头像是右侧锚点 */
+.hero-plate{ position:relative; }
 .hero-eyebrow{
-  display:inline-flex; align-items:center; gap:8px;
-  font-size:13px; font-weight:600; color:var(--brand-accent-text);
-  letter-spacing:.02em;
-}
-.hero-eyebrow::before{
-  content:""; width:8px; height:8px; border-radius:50%;
-  background:var(--brand-accent); flex:none;
+  font-size:var(--fs-micro);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--brand-accent-text);
+  margin-bottom:var(--space-6);
 }
 .hero-name{
-  font-size:clamp(40px,7vw,72px); font-weight:600;
-  color:var(--brand-ink); letter-spacing:-.035em; line-height:1.06;
-  margin-top:18px;
-}
-.hero-big{
-  margin-top:20px;
-  font-size:clamp(26px,3.4vw,42px); font-weight:600;
-  line-height:1.32; letter-spacing:-.02em;
+  font-family:var(--font-sans);
+  font-size:var(--fs-display);
+  font-weight:600;
+  letter-spacing:-.035em;
+  line-height:1.0;
   color:var(--brand-ink);
+  margin:0;
+}
+.hero-body{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:var(--space-8);
+  margin-top:var(--space-8);
+}
+@media (min-width:768px){
+  .hero-body{
+    grid-template-columns:minmax(0,1fr) 280px;
+    align-items:start;
+    gap:var(--space-10);
+  }
+}
+.hero-text{ min-width:0; }
+.hero-big{
+  font-size:clamp(22px,3.2vw,36px);
+  font-weight:600;
+  line-height:1.25;
+  letter-spacing:-.02em;
+  color:var(--brand-ink);
+  margin:0;
 }
 .hero-big em{ font-style:normal; color:var(--brand-accent-text); }
 .hero-desc{
-  margin-top:20px; max-width:34em;
-  font-size:16px; line-height:1.85; color:var(--color-text-secondary);
+  margin-top:var(--space-5);
+  max-width:42em;
+  font-size:var(--fs-lead);
+  line-height:1.85;
+  color:var(--color-text-secondary);
 }
+.hero-media{ display:flex; justify-content:center; }
 .hero-photo{
   position:relative; display:flex; align-items:center; justify-content:center;
   aspect-ratio:1/1; width:100%; max-width:420px; margin-inline:auto;
@@ -1210,11 +1299,11 @@ body{ background:var(--page-bg); }
 }
 .hero-photo img{
   width:76%; height:76%; object-fit:contain;
-  /* 头像是蓝色线稿，放绿金配色里会撞色。sepia 先把颜色归一到暖褐、再转到绿，
-     结果不依赖原图色相（比直接 hue-rotate 稳），饱和度压到 .55 融进淡绿底。 */
-  filter:sepia(1) hue-rotate(65deg) saturate(.55) brightness(.92);
+  /* 头像是蓝色线稿。纸与墨体系里用 sepia 归暖 + 轻微降饱和，
+     让线稿融进暖米纸底，不抢姓名的主角位。 */
+  filter:sepia(.45) saturate(.6) brightness(.95);
   border-radius:50%;
-  /* 原图自带一个浅色圆盘底，滤镜改不掉；正片叠底让它跟着卡片底色走 */
+  /* 原图自带浅色圆盘底，正片叠底让它跟卡片底色走 */
   mix-blend-mode:multiply;
   background:transparent;
 }
@@ -1341,15 +1430,17 @@ body{ background:var(--page-bg); }
      注意不能直接覆盖变量本身 —— .btn--ink 拿它当背景，覆盖了按钮就没底了。 */
   .hero-big, .hero-name, .h1, .h2, .qr-card figcaption,
   .race-group-title, .race-result--win, .race-result--national,
-  .work-name,
+  .work-name, .fb-stat-num,
   /* 纸面化 header 后品牌字吃 --brand-ink，暗色下深字压深底看不见，一并提亮 */
   .site-header .brand{ color:#E8EDF2; }
   #view-blog .blog-row{ background:#1E2630; }
   #view-blog .blog-row .blog-title{ color:#E8EDF2; }
   .btn--ghost{ color:#E8EDF2; border-color:#7A8BA0; }
+  /* 作品序号是装饰性大字，暗色下提亮到可辨识 */
+  .work-num{ color:#D9955C; opacity:.72; }
+  .work-tag{ color:#D9955C; }
+  .sec-num{ color:#D9955C; }
 }
-
-.fb-intro-line{ margin-top:10px; font-size:var(--fs-body); color:var(--brand-accent-text); font-weight:600; }
 
 /* ==========================================================================
    B-14 /post 博客详情（站内全文）
@@ -1653,26 +1744,27 @@ html.js .view.is-active{ display:block; }
     <!-- 区块 ① Hero：PRD M1 / 内容清单 A-① / 设计规范 B-2 -->
     <section class="section" aria-labelledby="hero-name">
       <div class="container hero-wrap">
-        <div class="cols hero-inner">
-          <div class="hero-text">
-            <p class="hero-eyebrow">重庆</p>
-            <h1 class="hero-name" id="hero-name" lang="en">Chew Teck Wai</h1>
-            <p class="hero-big">做过银行，踢过球<br><em>写着公众号，现在做学生资助</em></p>
-            <p class="hero-desc">在中国银行当了五年理财经理，2016 年起间歇借调北京总行。踢了十几年后腰，拿过两次全国亚军。公众号写了 142 篇。资助那座能查的网站，是现在正在做的事。</p>
-            <p class="btn-row">
-              <a class="btn btn--ink" href="#/story">时间线</a>
-              <a class="btn btn--blue" href="#/football">足球记录</a>
-            </p>
-          </div>
-          <div class="hero-media">
-            <div class="hero-photo">
-              <span class="hero-dots" aria-hidden="true"></span>
+        <div class="hero-plate">
+          <p class="hero-eyebrow">重庆 · 2026</p>
+          <h1 class="hero-name" id="hero-name" lang="en">Chew Teck Wai</h1>
+          <div class="hero-body">
+            <div class="hero-text">
+              <p class="hero-big">做过银行，踢过球<br><em>写着公众号，现在做学生资助</em></p>
+              <p class="hero-desc">在中国银行当了五年理财经理，2016 年起间歇借调北京总行。踢了十几年后腰，拿过两次全国亚军。公众号写了 142 篇。资助那座能查的网站，是现在正在做的事。</p>
+              <p class="btn-row">
+                <a class="btn btn--ink" href="#/story">时间线</a>
+                <a class="btn btn--blue" href="#/football">足球记录</a>
+              </p>
+            </div>
+            <div class="hero-media">
+              <div class="hero-photo">
               <!-- 头像是在 1024 线稿上按亮度重新键出 alpha、再按原构图裁 604 方框得到的：
                    既有真正的透明底，又有 640 的真实分辨率（旧图是 256 放大，retina 上发虚）。
                    46KB 的 WebP，比原来 53KB 的 256px PNG 还小，却清晰一倍。
                    没用 AVIF：36KB 更小，但 GitHub Pages 的 .avif MIME 无法在本机验证，
                    <source> 加载失败不会回落到 <img>，赌不起。 -->
               <img src="assets/avatar-640.webp" alt="Chew Teck Wai 的卡通头像" width="640" height="640" decoding="async">
+              </div>
             </div>
           </div>
         </div>
@@ -1682,7 +1774,11 @@ html.js .view.is-active{ display:block; }
     <!-- 区块 ② 来路：PRD M2 / 内容清单 A-② 方案 B（4 节点） / 设计规范 B-3 -->
     <section class="section reveal" aria-labelledby="tl-title">
       <div class="container">
-        <h2 class="h2" id="tl-title">来路</h2>
+        <div class="sec-open">
+          <span class="sec-num" aria-hidden="true">01</span>
+          <h2 class="h2" id="tl-title">来路</h2>
+          <span class="h2-sub">从重庆到北京再回来</span>
+        </div>
         <ol class="timeline">
           <li class="tl-item">
             <span class="tl-time num">2004 – 2010</span>
@@ -1704,13 +1800,17 @@ html.js .view.is-active{ display:block; }
             <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
             <p class="tl-org">中国银行总行 <span class="tl-place">· 间歇借调，北京</span></p>
           </li>
+          <li class="tl-item tl-item--parallel">
+            <span class="tl-time num">2020.9 – 2023.6</span>
+            <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+            <p class="tl-org">华东交通大学 <span class="tl-place">· 教育学硕士，在职</span></p>
+          </li>
           <li class="tl-item">
             <span class="tl-time num">2019.9 –</span>
             <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
             <p class="tl-org">重庆工程职业技术大学 <span class="tl-place">· 两所学院专职辅导员，2022.9 转资助中心</span></p>
           </li>
         </ol>
-        <p class="tl-note micro">教育学硕士 · 华东交通大学　2020.9 – 2023.6</p>
         <p class="turn-more"><a class="link" href="#/story">完整时间线 <span class="arrow" aria-hidden="true">↗</span></a></p>
       </div>
     </section>
@@ -1719,35 +1819,51 @@ html.js .view.is-active{ display:block; }
          数字照抄，不添加任何未披露的功能描述 -->
     <section class="section reveal" aria-labelledby="work-title">
       <div class="container">
-        <h2 class="h2" id="work-title">作品</h2>
+        <div class="sec-open">
+          <span class="sec-num" aria-hidden="true">02</span>
+          <h2 class="h2" id="work-title">作品</h2>
+          <span class="h2-sub">做过的几件事</span>
+        </div>
         <ol class="work-list">
           <li class="work-row">
-            <div class="work-head">
-              <h3 class="work-name">足球数据分析</h3>
-              <span class="work-tag">公众号 · 8 篇</span>
+            <span class="work-num" aria-hidden="true">01</span>
+            <div>
+              <div class="work-head">
+                <h3 class="work-name">足球数据分析</h3>
+                <span class="work-tag">公众号 · 8 篇</span>
+              </div>
+              <p class="work-desc">先把球员数据的术语和清洗方法讲清楚，再用中超前 15 轮的原始数据做了 6 份分析报告——进球、被犯规、机会浪费，各写各的。</p>
             </div>
-            <p class="work-desc">先把球员数据的术语和清洗方法讲清楚，再用中超前 15 轮的原始数据做了 6 份分析报告——进球、被犯规、机会浪费，各写各的。</p>
           </li>
           <li class="work-row">
-            <div class="work-head">
-              <h3 class="work-name">ETF 投资教程</h3>
-              <span class="work-tag">公众号 · 9 篇</span>
+            <span class="work-num" aria-hidden="true">02</span>
+            <div>
+              <div class="work-head">
+                <h3 class="work-name">ETF 投资教程</h3>
+                <span class="work-tag">公众号 · 9 篇</span>
+              </div>
+              <p class="work-desc">从怎么买第一支 ETF 讲起，一路写到净值、成本、宽基与行业分类，9 篇收尾——给普通人的投资入门，讲成人话的那种。</p>
             </div>
-            <p class="work-desc">从怎么买第一支 ETF 讲起，一路写到净值、成本、宽基与行业分类，9 篇收尾——给普通人的投资入门，讲成人话的那种。</p>
           </li>
           <li class="work-row">
-            <div class="work-head">
-              <h3 class="work-name">CQPUE 资助政策</h3>
-              <span class="work-tag">网站 + 安卓 App</span>
+            <span class="work-num" aria-hidden="true">03</span>
+            <div>
+              <div class="work-head">
+                <h3 class="work-name">CQPUE 资助政策</h3>
+                <span class="work-tag">网站 + 安卓 App</span>
+              </div>
+              <p class="work-desc">自己开发了一个网站和一个安卓 App：把散在十几个文件里的 21 个资助项目（13 份政策依据、47 项业务、10 个月段日程）整理成一个学生自己就能查的地方。先做 App，再做网站。不投广告，不收集个人信息。</p>
             </div>
-            <p class="work-desc">自己开发了一个网站和一个安卓 App：把散在十几个文件里的 21 个资助项目（13 份政策依据、47 项业务、10 个月段日程）整理成一个学生自己就能查的地方。先做 App，再做网站。不投广告，不收集个人信息。</p>
           </li>
           <li class="work-row">
-            <div class="work-head">
-              <h3 class="work-name">大学生资助全攻略</h3>
-              <span class="work-tag">公众号 · 24 篇</span>
+            <span class="work-num" aria-hidden="true">04</span>
+            <div>
+              <div class="work-head">
+                <h3 class="work-name">大学生资助全攻略</h3>
+                <span class="work-tag">公众号 · 24 篇</span>
+              </div>
+              <p class="work-desc">写了 24 篇：困难认定、助学贷款、奖学金、民主评议，逐条拆开讲清楚。最近六篇是开学季写给新生的。</p>
             </div>
-            <p class="work-desc">写了 24 篇：困难认定、助学贷款、奖学金、民主评议，逐条拆开讲清楚。最近六篇是开学季写给新生的。</p>
           </li>
         </ol>
         <!-- 顺带：顶级个人站的惯用收尾（Dan Eden 的 In my spare time…、
@@ -1759,10 +1875,28 @@ html.js .view.is-active{ display:block; }
     <!-- 区块 ③ 后腰：PRD M4 / 内容清单 A-④ / 设计规范 B-5 -->
     <section class="section reveal" aria-labelledby="fb-title" aria-label="后腰简介">
       <div class="container">
+        <div class="sec-open">
+          <span class="sec-num" aria-hidden="true">03</span>
+          <h2 class="h2" id="fb-title">后腰</h2>
+          <span class="h2-sub">防守型中场</span>
+        </div>
         <div class="cols fb-inner">
           <div class="fb-intro">
-            <h2 class="h2 h2--xl" id="fb-title">后腰</h2>
             <p class="fb-intro-line">2005 年到 2019 年一直踢这个位置。后来成家立业，踢得少了——但球还是爱看的，数据还是爱分析的。</p>
+            <div class="fb-stats">
+              <div class="fb-stat">
+                <span class="fb-stat-num">19</span>
+                <span class="fb-stat-label">项正式赛事</span>
+              </div>
+              <div class="fb-stat">
+                <span class="fb-stat-num">15</span>
+                <span class="fb-stat-label">年球龄</span>
+              </div>
+              <div class="fb-stat">
+                <span class="fb-stat-num">2</span>
+                <span class="fb-stat-label">次全国亚军</span>
+              </div>
+            </div>
           </div>
           <div class="fb-fields">
             <div class="field-group">
@@ -1771,8 +1905,8 @@ html.js .view.is-active{ display:block; }
                 <span class="field-val">重庆市第七中学校 · 西安财经大学 · 中国银行总行足球队</span>
               </div>
               <div class="field-row">
-                <span class="field-key">记录</span>
-                <span class="field-val">19 项正式赛事 · 2005 – 2019</span>
+                <span class="field-key">位置</span>
+                <span class="field-val">后腰（防守型中场）</span>
               </div>
             </div>
           </div>
@@ -1783,9 +1917,13 @@ html.js .view.is-active{ display:block; }
     <!-- 区块 ④ 找到我（2026-11-15 从「说句话」改名）：全站不设任何表单，联系=内容入口 -->
     <section class="section reveal" aria-labelledby="ct-title">
       <div class="container">
+        <div class="sec-open">
+          <span class="sec-num" aria-hidden="true">04</span>
+          <h2 class="h2" id="ct-title">找到我</h2>
+          <span class="h2-sub">网上都能找到</span>
+        </div>
         <div class="cols">
           <div class="ct-left">
-            <h2 class="h2" id="ct-title">找到我</h2>
             <p class="ct-call">人在重庆，网上都能找到我。公众号、微信、邮箱，哪个城市都连得上。</p>
           </div>
           <div class="ct-right">
