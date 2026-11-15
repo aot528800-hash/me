@@ -2986,6 +2986,78 @@ html.js .view.is-active{ display:block; }
   <!-- 2026-11-14 第二轮选文：只留「所思所想」。资助类全部撤下（本人明确不要）；
        ETF 教程与中超单场报告也撤下 —— 同为工具/报告，放进来会把博客变成第二作品栏。
        原文配图仍全部移除：图走 mmbiz.qpic.cn 防盗链，站外引用会裂图。 -->
+  <template data-art="typewords" data-topic="learning" data-title="白嫖了一个 1.1 万星的开源背单词工具，网页直接用，不用下载" data-date="2026.11.15" data-desc="免费、不注册、50 多套词库；我装过本地版，有三个坑。">
+    <p>四六级考完那天，你合上单词书，脑子里剩下的词不到两成。</p>
+    <p>你大概会骂自己记性差。问题大概率不在记性，在你的复习排期。</p>
+    <p>最近在找背单词工具，我翻到一个开源项目，叫 TypeWords，GitHub 上 1.1 万星，免费。这个工具我赞成用，但只赞成它做对的那部分；网上那些「一个月背完四六级」的说法，我不信，你也别信。</p>
+    <figure class="art-figure">
+      <img src="assets/blog/typewords.webp" alt="米白底封面：网页直接用，不用下载，一排 TYPEWORDS 键帽" width="1200" height="749" loading="lazy" decoding="async">
+      <figcaption>四六级、考研、雅思、托福，50 多套词库，打开网页就能敲。</figcaption>
+    </figure>
+    <h2>一、网页版怎么用：三步，一分钟</h2>
+    <p>网页版是主路，装不装本地是后话。三步走完，十分钟内你就能敲完第一组词。</p>
+    <ol>
+      <li><strong>打开 typewords.cc。</strong></li>
+      <li><strong>选词库。</strong>进「单词」模块，内置 50 多套：四级、六级、考研、专四、专八、雅思、托福、GRE、GMAT、SAT，从小学到出国考试都有。点一套你要的。</li>
+      <li><strong>开打。</strong>不是看一眼「认识 / 不认识」点按钮，是把单词亲手敲出来：跟写（照着敲）、听写（听音敲）、自测、默写（不看提示敲），几种模式按难度递进。</li>
+    </ol>
+    <p>打字这个动作看着笨，其实是它最聪明的地方——<strong>你的手指记住了，脑子才真的记住了。</strong>多少人单词看着脸熟，一到作文里就拼错，就是因为从来只「看」，没「敲」过。</p>
+    <figure class="art-figure">
+      <svg class="art-fig" viewBox="0 0 720 210" role="img" aria-label="练习三层递进：跟写照抄、听写听音写、默写不看提示默出来，分别对应认得出、听得出、默得出">
+        <rect x="30" y="28" width="190" height="88" rx="10" fill="none" stroke="var(--color-border-subtle)" stroke-width="1.5"/>
+        <rect x="265" y="28" width="190" height="88" rx="10" fill="none" stroke="var(--color-border-subtle)" stroke-width="1.5"/>
+        <rect x="500" y="28" width="190" height="88" rx="10" fill="none" stroke="var(--brand-accent)" stroke-width="2"/>
+        <text class="fg-lab" x="125" y="66" text-anchor="middle">跟写</text>
+        <text class="fg-tick" x="125" y="92" text-anchor="middle">照着抄</text>
+        <text class="fg-lab" x="360" y="66" text-anchor="middle">听写</text>
+        <text class="fg-tick" x="360" y="92" text-anchor="middle">听音写</text>
+        <text class="fg-lab" x="595" y="66" text-anchor="middle">默写</text>
+        <text class="fg-tick" x="595" y="92" text-anchor="middle">不看提示写</text>
+        <line x1="222" y1="72" x2="258" y2="72" stroke="var(--color-text-tertiary)" stroke-width="1.5"/>
+        <line x1="457" y1="72" x2="493" y2="72" stroke="var(--color-text-tertiary)" stroke-width="1.5"/>
+        <text class="fg-tick" x="240" y="58" text-anchor="middle">→</text>
+        <text class="fg-tick" x="475" y="58" text-anchor="middle">→</text>
+        <text class="fg-tick" x="125" y="150" text-anchor="middle">认得出</text>
+        <text class="fg-tick" x="360" y="150" text-anchor="middle">听得出</text>
+        <text class="fg-tick" x="595" y="150" text-anchor="middle">默得出</text>
+      </svg>
+      <figcaption>三层对应的不是三个难度，是三种能力：认得出、听得出、默得出。多数人卡在最后一层。</figcaption>
+    </figure>
+    <p>复习也不用你操心。它内置 FSRS 算法（一种间隔复习算法），你答错过几次、隔多久还能想起来，它都记着，自动算出每个词下次该什么时候再考你。答错的词会被打散混进后面的练习，反复出现，直到你敲对为止。</p>
+    <p>几个对得起「免费」两个字的地方：</p>
+    <ul>
+      <li>学习数据存在你自己浏览器的本地存储里，不上传服务器，离线也能用</li>
+      <li>没有会员墙、没有每日次数限制</li>
+      <li>手机上网页体验一般，官方配了微信小程序；写代码的人还有 VSCode 插件版</li>
+    </ul>
+    <blockquote><p>必须知道的坑：数据在浏览器本地。换浏览器、清缓存、重装系统，记录就没了。背了一半的进度，记得用它的导出功能备份。</p></blockquote>
+    <h2>二、什么人需要下载安装</h2>
+    <p><strong>网页版够用，安装是附加题，不是必选项。</strong></p>
+    <p>GitHub 上那一万多个星，一部分是开发者，一部分是想把工具装到自己电脑上、数据完全留在本地的人。我实际装过一遍：</p>
+    <table>
+      <thead><tr><th>关卡</th><th>要干什么</th><th>拦住谁</th></tr></thead>
+      <tbody>
+        <tr><td><strong>第一关：环境</strong></td><td>装 Node.js（一个运行环境）</td><td>没碰过命令行的人</td></tr>
+        <tr><td><strong>第二关：下载</strong></td><td>必须用命令拉代码，点 Download ZIP 直接报错跑不起来</td><td>想省事点按钮的人</td></tr>
+        <tr><td><strong>第三关：词库</strong></td><td>装完发现只有四级词库，其他 50 套都在网页版</td><td>以为装完就全都有的人</td></tr>
+      </tbody>
+    </table>
+    <p>第三关最坑。装完翻了它的数据文件，本地版本就一个四级词库，2607 个词。剩下六级、考研、雅思，网页版才有。</p>
+    <blockquote><p>你费劲装到本地，得到的还不如直接打开网页。</p></blockquote>
+    <p>除非你就是要改代码、做二次开发，或者有极特殊的数据要求。</p>
+    <h2>三、怎么用才真的背得下来</h2>
+    <p><strong>工具是白嫖的，时间不是。</strong></p>
+    <ol>
+      <li><strong>新词量压到每天 30 个以内。</strong>算法再聪明，架不住你一天塞 200 个新词。它管的是别在会的词上浪费时间，不是变魔术。</li>
+      <li><strong>错的词交给它，别自己抄十遍。</strong>它会把错词打散、混进后面的练习反复考。拿笔抄十遍，手熟了，脑子没进。</li>
+      <li><strong>七天停一次，只做默写。</strong>能默出来的才算真会。看着脸熟、敲不出来的，全在假掌握里。</li>
+    </ol>
+    <blockquote><p>先坚持用一周网页版，再谈其他。工具好不好，你敲三天键盘就知道了。</p></blockquote>
+    <h2>最后</h2>
+    <p>免费的工具越来越多，但免费的从来只有工具，不包括你的注意力。</p>
+    <p><strong>选工具的标准就一条：打开就能用的，才是好工具。</strong>要装三天才能用的，再牛也是别人的玩具。</p>
+    <p>你现在的单词 App 收你多少钱一个月？</p>
+  </template>
   <template data-art="why-not-buy-house" data-topic="investment" data-title="我为什么不建议现在就买房" data-date="2026.11.15" data-desc="把一套房子 30 年要付出去的钱摆成两行，再谈要不要买。">
     <p>先说结论：如果不是为了孩子上学、落户，或者某种非它不可的安定感，纯从钱的效率算，现在买房不划算。</p>
     <p>这话不好听，在饭桌上也会得罪人。所以下面只摆数，不讲立场。</p>
@@ -3914,78 +3986,7 @@ html.js .view.is-active{ display:block; }
     <hr>
     <p>2020.02.27</p>
   </template>
-  <template data-art="typewords" data-topic="learning" data-title="白嫖了一个 1.1 万星的开源背单词工具，网页直接用，不用下载" data-date="2026.11" data-desc="免费、不注册、50 多套词库；我装过本地版，有三个坑。">
-    <p>四六级考完那天，你合上单词书，脑子里剩下的词不到两成。</p>
-    <p>你大概会骂自己记性差。问题大概率不在记性，在你的复习排期。</p>
-    <p>最近在找背单词工具，我翻到一个开源项目，叫 TypeWords，GitHub 上 1.1 万星，免费。这个工具我赞成用，但只赞成它做对的那部分；网上那些「一个月背完四六级」的说法，我不信，你也别信。</p>
-    <figure class="art-figure">
-      <img src="assets/blog/typewords.webp" alt="米白底封面：网页直接用，不用下载，一排 TYPEWORDS 键帽" width="1200" height="749" loading="lazy" decoding="async">
-      <figcaption>四六级、考研、雅思、托福，50 多套词库，打开网页就能敲。</figcaption>
-    </figure>
-    <h2>一、网页版怎么用：三步，一分钟</h2>
-    <p>网页版是主路，装不装本地是后话。三步走完，十分钟内你就能敲完第一组词。</p>
-    <ol>
-      <li><strong>打开 typewords.cc。</strong></li>
-      <li><strong>选词库。</strong>进「单词」模块，内置 50 多套：四级、六级、考研、专四、专八、雅思、托福、GRE、GMAT、SAT，从小学到出国考试都有。点一套你要的。</li>
-      <li><strong>开打。</strong>不是看一眼「认识 / 不认识」点按钮，是把单词亲手敲出来：跟写（照着敲）、听写（听音敲）、自测、默写（不看提示敲），几种模式按难度递进。</li>
-    </ol>
-    <p>打字这个动作看着笨，其实是它最聪明的地方——<strong>你的手指记住了，脑子才真的记住了。</strong>多少人单词看着脸熟，一到作文里就拼错，就是因为从来只「看」，没「敲」过。</p>
-    <figure class="art-figure">
-      <svg class="art-fig" viewBox="0 0 720 210" role="img" aria-label="练习三层递进：跟写照抄、听写听音写、默写不看提示默出来，分别对应认得出、听得出、默得出">
-        <rect x="30" y="28" width="190" height="88" rx="10" fill="none" stroke="var(--color-border-subtle)" stroke-width="1.5"/>
-        <rect x="265" y="28" width="190" height="88" rx="10" fill="none" stroke="var(--color-border-subtle)" stroke-width="1.5"/>
-        <rect x="500" y="28" width="190" height="88" rx="10" fill="none" stroke="var(--brand-accent)" stroke-width="2"/>
-        <text class="fg-lab" x="125" y="66" text-anchor="middle">跟写</text>
-        <text class="fg-tick" x="125" y="92" text-anchor="middle">照着抄</text>
-        <text class="fg-lab" x="360" y="66" text-anchor="middle">听写</text>
-        <text class="fg-tick" x="360" y="92" text-anchor="middle">听音写</text>
-        <text class="fg-lab" x="595" y="66" text-anchor="middle">默写</text>
-        <text class="fg-tick" x="595" y="92" text-anchor="middle">不看提示写</text>
-        <line x1="222" y1="72" x2="258" y2="72" stroke="var(--color-text-tertiary)" stroke-width="1.5"/>
-        <line x1="457" y1="72" x2="493" y2="72" stroke="var(--color-text-tertiary)" stroke-width="1.5"/>
-        <text class="fg-tick" x="240" y="58" text-anchor="middle">→</text>
-        <text class="fg-tick" x="475" y="58" text-anchor="middle">→</text>
-        <text class="fg-tick" x="125" y="150" text-anchor="middle">认得出</text>
-        <text class="fg-tick" x="360" y="150" text-anchor="middle">听得出</text>
-        <text class="fg-tick" x="595" y="150" text-anchor="middle">默得出</text>
-      </svg>
-      <figcaption>三层对应的不是三个难度，是三种能力：认得出、听得出、默得出。多数人卡在最后一层。</figcaption>
-    </figure>
-    <p>复习也不用你操心。它内置 FSRS 算法（一种间隔复习算法），你答错过几次、隔多久还能想起来，它都记着，自动算出每个词下次该什么时候再考你。答错的词会被打散混进后面的练习，反复出现，直到你敲对为止。</p>
-    <p>几个对得起「免费」两个字的地方：</p>
-    <ul>
-      <li>学习数据存在你自己浏览器的本地存储里，不上传服务器，离线也能用</li>
-      <li>没有会员墙、没有每日次数限制</li>
-      <li>手机上网页体验一般，官方配了微信小程序；写代码的人还有 VSCode 插件版</li>
-    </ul>
-    <blockquote><p>必须知道的坑：数据在浏览器本地。换浏览器、清缓存、重装系统，记录就没了。背了一半的进度，记得用它的导出功能备份。</p></blockquote>
-    <h2>二、什么人需要下载安装</h2>
-    <p><strong>网页版够用，安装是附加题，不是必选项。</strong></p>
-    <p>GitHub 上那一万多个星，一部分是开发者，一部分是想把工具装到自己电脑上、数据完全留在本地的人。我实际装过一遍：</p>
-    <table>
-      <thead><tr><th>关卡</th><th>要干什么</th><th>拦住谁</th></tr></thead>
-      <tbody>
-        <tr><td><strong>第一关：环境</strong></td><td>装 Node.js（一个运行环境）</td><td>没碰过命令行的人</td></tr>
-        <tr><td><strong>第二关：下载</strong></td><td>必须用命令拉代码，点 Download ZIP 直接报错跑不起来</td><td>想省事点按钮的人</td></tr>
-        <tr><td><strong>第三关：词库</strong></td><td>装完发现只有四级词库，其他 50 套都在网页版</td><td>以为装完就全都有的人</td></tr>
-      </tbody>
-    </table>
-    <p>第三关最坑。装完翻了它的数据文件，本地版本就一个四级词库，2607 个词。剩下六级、考研、雅思，网页版才有。</p>
-    <blockquote><p>你费劲装到本地，得到的还不如直接打开网页。</p></blockquote>
-    <p>除非你就是要改代码、做二次开发，或者有极特殊的数据要求。</p>
-    <h2>三、怎么用才真的背得下来</h2>
-    <p><strong>工具是白嫖的，时间不是。</strong></p>
-    <ol>
-      <li><strong>新词量压到每天 30 个以内。</strong>算法再聪明，架不住你一天塞 200 个新词。它管的是别在会的词上浪费时间，不是变魔术。</li>
-      <li><strong>错的词交给它，别自己抄十遍。</strong>它会把错词打散、混进后面的练习反复考。拿笔抄十遍，手熟了，脑子没进。</li>
-      <li><strong>七天停一次，只做默写。</strong>能默出来的才算真会。看着脸熟、敲不出来的，全在假掌握里。</li>
-    </ol>
-    <blockquote><p>先坚持用一周网页版，再谈其他。工具好不好，你敲三天键盘就知道了。</p></blockquote>
-    <h2>最后</h2>
-    <p>免费的工具越来越多，但免费的从来只有工具，不包括你的注意力。</p>
-    <p><strong>选工具的标准就一条：打开就能用的，才是好工具。</strong>要装三天才能用的，再牛也是别人的玩具。</p>
-    <p>你现在的单词 App 收你多少钱一个月？</p>
-  </template>
+
 </div>
 
 <footer class="site-footer">
