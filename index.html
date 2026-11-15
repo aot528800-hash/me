@@ -463,6 +463,16 @@ img{ display:block; max-width:100%; }
   letter-spacing:0;
   line-height:1.7;
 }
+/* J-30 · 时间线里的「这支球队是什么」注：紧跟条目、与正文同列，不另起标题层级。
+   字号仍走 --fs-small，不破 J-29 的九档阶梯。 */
+.tl-aside{
+  grid-column:1 / -1;
+  margin:10px 0 0;
+  max-width:62ch;
+  font-size:var(--fs-small);
+  line-height:1.85;
+  color:var(--color-text-secondary);
+}
 
 @media (min-width:768px){
   .tl-item{
@@ -471,6 +481,7 @@ img{ display:block; max-width:100%; }
     row-gap:0;
     align-items:start;
   }
+  .tl-aside{ grid-column:3; }
   .tl-time{ text-align:right; padding-top:4px; }
   .tl-rail{
     display:block;
@@ -2208,7 +2219,7 @@ html.js .view.is-active{ display:block; }
           <li class="tl-item">
             <span class="tl-time num">2010 – 2014</span>
             <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
-            <p class="tl-org">西安财经大学 <span class="tl-place">· 本科（当时校名为西安财经学院，2018 年更名）</span></p>
+            <p class="tl-org">西安财经大学 <span class="tl-place">· 本科（当时校名为西安财经学院，2018 年更名）；期间一直为当时的陕西浐灞做足球数据分析</span></p>
           </li>
           <li class="tl-item">
             <span class="tl-time num">2014.6 – 2016</span>
@@ -2474,7 +2485,8 @@ html.js .view.is-active{ display:block; }
             <li class="tl-item">
               <span class="tl-time num">2010.9 – 2014.6</span>
               <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
-              <p class="tl-org">西安财经大学 <span class="tl-place">· 本科（当时校名西安财经学院），以足球高水平运动员身份入学；期间在陕西人和足球俱乐部实习，做数据分析</span></p>
+              <p class="tl-org">西安财经大学 <span class="tl-place">· 本科（当时校名西安财经学院），以足球高水平运动员身份入学；大学期间一直为当时的陕西浐灞做足球数据分析</span></p>
+              <p class="tl-aside">陕西浐灞是当时在西安的中超球队。前身是 1995 年成立的上海浦东，2006 年西迁西安，2012 年南迁贵阳改名贵州人和，2016 年再迁北京。冠名换过好几轮，2010 年前后也叫「陕西中建地产浐灞」「陕西人和浐灞」，所以有些资料写成「陕西人和」。</p>
             </li>
             <li class="tl-item">
               <span class="tl-time num">2014.6</span>
@@ -2543,7 +2555,7 @@ html.js .view.is-active{ display:block; }
     <section class="section" aria-labelledby="f1-h1">
       <div class="container">
         <h1 class="h1" id="f1-h1">后腰</h1>
-        <p class="fb-lead">2005 到 2013 年在重庆市第七中学校、西安财经大学读书。2014 年进中国银行，2016 年起间歇借调总行，进了总行足球队。2019 年之后成家立业，踢得少了，现在主要是看球和分析数据。</p>
+        <p class="fb-lead">2005 到 2013 年在重庆市第七中学校、西安财经大学读书，大学期间一直为当时的陕西浐灞做足球数据分析——那是支 2006 年从上海迁到西安的中超球队。2014 年进中国银行，2016 年起间歇借调总行，进了总行足球队。2019 年之后成家立业，踢得少了，现在主要是看球和分析数据。</p>
 
         <div class="field-group fb-field-group">
           <div class="field-row">
