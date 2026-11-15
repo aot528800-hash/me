@@ -1385,6 +1385,49 @@ body{ background:var(--page-bg); }
 }
 @media (max-width:520px){ .qr-row{ grid-template-columns:1fr; } }
 
+/* ---- 照片条（J-23）：编辑部式，无卡片无边框，靠小字图注说明 ---- */
+.photo-strip{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:var(--space-8) var(--space-6);
+  margin-top:var(--space-8);
+}
+@media (min-width:640px){ .photo-strip{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (min-width:1024px){
+  .photo-strip{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .photo-strip--two{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+/* 单张：必须显式覆盖成单列，否则会继承 3 列栅格被挤成一小格。
+   时间线页版心居中，单张照片也跟着居中，否则会贴左显得偏。 */
+.photo-strip--one{ grid-template-columns:1fr; max-width:620px; margin-inline:auto; }
+.photo-strip figure{ margin:0; min-width:0; }
+.photo-strip img{
+  display:block; width:100%; height:auto;
+  aspect-ratio:4 / 3; object-fit:cover;
+  border-radius:var(--radius-img);
+  background:var(--brand-tint);
+}
+.photo-strip figcaption{
+  margin-top:var(--space-3);
+  max-width:38ch;
+  font-size:var(--fs-micro);
+  line-height:1.7;
+  color:var(--color-text-tertiary);
+}
+.photo-strip figcaption em{ font-style:normal; color:var(--color-text-secondary); }
+.photo-kicker{
+  margin-top:var(--space-9);
+  padding-top:var(--space-5);
+  border-top:var(--border-w) solid var(--color-border-subtle);
+  font-size:var(--fs-micro);
+  letter-spacing:.08em;
+  color:var(--color-text-tertiary);
+}
+/* 实拍照片在深底上过亮，压一档亮度融入纸与墨 */
+@media (prefers-color-scheme:dark){
+  .photo-strip img{ filter:brightness(.86) saturate(.9); }
+}
+
 /* ---- 图片卡（获奖原表 / 操场照）：直接用用户给的原图，零转录零编造 ---- */
 .figure-card{
   margin:22px 0 0; padding:16px;
@@ -1864,6 +1907,21 @@ html.js .view.is-active{ display:block; }
         <!-- 顺带：顶级个人站的惯用收尾（Dan Eden 的 In my spare time…、
              Tania 的 Also: …）——作品是作品，人还有作品之外的活法。 -->
         <p class="work-also">顺带：投资理财、足球、读书、旅行，还有用 AI 折腾各种新东西——兴趣挺杂的，一直在玩。</p>
+        <p class="photo-kicker">路上 · 几张照片</p>
+        <div class="photo-strip">
+          <figure>
+            <img src="assets/photos/trip-google.webp" alt="Google 总部 1625 Charleston Road 的门牌，一个人站在牌旁" width="1000" height="750" loading="lazy" decoding="async">
+            <figcaption>门牌上写着 1625 Charleston Road。</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/photos/trip-pier.webp" alt="海边栈桥旁留影，身后是摩天轮" width="1000" height="750" loading="lazy" decoding="async">
+            <figcaption>海边的栈桥和摩天轮。</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/photos/trip-friend.webp" alt="两个人在室内合影，都竖起大拇指" width="1000" height="750" loading="lazy" decoding="async">
+            <figcaption>一张合影。</figcaption>
+          </figure>
+        </div>
       </div>
     </section>
 
@@ -2036,6 +2094,13 @@ html.js .view.is-active{ display:block; }
               <p class="tl-org">CQPUE 资助政策 <span class="tl-place">· 上线，21 个项目 · 13 份政策依据 · 47 项业务</span></p>
             </li>
           </ol>
+          <p class="photo-kicker">留影</p>
+          <div class="photo-strip photo-strip--one">
+            <figure>
+              <img src="assets/photos/bank-steps.webp" alt="坐在大楼内的绿色台阶上，身后是一面红色圆形标志" width="1000" height="750" loading="lazy" decoding="async">
+              <figcaption>在中国银行那几年拍的。</figcaption>
+            </figure>
+          </div>
         </div>
       </div>
     </section>
@@ -2227,6 +2292,14 @@ html.js .view.is-active{ display:block; }
               <span class="race-result race-result--win">冠军</span>
             </li>
           </ol>
+          <!-- 领奖照横幅写着「2011-2012 李宁中国大学生足球联赛（北区决赛）」，
+               与上面 2012.5.22–29 秦皇岛那条记录对应。图注只抄横幅，不写未核实的名次。 -->
+          <div class="photo-strip photo-strip--one">
+            <figure>
+              <img src="assets/photos/football-trophy-2012.webp" alt="穿着蓝色运动外套和白色球裤，手举奖杯站在赛场横幅前" width="1000" height="750" loading="lazy" decoding="async">
+              <figcaption>横幅是「2011-2012 李宁中国大学生足球联赛（北区决赛）」。</figcaption>
+            </figure>
+          </div>
         </div>
 
         <div class="race-group">
@@ -2273,6 +2346,21 @@ html.js .view.is-active{ display:block; }
         </div>
 
         <p class="race-note">「代表」是参赛单位。市级赛事代表就读学校，市运会代表沙坪坝区，全国中学生运动会是以重庆队出战，大学生联赛代表西安财经大学，在中国银行那两场分别代表中国金融体协和中国银行。</p>
+        <p class="photo-kicker">赛场 · 几张照片</p>
+        <div class="photo-strip">
+          <figure>
+            <img src="assets/photos/football-stand.webp" alt="坐在体育场看台上，胸前挂着证件" width="1000" height="750" loading="lazy" decoding="async">
+            <figcaption>看台上。</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/photos/football-match-a.webp" alt="足球比赛中，几名球员在争抢球" width="1000" height="750" loading="lazy" decoding="async">
+            <figcaption>比赛中。</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/photos/football-match-b.webp" alt="足球比赛中，12 号球员背对镜头带球" width="1000" height="750" loading="lazy" decoding="async">
+            <figcaption>比赛中。</figcaption>
+          </figure>
+        </div>
         <!-- 校勘留档（2026-11-14：原先是可见文案，访客不需要看考据，移到注释里）：
              前三组 16 行按原表逐行转录，未增删；其余各场的赛事名称、时间、地点
              依据赛事主办方公开记录与本人提供材料补全。 -->
