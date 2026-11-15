@@ -272,10 +272,6 @@ img{ display:block; max-width:100%; }
   margin-left:var(--space-2);
 }
 
-/* 占位符：页面上永远可见的灰色提示（内容清单 §D 规则 2）
-   规则本体放在样式表末尾 —— 它必须压过 .field-val / .blog-title / .ct-val
-   这些区块级的 color 声明，否则占位符会显示成正文黑，看着像真内容。 */
-
 /* D-3 链接下划线与 hover 展开 —— 全站动效 #1 */
 .link{
   position:relative;
@@ -2062,11 +2058,6 @@ a.blog-row:hover .blog-title{ color:var(--brand-accent-text); }
   font-size:var(--fs-small); line-height:1.85;
   color:var(--color-text-secondary);
 }
-.contact-foot{
-  margin:var(--space-4) 0 0;
-  font-size:var(--fs-micro); line-height:1.8;
-  color:var(--color-text-secondary);
-}
 @media (max-width:640px){
   .contact-item{ grid-template-columns:26px 100px minmax(0,1fr); gap:var(--space-3); }
   .contact-qr{ width:100px; height:100px; padding:7px; }
@@ -2106,12 +2097,6 @@ a.blog-row:hover .blog-title{ color:var(--brand-accent-text); }
   font-size:var(--fs-micro); line-height:1.9;
   letter-spacing:0; color:var(--color-text-tertiary);
 }
-
-/* ==========================================================================
-   占位符统一色 · 必须留在样式表最末
-   与 .field-val / .blog-title / .ct-val 同特异度，靠顺序取胜。
-   ========================================================================== */
-.ph{ color:var(--color-text-secondary); }  /* 4.31:1 -> 6.11:1；同站内 357/364 行先例 */
 
 /* ==========================================================================
    视图切换（hash 路由）。禁用 JS 时 6 个视图顺序全展开，正文 100% 可读。
@@ -2472,7 +2457,6 @@ html.js .view.is-active{ display:block; }
               </div>
             </li>
           </ul>
-          <p class="contact-foot">邮箱 <span class="ph">【待补：邮箱地址】</span></p>
         </div>
       </div>
     </section>
