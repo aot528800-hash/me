@@ -57,11 +57,16 @@
   --sel-bg:#E4E9D2;
   --sel-fg:#2C3B26;
 
-  /* A-2 字体 */
-  --font-sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,
-              "PingFang SC","Hiragino Sans GB","Microsoft YaHei UI","Microsoft YaHei",
+  /* A-2 字体
+     苹果字体优先：macOS/iOS 自动加载 SF Pro（-apple-system / BlinkMacSystemFont /
+     "SF Pro Display"）与苹方 PingFang SC。苹果字体是版权字体，不能像开源字体
+     那样分发，只能靠系统自带 —— 所以非苹果设备会回退到后面的系统字体，
+     这是所有顶级站（含 Apple 官方）的同一做法，不是遗漏。 */
+  --font-sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",
+              "Helvetica Neue","PingFang SC","Hiragino Sans GB",
+              "Microsoft YaHei UI","Microsoft YaHei",
               "Source Han Sans SC","Noto Sans CJK SC",sans-serif;
-  --font-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,
+  --font-mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Monaco,Consolas,
               "Liberation Mono","Courier New",monospace;
 
   /* A-2-2 字号阶梯 · 360 档基准（只有 display / h2 / h2-xl 随断点缩放） */
@@ -771,7 +776,7 @@ img{ display:block; max-width:100%; }
 .race-group-count{
   margin-left:auto;
   font-size:var(--fs-micro);
-  font-weight:700;
+  font-weight:600;
   color:var(--brand-accent-text);
   white-space:nowrap;
 }
@@ -820,14 +825,25 @@ img{ display:block; max-width:100%; }
   white-space:nowrap;
   text-align:right;
 }
-.race-result--win{ color:var(--brand-ink); font-weight:700; }
+.race-result--win{ color:var(--brand-ink); font-weight:600; }
 /* 全国前三单列一档：右侧加淡蓝底，与「冠军」的纯粗体拉开层次 */
 .race-result--national{
   color:var(--brand-ink);
-  font-weight:700;
+  font-weight:600;
   background:var(--brand-tint);
   border-radius:2px;
   padding:3px 8px;
+}
+/* 个人高光的单独一档：金色底白字，是全赛绩里唯一的「个人荣誉」标记，
+   与团队成绩（冠军=深绿加粗 / 全国前三=淡绿底）彻底区分。 */
+.race-honor{
+  display:inline-block;
+  color:#fff;
+  font-weight:600;
+  background:var(--brand-accent);
+  border-radius:2px;
+  padding:2px 7px;
+  margin-left:2px;
 }
 .race-group-note{
   /* 这段是解释「超级组」的正文，不是脚注：12px 撑 60 个字读着吃力，抬到 14px。
@@ -1130,13 +1146,13 @@ body{ background:var(--page-bg); }
   background:var(--brand-accent); flex:none;
 }
 .hero-name{
-  font-size:clamp(40px,7vw,72px); font-weight:700;
+  font-size:clamp(40px,7vw,72px); font-weight:600;
   color:var(--brand-ink); letter-spacing:-.035em; line-height:1.06;
   margin-top:18px;
 }
 .hero-big{
   margin-top:20px;
-  font-size:clamp(26px,3.4vw,42px); font-weight:700;
+  font-size:clamp(26px,3.4vw,42px); font-weight:600;
   line-height:1.32; letter-spacing:-.02em;
   color:var(--brand-ink);
 }
@@ -1210,7 +1226,7 @@ body{ background:var(--page-bg); }
   #view-blog > section > .container{ padding:40px 40px 44px; }
 }
 .section-kicker{
-  font-size:12px; font-weight:700; letter-spacing:.12em;
+  font-size:12px; font-weight:600; letter-spacing:.08em;
   text-transform:uppercase; color:var(--brand-accent);
   margin:0 0 10px;
 }
@@ -1224,7 +1240,7 @@ body{ background:var(--page-bg); }
 /* ---- 二维码：默认可见的双卡片（用户明确要求「可以直接调用」） ---- */
 .qr-block{ margin-top:18px; }
 .qr-block h3{
-  font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
   color:var(--brand-accent); margin:0 0 14px;
 }
 .qr-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
@@ -1275,6 +1291,8 @@ body{ background:var(--page-bg); }
   }
   /* 唯一的例外：拿金当实心背景的两处，作者色要退回深金，否则白字糊在金上 */
   .header-cta.btn--blue{ background:#8A6A2F; border-color:#8A6A2F; color:#fff; }
+  /* 徽记在暗色下也用深金底：亮金底上白字只有 1.77:1，不够 */
+  .race-honor{ background:#8A6A2F; }
   .btn--blue{ border-color:#8A6A2F; }
   /* 头像在暗色下必须反相：正片叠底会让深色线稿乘进深背景，整块糊成黑。
      反相后线稿变成浅色，再 sepia 加暖，就不会是死白。 */
@@ -2060,7 +2078,7 @@ html.js .view.is-active{ display:block; }
               <div class="race-body">
                 <p class="race-name">首届全国行业职工足球联赛</p>
                 <p class="race-meta"><span>2016.9</span><span>天津滨海新区</span><span>代表<strong>中国金融体协</strong>，与中信银行联合组队</span></p>
-                <p class="race-detail">总行委派，五场四胜一负；对煤矿体协 5:1、对中建体协 6:0，两场各进 1 球、2 球，队内最佳射手。</p>
+                <p class="race-detail">总行委派，五场四胜一负；对煤矿体协 5:1、对中建体协 6:0，两场各进 1 球、2 球。个人荣誉：<strong class="race-honor">队内最佳射手</strong>。</p>
               </div>
               <span class="race-result race-result--national">全国亚军</span>
             </li>
@@ -2203,6 +2221,11 @@ html.js .view.is-active{ display:block; }
   <template data-art="cost-you-cannot-see" data-topic="investment" data-title="投资里最贵的那笔钱，账上看不见" data-date="2026.11.12" data-desc="0.2% 和 1.5% 只差 1.3 个点，30 年后差 221 万。">
     <p>大部分人算收益，算得很细；算成本，只算手续费。</p>
     <p>投资里最贵的那笔钱，是不出现在对账单上的那一笔。</p>
+
+      <figure class="art-figure">
+        <img src="assets/blog/banknote-plant.webp" alt="一张揉皱的纸币和一盆绿植" width="1200" height="749" loading="lazy" decoding="async">
+        <figcaption>费率是按比例收的，所以会被忽略；但比例乘上指数，就是 221 万。</figcaption>
+      </figure>
     <h2>一个百分点的重量</h2>
     <p>100 万，年化 7%，30 年，是 761 万。</p>
     <p>如果每年扣掉 0.2% 的费率，实际年化变成 6.8%，30 年后是 720 万。</p>
@@ -2352,6 +2375,11 @@ html.js .view.is-active{ display:block; }
     <p>所以我开始琢磨一件事：有没有一套方法，读完一本书，就能用它解决一个真实的问题？</p>
     <p>折腾了大半年，我拼出了一套三个工具配合的流程。拿我最近读的一本书当例子，把完整方法拆开来讲。</p>
     <p>那本书叫《以日为鉴：衰退时代生存指南》。选它是因为我这半年一直在焦虑一件事：学历贬值。我做高校工作，每天看着一届一届学生考研、考公、卷学历，心里比他们还慌——因为我自己的硕士学历也在贬值。日本泡沫经济崩了之后走了三十年下坡路，我想看看那边的人是怎么熬过来的。</p>
+
+      <figure class="art-figure">
+        <img src="assets/blog/reading.webp" alt="一摞厚书旁有一枚折角的页签" width="1200" height="749" loading="lazy" decoding="async">
+        <figcaption>一年读 37 本不稀奇，稀奇的是合上书还能答上「这本书帮我解决了什么」。</figcaption>
+      </figure>
     <h2>第一步不是我做的，是 ChatGPT 做的：帮我选书。</h2>
     <p>以前我选书靠豆瓣评分和博主推荐，命中率大概一半。这次我把自己的困惑写成了一段话丢给 ChatGPT——不是"推荐几本好书"那种问法，而是说清楚场景：</p>
     <blockquote><p>我当下对社会发展节奏感到焦虑，担心学历贬值和过度追求稳定工作带来的风险，想借鉴日本泡沫经济后三十年的社会经验，找普通人的生存策略。请推荐 1-2 本匹配的书，说明理由。</p></blockquote>
@@ -2578,6 +2606,11 @@ html.js .view.is-active{ display:block; }
     <p>但这是一种极其低效的策略。新工具的半衰期太短了。</p>
     <p>如果你去观察那些在历次技术变革中真正获益的人，会发现他们不在乎零散的坐标，他们在画一张地图。你需要的是一套认知框架，一套能把工具、职业、产业甚至人文思考串联起来的系统。</p>
     <blockquote><p>只有拥有这张地图，你才能在剧变的时代找到自己的锚点。</p></blockquote>
+
+      <figure class="art-figure">
+        <img src="assets/blog/desk-lamp.webp" alt="黄昏的书桌上亮着一盏暖灯和一台旧笔记本" width="1200" height="749" loading="lazy" decoding="async">
+        <figcaption>在自己硬盘上跑模型的那晚，桌面大概就是这个样子。</figcaption>
+      </figure>
     <h2>1. 夺回技术的控制权</h2>
     <p>构建这张地图的第一步，却恰恰违背了我们当下的直觉：你必须先把技术的控制权从巨头手里拿回来。</p>
     <p>我是在调试本地 AI 知识库时意识到这一点的。</p>
@@ -2808,6 +2841,11 @@ html.js .view.is-active{ display:block; }
   <template data-art="work-life-meaning" data-topic="thinking" data-title="工作、生活和意义的拉扯：寻找平衡的另一种可能" data-date="2025.03.19" data-desc="工作、生活、意义，拉扯本身可能就是答案">
     <p>#</p>
     <p>最近的工作强度让我有些喘不过气来。不只是我，身边的同事们也普遍感受到工作正在侵占个人时间。这种状态让我开始认真思考一个问题：</p>
+
+      <figure class="art-figure">
+        <img src="assets/blog/bench-fog.webp" alt="晨雾里一把空长椅" width="1200" height="749" loading="lazy" decoding="async">
+        <figcaption>关于工作、生活和意义，有时候需要走出那片雾才看得见。</figcaption>
+      </figure>
     <h2>工作和生活的平衡到底意味着什么？</h2>
     <p>我们每天忙碌奔波，究竟是为了什么？细想下来，工作归根结底不过是“打工”，而我们从中追求的无非是四样东西： <strong>薪资、人际关系、社会认可和安全感</strong>。但随着时代的变化，我不禁怀疑，这些东西是否真的只能通过传统的工作来获得？</p>
     <h3>如果不依赖职场，我们还能实现这些追求吗？</h3>
@@ -2918,6 +2956,11 @@ html.js .view.is-active{ display:block; }
     <p>你或许会觉得自己银行账户里显示的那些数字是无比「真实」的。然而，2008 年那场震惊全球的金融危机却无情地揭露了背后的真相：当房贷证券（mortgage - backed securities）摇身一变，成为了一场击鼓传花般的欺诈骗局时，数万亿的「财富」仿佛像泡沫一样，在一夜之间就消失得无影无踪。这场景就好比有人冷不丁地突然关掉了游戏的服务器（server），玩家们辛苦积累的所有装备瞬间就归零了，一切仿佛回到了原点。</p>
     <p>所以说，真正意义上的财富，从来都不是金钱本身这么简单。真正的财富是你自身所具备的创造价值的能力，是你在日积月累中建立起来的信任网络，是你凭借自己精湛的技能能够换来的各类资源。就如同马斯克凭借着他那宏伟的愿景，成功吸引了大量的投资，为自己的事业打下坚实基础；也像李子柒凭借着一手令人赞叹的传统手艺，赢得了全球无数粉丝的喜爱与追捧 —— 他们深刻地明白这样一个道理：金钱只不过是用来记录游戏成绩的记分牌（scoreboard），而这场人生游戏的核心永远都是价值的交换。</p>
     <p>下次当你又在为涨薪这件事情而感到焦虑不安的时候，请一定要牢牢记住这句话：「不要盲目地追逐金钱，而是要积极地去追逐那些能够解决问题的机会。」（Don’t chase money, chase problems to solve.） 当你通过自身努力，成为了别人在遇到问题时离不开的「解题者」，那么自然而然地，记分牌上代表财富的数字就会紧紧跟上你的脚步，不断增长。</p>
+
+      <figure class="art-figure">
+        <img src="assets/blog/apple-receipt.webp" alt="一只青苹果和一张揉皱的收据放在米白色桌面上" width="1200" height="749" loading="lazy" decoding="async">
+        <figcaption>钱是信任的记账，账单只是它的回执。</figcaption>
+      </figure>
     <h2> 停不下 来的独行侠，通过阅读与写作践行长期主义 </h2>
     <h3> 这里是我思考与输出的地方 </h3>
     <h3> 关注我，共同成长。 </h3>
@@ -2969,6 +3012,11 @@ html.js .view.is-active{ display:block; }
   </template>
   <template data-art="slow-is-sincere" data-topic="thinking" data-title="慢慢来是一种诚意，长文本更适合深度思考。" data-date="2025.02.15" data-desc="长文本正在死去，而深度思考需要它">
     <p>最近不少朋友问我：“现在短视频那么火，公众号还有人看么？”“写长文章是不是太‘老派’了？” 甚至有人断言：“公众号早凉了！” 但有意思的是，今年微信内部悄悄把 2024 年定为 “公众号元年”，算法调整后，不少小号突然爆出十万加，阅读大盘不降反升。这背后的门道，值得唠一唠。</p>
+
+      <figure class="art-figure">
+        <img src="assets/blog/tea-window.webp" alt="窗台上一杯冒热气的白瓷茶" width="1200" height="749" loading="lazy" decoding="async">
+        <figcaption>长文本是诚意，像一杯好茶，慢慢来。</figcaption>
+      </figure>
     <h2>1、公众号像你家客厅，其他平台是菜市场</h2>
     <p>有人说抖音是 “娱乐场”，小红书是 “时尚街区”，而公众号更像是你的 “书房”。你在外头看热闹、逛商场，但最后总得回家刷点有深度的东西。想一下，都是谁才愿意长期关注文字内容？我想他们大多是高学历、爱琢磨的主儿。这群人不在乎花 5 分钟看一篇长文，反而觉得刷完短视频心里空落落的。就像你买书会挑出版社，他们看文章也认账号调性。更绝的是，公众号文章能直接丢进微信群和朋友圈，一句 “转给你看看” 背后，藏着态度、身份甚至价值观。品牌要是能在这 “客厅” 里聊透一件事，比在 “菜市场” 吆喝一百遍都管用。</p>
     <h3>2、甲方老板的 “信息茧房”，你得会织</h3>
