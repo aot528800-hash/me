@@ -884,16 +884,19 @@ img{ display:block; max-width:100%; }
 
 /* ==========================================================================
    J-27 · 区块 ② 兴趣是主角，作品退成从属
-   旧版四条大编号「作品」里三条都是公众号系列，主角错位；现在把原「顺带」那句
-   升成章节主句，兴趣展开成轻清单，作品只留三条紧凑小行（公众号系列只留两条）。
+   J-28 · 字号归位：标题 32 > 兴趣名 28（琥珀高亮）> 陈述句 24 > 说明 14。
+   J-27 版把陈述句放到 56px（--fs-h2-xl），压过了 32px 的章节标题——「大」给错了
+   对象：该大的是五个兴趣名，不是那句导语。现在兴趣名升为琥珀大字（沿 hero-big em
+   和后腰数字锚点的先例，暗色令牌自动切 #D9955C），陈述句退回导语档，
+   手机端不再把兴趣名压到 16px。
    ========================================================================== */
 .play-lead{
-  margin:var(--space-7) 0 0;
-  max-width:22ch;
-  font-size:var(--fs-h2-xl);
+  margin:var(--space-6) 0 0;
+  max-width:42ch;
+  font-size:clamp(19px,2.2vw,24px);
   font-weight:500;
-  line-height:1.5;
-  letter-spacing:-.015em;
+  line-height:1.75;
+  letter-spacing:-.01em;
   color:var(--brand-ink);
 }
 .play-list{
@@ -904,17 +907,18 @@ img{ display:block; max-width:100%; }
 }
 .play-list li{
   display:grid;
-  grid-template-columns:180px minmax(0,1fr);
+  grid-template-columns:200px minmax(0,1fr);
   gap:var(--space-5);
   align-items:baseline;
   padding:var(--space-4) 0;
   border-bottom:1px solid var(--color-border-subtle);
 }
 .play-key{
-  font-size:var(--fs-lead);
+  font-size:clamp(22px,2.6vw,28px);
   font-weight:600;
-  line-height:1.6;
-  color:var(--brand-ink);
+  line-height:1.4;
+  letter-spacing:-.01em;
+  color:var(--brand-accent-text);   /* 深琥珀：兴趣名是本节该高亮的词 */
 }
 .play-note{
   font-size:var(--fs-small);
@@ -967,13 +971,13 @@ img{ display:block; max-width:100%; }
   color:var(--color-text-tertiary);
 }
 @media (max-width:640px){
-  .play-list li{ grid-template-columns:1fr; gap:2px; }
-  .play-key{ font-size:var(--fs-body); }
+  .play-list li{ grid-template-columns:1fr; gap:6px; }
   .play-work-list li{ grid-template-columns:1fr; gap:2px; }
   .play-work-tag{ text-align:left; }
 }
 @media (prefers-color-scheme:dark){
-  .play-lead, .play-key, .play-work-name{ color:#E8EDF2; }
+  .play-lead, .play-work-name{ color:#E8EDF2; }
+  /* .play-key 不在这里提亮：它吃 --brand-accent-text，暗色令牌段已把它切到 #D9955C */
 }
 /* 短句版：一句一行，行距放大；组与组之间靠 p+p 的 28px 断开 */
 .story-body--lines p{ line-height:2.05; }
@@ -2225,8 +2229,9 @@ html.js .view.is-active{ display:block; }
       </div>
     </section>
 
-    <!-- 区块 ② 一直在玩（J-27 重排）：兴趣是主角，原「顺带」那句升为章节主句；
-         作品退成三条从属例证，公众号系列由 3 条砍到 2 条，主页不做公众号目录。 -->
+    <!-- 区块 ② 一直在玩（J-27 重排 / J-28 字号归位）：兴趣是主角，原「顺带」那句升为章节主句；
+         作品退成三条从属例证，公众号系列由 3 条砍到 2 条，主页不做公众号目录。
+         J-28：主句退回导语档（≤24px），五个兴趣名升为 28px 琥珀高亮——该大的大，该小的小。 -->
     <section class="section reveal" aria-labelledby="play-title">
       <div class="container">
         <div class="sec-open">
