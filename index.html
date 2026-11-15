@@ -659,6 +659,41 @@ img{ display:block; max-width:100%; }
   letter-spacing:.04em;
   line-height:1.5;
 }
+/* 收尾那句话：全站最后一屏的最后一行，把它做成「页脚里的正文」而不是又一条版权小字。
+   注意特异性必须写到 .site-footer .foot-creed —— 上面那条 .site-footer p 会把它压回 12px。
+   max-width 用 px 不用 ch：13px 中文字体下的 ch 只有约 6px，46ch 会被算成 350px 挤成四行。 */
+.site-footer .foot-creed{
+  max-width:620px;
+  margin-bottom:var(--space-5);   /* 24 */
+  font-size:var(--fs-small);       /* 14px，比版权行大，仍是页脚尺度 */
+  color:var(--color-text-secondary);
+  letter-spacing:0;
+  line-height:1.85;
+}
+.site-footer .foot-creed::before{
+  content:"——";
+  display:block;
+  margin-bottom:10px;
+  color:var(--brand-accent);
+  font-weight:600;
+  letter-spacing:.1em;
+}
+.site-footer .foot-creed-link{
+  margin-bottom:var(--space-6);
+  font-size:var(--fs-micro);
+}
+/* 「全文」是个 11px 小链，命中区只有 20px 高。和「完整时间线」同一招：
+   透明伪元素把命中区撑到 44px，版式不动。 */
+.site-footer .foot-creed-link .link::before{
+  content:"";
+  position:absolute;
+  inset:-14px -12px;
+}
+.site-footer .foot-creed-link .link{ color:var(--brand-accent-text); }
+.site-footer .foot-copyright{
+  padding-top:var(--space-3);      /* 12 */
+  border-top:1px solid var(--color-border-subtle);
+}
 
 /* ==========================================================================
    B-9 /story 阅读版式
@@ -2363,7 +2398,11 @@ html.js .view.is-active{ display:block; }
 
 <footer class="site-footer">
   <div class="container">
-    <p>© Chew Teck Wai</p>
+    <!-- 2026-11-15 站长选定的收尾文字，出自他自己 2021-02 的《30 岁，我的人生旅程刚开始》末段。
+         逐句摘自原文，只统一了简繁、去掉省略号，没有改写；完整那段在 #/blog/age-30 里。 -->
+    <p class="foot-creed">不管愿不愿意接受，在亿万年之后，属于人类文明的一切痕迹都将被抹去。我们主观意识下的车与房，其实根本没有意义与价值；我们拼尽全力赚取的金钱，在脱离了人类社会体系后，也不过就是一张张纸。你唯一能带走的，是你的精神与信仰。</p>
+    <p class="foot-creed-link"><a class="link" href="#/blog/age-30">全文 <span class="arrow" aria-hidden="true">↗</span></a></p>
+    <p class="foot-copyright">© Chew Teck Wai</p>
   </div>
 </footer>
 
