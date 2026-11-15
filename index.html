@@ -663,59 +663,9 @@ img{ display:block; max-width:100%; }
   line-height:1.6;
   color:var(--color-text-secondary);
 }
-/* C9 二维码：默认折叠。极简站不把两张码怼进视线，扫码是主动动作，
-   用零 JS 的 details 承载；summary 排成与上面三行同构的 88px 标签列。 */
-.qr{ border-top:var(--border-w) solid var(--color-border-subtle); }
-.qr > summary{
-  display:grid;
-  grid-template-columns:88px minmax(0,1fr) auto;   /* 第三列放 ＋/－，靠右成行尾的展开提示 */
-  column-gap:var(--space-4);
-  align-items:baseline;
-  padding-block:var(--space-4);
-  cursor:pointer;
-  list-style:none;
-}
-.qr > summary::-webkit-details-marker{ display:none; }
-.qr-sum-key{
-  font-size:var(--fs-micro);
-  color:var(--color-text-tertiary);
-  letter-spacing:.04em;
-  line-height:1.5;
-}
-.qr-sum-val{
-  font-size:var(--fs-body);
-  color:var(--color-text-primary);
-  line-height:1.75;
-}
-.qr-sign{ font-size:var(--fs-body); color:var(--color-text-secondary); line-height:1.5; }  /* 全行唯一的可点暗示，不能落到 4.31:1 的三级灰 */
-.qr-sign::before{ content:"＋"; }
-.qr[open] .qr-sign::before{ content:"－"; }
-.qr-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:var(--space-6);
-  padding-bottom:var(--space-5);
-}
-.qr-card{ margin:0; }
-.qr-card img{
-  display:block;
-  width:168px; height:168px;
-  padding:var(--space-2);
-  background:#fff;                 /* 码必须落在浅底上，暗色模式也不例外 */
-  border-radius:2px;
-  filter:none;                     /* 压过暗色的 img{filter:brightness(.88)}，压暗会掉扫码成功率 */
-}
-.qr-card figcaption{
-  margin-top:var(--space-3);
-  font-size:var(--fs-micro);
-  color:var(--color-text-secondary);
-  line-height:1.5;
-}
-.qr-card figcaption span{ display:block; color:var(--color-text-tertiary); }
-@media (max-width:767px){
-  .qr-row{ gap:var(--space-5); }
-  .qr-card img{ width:140px; height:140px; }
-}
+/* J-26：旧版二维码卡片（C9 details / .qr-card / .qr-row）整套删除。
+   它和 v3 里另一套同名规则互相覆盖，正是二维码贴左、图注居中那次错位的根源；
+   HTML 里已无一处使用，留着只会让下次改版再踩一次。新样式见 J-26 段。 */
 
 /* ==========================================================================
    B-0 Footer
@@ -1357,30 +1307,9 @@ body{ background:var(--page-bg); }
 #view-blog .blog-row .blog-title{ color:var(--brand-ink); font-weight:600; }
 #view-blog .blog-list{ margin-top:var(--space-4); }
 
-/* ---- 二维码：默认可见的双卡片（用户明确要求「可以直接调用」） ---- */
-.qr-block{ margin-top:18px; }
-.qr-block h3{
-  font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
-  color:var(--brand-accent-text); margin:0 0 14px;
-}
-.qr-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
-.qr-card{
-  margin:0; padding:12px; text-align:center;
-  background:#fff; border:1px solid var(--card-border);
-  border-radius:10px;
-}
-.qr-card img{
-  width:100%; max-width:168px; height:auto; aspect-ratio:1/1;
-  padding:0; border-radius:6px; background:#fff; filter:none;
-}
-.qr-card figcaption{
-  margin-top:10px; font-size:14px; font-weight:600; color:var(--brand-ink);
-}
-.qr-card figcaption span{
-  display:block; margin-top:3px; font-size:12px; font-weight:400;
-  color:var(--color-text-secondary);
-}
-@media (max-width:520px){ .qr-row{ grid-template-columns:1fr; } }
+/* J-26：v3 里第二套 .qr-* 规则一并删除（与旧 C9 同名选择器互相覆盖，
+   `text-align:center` 的卡片 + `display:block` 贴左的码 = 两条轴）。
+   联系区新样式统一放在 J-26 段，全站只留一套。 */
 
 /* ---- 去过的国家 · 小国旗（内联 SVG，不用 emoji） ---- */
 .flag-sprite{ position:absolute; overflow:hidden; }
@@ -1582,10 +1511,10 @@ body{ background:var(--page-bg); }
   /* 头像在暗色下反相：透明底不受影响，深墨蓝线 rgb(45,63,74) 反相成浅暖米
      rgb(210,192,181)，压在深色圆底上清楚。不再叠 sepia/hue-rotate（旧绿金链路）。 */
   .hero-photo img{ filter:invert(1); }
-  .qr-card, .figure-card{ background:#1E2630; }
+  .figure-card{ background:#1E2630; }
   /* --brand-ink 是深橄榄，暗色下会糊成一片：凡是用它当文字色的地方一律提亮。
      注意不能直接覆盖变量本身 —— .btn--ink 拿它当背景，覆盖了按钮就没底了。 */
-  .hero-big, .hero-name, .h1, .h2, .qr-card figcaption,
+  .hero-big, .hero-name, .h1, .h2,
   .race-group-title, .race-result--win, .race-result--national,
   .work-name, .fb-stat-num,
   /* 纸面化 header 后品牌字吃 --brand-ink，暗色下深字压深底看不见，一并提亮 */
@@ -2004,6 +1933,107 @@ a.blog-row:hover .blog-title{ color:var(--brand-accent-text); }
 }
 
 /* ==========================================================================
+   J-26 · 联系区重做（单轴）+ 关于这个网页 / 免责声明
+   旧版两张白卡片里 img 是 display:block 贴左，figcaption 却 text-align:center，
+   两条轴错开：1440 差 22.5px、900 差 104.5px、390 差 64px；整块还只占右半栏，
+   左边一大片空白。现在全宽、全部左对齐、同一条纵轴，二维码只留白底小方章。
+   ========================================================================== */
+.contact-intro{
+  margin:var(--space-6) 0 0; max-width:62ch;
+  font-size:var(--fs-lead); line-height:1.8;
+  color:var(--color-text-secondary);
+}
+.contact-block{
+  margin-top:var(--space-9);
+  padding-top:var(--space-5);
+  border-top:var(--border-w) solid var(--color-border);
+}
+.contact-kicker{
+  margin:0 0 var(--space-5);
+  font-family:var(--font-mono); font-size:var(--fs-micro);
+  letter-spacing:.06em; color:var(--brand-accent-text);
+}
+.contact-list{ list-style:none; margin:0; padding:0; }
+.contact-item{
+  display:grid;
+  grid-template-columns:34px 128px minmax(0,1fr);
+  gap:var(--space-5);
+  align-items:start;
+  padding:var(--space-5) 0;
+  border-bottom:1px solid var(--color-border-subtle);
+}
+.contact-item:first-child{ padding-top:0; }
+.contact-num{
+  font-family:var(--font-mono); font-size:var(--fs-micro);
+  line-height:1.9; color:var(--color-text-tertiary);
+}
+/* 二维码必须落在白底上，暗色也不例外；压暗会掉扫码成功率。
+   只给码本身一块方章，不再把整段文字裹进白卡片。 */
+.contact-qr{
+  display:block; margin:0;
+  width:128px; height:128px; padding:10px;
+  background:#fff; border:1px solid var(--card-border);
+  border-radius:var(--radius-img);
+}
+.contact-qr img{
+  display:block; width:100%; height:100%;
+  object-fit:contain; background:#fff; filter:none;
+}
+.contact-name{
+  margin:0; font-size:var(--fs-h2); font-weight:600;
+  line-height:1.4; color:var(--brand-ink);
+}
+.contact-desc{
+  margin:var(--space-2) 0 0;
+  font-size:var(--fs-small); line-height:1.85;
+  color:var(--color-text-secondary);
+}
+.contact-foot{
+  margin:var(--space-4) 0 0;
+  font-size:var(--fs-micro); line-height:1.8;
+  color:var(--color-text-secondary);
+}
+@media (max-width:640px){
+  .contact-item{ grid-template-columns:26px 100px minmax(0,1fr); gap:var(--space-3); }
+  .contact-qr{ width:100px; height:100px; padding:7px; }
+  .contact-name{ font-size:var(--fs-body); }
+  .contact-desc{ font-size:var(--fs-micro); }
+}
+@media (prefers-color-scheme:dark){
+  .contact-name{ color:#E8EDF2; }
+  .contact-qr{ background:#fff; border-color:#33414F; }
+}
+
+/* 页脚「关于这个网页」：全站共用，介绍 + 免责声明 */
+.site-footer .site-about{
+  max-width:760px;
+  margin-bottom:var(--space-8);
+  padding-top:var(--space-6);
+  border-top:var(--border-w) solid var(--color-border);
+}
+.site-footer .site-about-title{
+  margin:0; font-size:var(--fs-small); font-weight:600;
+  letter-spacing:.06em; color:var(--brand-accent-text);
+}
+.site-footer .site-about-lead{
+  margin:var(--space-4) 0 0;
+  font-size:var(--fs-lead); line-height:1.8;
+  letter-spacing:0; color:var(--color-text-primary);
+}
+.site-footer .site-about-body{
+  margin:var(--space-3) 0 0;
+  font-size:var(--fs-small); line-height:1.95;
+  letter-spacing:0; color:var(--color-text-secondary);
+}
+.site-footer .site-about-note{
+  margin:var(--space-5) 0 0;
+  padding-top:var(--space-4);
+  border-top:1px solid var(--color-border-subtle);
+  font-size:var(--fs-micro); line-height:1.9;
+  letter-spacing:0; color:var(--color-text-tertiary);
+}
+
+/* ==========================================================================
    占位符统一色 · 必须留在样式表最末
    与 .field-val / .blog-title / .ct-val 同特异度，靠顺序取胜。
    ========================================================================== */
@@ -2315,9 +2345,10 @@ html.js .view.is-active{ display:block; }
       </div>
     </section>
 
-    <!-- 区块 ⑤ 找到我：全站不设任何表单，联系=内容入口。
-         J-25 补办公信息：岗位 / 10 号工作位 / 工作时间全部由本人给出，逐字照抄。
-         联系电话本人明确「不要写」，页面上不出现电话，也不拿别的入口冒充。 -->
+    <!-- 区块 ⑤ 找到我（J-26 重做）：全站不设任何表单，联系=内容入口。
+         旧版白卡片里二维码 display:block 贴左、图注 text-align:center，两条轴错开；
+         现在整块全宽、全部左对齐、同一条纵轴，二维码只留一块白底小方章。
+         岗位 / 10 号工作位 / 工作时间由本人给出，逐字照抄；联系电话明确不写。 -->
     <section class="section reveal" aria-labelledby="ct-title">
       <div class="container">
         <div class="sec-open">
@@ -2325,6 +2356,8 @@ html.js .view.is-active{ display:block; }
           <h2 class="h2" id="ct-title">找到我</h2>
           <span class="h2-sub">办公室 · 网上都能找到</span>
         </div>
+
+        <p class="contact-intro">人在重庆。窗口的事当面说最清楚，别的事公众号、微信都能找到我。</p>
 
         <div class="office">
           <div class="office-main">
@@ -2343,33 +2376,27 @@ html.js .view.is-active{ display:block; }
           </div>
         </div>
 
-        <div class="cols">
-          <div class="ct-left">
-            <p class="ct-call">人在重庆。窗口的事当面说最清楚，别的事公众号、微信都能找到我。</p>
-          </div>
-          <div class="ct-right">
-            <div class="ct-row">
-              <span class="ct-key">邮箱</span>
-              <span class="ct-val ph">【待补：邮箱地址】</span>
-            </div>
-            <div class="ct-row">
-              <span class="ct-key">公众号</span>
-              <span class="ct-val">停不下来的独行侠<span class="ct-sub">2020 年写到 2026 年，142 篇。政策怎么落地、数据怎么看、钱怎么算，尽量说人话</span></span>
-            </div>
-            <div class="qr-block" id="contact">
-              <h3>扫码</h3>
-              <div class="qr-row">
-                <figure class="qr-card">
-                  <img src="assets/qr-wechat-2x.png" alt="个人微信二维码" width="168" height="168" loading="lazy" decoding="async">
-                  <figcaption>微信<span>扫码添加，注明来意</span></figcaption>
-                </figure>
-                <figure class="qr-card">
-                  <img src="assets/qr-mp-2x.png" alt="微信公众号「停不下来的独行侠」二维码" width="168" height="168" loading="lazy" decoding="async">
-                  <figcaption>公众号<span>停不下来的独行侠</span></figcaption>
-                </figure>
+        <div class="contact-block" id="contact">
+          <p class="contact-kicker">网上 · 也可以这样找到我</p>
+          <ul class="contact-list">
+            <li class="contact-item">
+              <span class="contact-num" aria-hidden="true">01</span>
+              <span class="contact-qr"><img src="assets/qr-wechat-2x.png" alt="个人微信二维码" width="168" height="168" loading="lazy" decoding="async"></span>
+              <div class="contact-text">
+                <p class="contact-name">微信</p>
+                <p class="contact-desc">扫码添加，注明来意。</p>
               </div>
-            </div>
-          </div>
+            </li>
+            <li class="contact-item">
+              <span class="contact-num" aria-hidden="true">02</span>
+              <span class="contact-qr"><img src="assets/qr-mp-2x.png" alt="微信公众号「停不下来的独行侠」二维码" width="168" height="168" loading="lazy" decoding="async"></span>
+              <div class="contact-text">
+                <p class="contact-name">公众号 · 停不下来的独行侠</p>
+                <p class="contact-desc">2020 年写到 2026 年，142 篇。政策怎么落地、数据怎么看、钱怎么算，尽量说人话。</p>
+              </div>
+            </li>
+          </ul>
+          <p class="contact-foot">邮箱 <span class="ph">【待补：邮箱地址】</span></p>
         </div>
       </div>
     </section>
@@ -3822,6 +3849,16 @@ html.js .view.is-active{ display:block; }
 
 <footer class="site-footer">
   <div class="container">
+    <!-- J-26 关于这个网页：介绍是据站内 24 篇文章与本人 2021.《30 岁，我的人生旅程刚开始》
+         提炼的编者概括，事实全部有出处；免责声明只说清边界，不堆法条腔。 -->
+    <section class="site-about" aria-labelledby="about-title">
+      <h2 class="site-about-title" id="about-title">关于这个网页</h2>
+      <p class="site-about-lead">做过银行，踢过球，写着公众号，现在做学生资助。</p>
+      <p class="site-about-body">在中国银行当了五年理财经理，2016 年起间歇借调北京总行。踢了十几年后腰，拿过两次全国亚军。公众号写了 142 篇。资助那座能查的网站，是现在正在做的事。</p>
+      <p class="site-about-body">这几行是履历，不是我。最开始写公众号，只是想把投资和工作里那些说不清的东西整理明白，用输出逼自己学；后来读到《软技能》，才把它当成一扇展示自己的窗口。写来写去其实都是同一件事：把 0.2% 和 1.5% 的差距算到三十年后的 221 万，把一本读完的书拿去解决一个真问题，把散在十几个文件里的资助政策拆成学生自己查得到的一张表，把一场三小时的访谈分两天看完、有一段倒回去听三遍。银行里学的那套，离开以后大半用不上，是后来重新学回来的。AI 写得比我好，但前提对不对只有我知道，所以我更在意判断，不在意答案。兴趣广这件事，我更愿意当成还没整理完的能力；能自己动手把一件麻烦事收拾到别人不用再问，我就觉得值。</p>
+      <p class="site-about-note">这是一个个人展示网页，不是学校或任何单位的官方渠道，不发布通知，不代表机构意见，也不构成投资建议。站内的办公时间、请假模板只为了方便找我办事的同学，具体要求以学校和部门的正式规定为准；请假是否批准，以我本人回复同意为准。页面不收集个人信息，没有广告，也没有第三方统计。站内的经历、成绩与数字据本人材料和公开记录整理，如有出入以官方文件为准。</p>
+    </section>
+
     <!-- 2026-11-15 站长选定的收尾文字，出自他自己 2021-02 的《30 岁，我的人生旅程刚开始》末段。
          逐句摘自原文，只统一了简繁、去掉省略号，没有改写；完整那段在 #/blog/age-30 里。 -->
     <p class="foot-creed">不管愿不愿意接受，在亿万年之后，属于人类文明的一切痕迹都将被抹去。我们主观意识下的车与房，其实根本没有意义与价值；我们拼尽全力赚取的金钱，在脱离了人类社会体系后，也不过就是一张张纸。你唯一能带走的，是你的精神与信仰。</p>
