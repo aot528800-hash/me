@@ -1267,7 +1267,8 @@ body{ background:var(--page-bg); }
 }
 @media (min-width:768px){
   .hero-body{
-    grid-template-columns:minmax(0,1fr) 280px;
+    /* 头像列从 280 提到 360：姓名 104px 时，280px 的圆撑不住右侧的视觉重量 */
+    grid-template-columns:minmax(0,1fr) 360px;
     align-items:start;
     gap:var(--space-10);
   }
@@ -1298,13 +1299,10 @@ body{ background:var(--page-bg); }
   overflow:hidden;
 }
 .hero-photo img{
-  width:76%; height:76%; object-fit:contain;
-  /* 头像是蓝色线稿。纸与墨体系里用 sepia 归暖 + 轻微降饱和，
-     让线稿融进暖米纸底，不抢姓名的主角位。 */
-  filter:sepia(.45) saturate(.6) brightness(.95);
+  /* 新头像是透明底 + 深墨蓝线稿（rgb 45,63,74），本身就是「纸与墨」同族色。
+     铺满圆框，让人成为唯一主角；不再套 sepia 染色、不再正片叠底。 */
+  width:100%; height:100%; object-fit:contain;
   border-radius:50%;
-  /* 原图自带浅色圆盘底，正片叠底让它跟卡片底色走 */
-  mix-blend-mode:multiply;
   background:transparent;
 }
 .hero-dots{
@@ -1419,12 +1417,9 @@ body{ background:var(--page-bg); }
   /* 徽记在暗色下也用深金底：亮金底上白字只有 1.77:1，不够 */
   .race-honor{ background:#A05F2E; }
   .btn--blue{ border-color:#A05F2E; }
-  /* 头像在暗色下必须反相：正片叠底会让深色线稿乘进深背景，整块糊成黑。
-     反相后线稿变成浅色，再 sepia 加暖，就不会是死白。 */
-  .hero-photo img{
-    filter:invert(1) sepia(1) hue-rotate(60deg) saturate(.6) brightness(1.05);
-    mix-blend-mode:normal;
-  }
+  /* 头像在暗色下反相：透明底不受影响，深墨蓝线 rgb(45,63,74) 反相成浅暖米
+     rgb(210,192,181)，压在深色圆底上清楚。不再叠 sepia/hue-rotate（旧绿金链路）。 */
+  .hero-photo img{ filter:invert(1); }
   .qr-card, .figure-card{ background:#1E2630; }
   /* --brand-ink 是深橄榄，暗色下会糊成一片：凡是用它当文字色的地方一律提亮。
      注意不能直接覆盖变量本身 —— .btn--ink 拿它当背景，覆盖了按钮就没底了。 */
@@ -1763,7 +1758,7 @@ html.js .view.is-active{ display:block; }
                    46KB 的 WebP，比原来 53KB 的 256px PNG 还小，却清晰一倍。
                    没用 AVIF：36KB 更小，但 GitHub Pages 的 .avif MIME 无法在本机验证，
                    <source> 加载失败不会回落到 <img>，赌不起。 -->
-              <img src="assets/avatar-640.webp" alt="Chew Teck Wai 的卡通头像" width="640" height="640" decoding="async">
+              <img src="assets/avatar-640.webp" alt="Chew Teck Wai 的线稿肖像" width="640" height="640" decoding="async">
               </div>
             </div>
           </div>
