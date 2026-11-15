@@ -1368,6 +1368,44 @@ body{ background:var(--page-bg); }
 .post-body strong{ font-weight:600; color:var(--brand-ink); }
 .post-body img{ margin:var(--space-6) 0; border-radius:var(--radius-img); }
 
+/* ---- 正文里的图 ----
+   图是正文唯一的换气口：段落密到十几段之后，读者需要一个不用读的东西。
+   所以图必须「像一张放在纸上的图」，不是网页里的装饰块 —— 白卡、细边、微投影，
+   和图注一起构成一个单元，和正文的米白分开一层。 */
+.art-figure{ margin:2.3em 0; }
+.art-figure svg,
+.art-figure img{
+  display:block;
+  width:100%;
+  height:auto;
+  padding:20px;
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:var(--radius-card);
+  box-shadow:var(--card-shadow);
+}
+.art-figure figcaption{
+  margin-top:12px;
+  padding-left:2px;
+  font-size:var(--fs-micro);
+  line-height:1.7;
+  color:var(--color-text-secondary);
+}
+/* SVG 里的三种字：标签、数字、刻度。
+   viewBox 是 720 宽，落到正文里约 600，所以这里写大一号才不会缩得看不见。 */
+.fg-lab{ font-family:var(--font-sans); font-size:15px; fill:var(--color-text-primary); }
+.fg-num{ font-family:var(--font-mono); font-size:15px; fill:var(--brand-ink); font-variant-numeric:tabular-nums; }
+.fg-tick{ font-family:var(--font-sans); font-size:12.5px; fill:var(--color-text-tertiary); }
+
+/* 窄屏放不下就横滑，而不是把字缩成 8px 让人眯着眼看。
+   图本身按 520px 保底，滚动容器给出可滚动的暗示（右侧渐隐）。 */
+@media (max-width:640px){
+  .art-figure{ overflow-x:auto; scrollbar-width:thin; }
+  .art-figure svg,
+  .art-figure img{ min-width:520px; padding:14px; }
+  .art-figure figcaption{ padding-right:14px; }
+}
+
 .post-body table{
   width:100%;
   margin:1.9em 0;
@@ -2035,6 +2073,130 @@ html.js .view.is-active{ display:block; }
   <!-- 2026-11-14 第二轮选文：只留「所思所想」。资助类全部撤下（本人明确不要）；
        ETF 教程与中超单场报告也撤下 —— 同为工具/报告，放进来会把博客变成第二作品栏。
        原文配图仍全部移除：图走 mmbiz.qpic.cn 防盗链，站外引用会裂图。 -->
+  <template data-art="why-not-buy-house" data-title="我为什么不建议现在就买房" data-date="2026.11.15" data-desc="把一套房子 30 年要付出去的钱摆成两行，再谈要不要买。">
+    <p>先说结论：如果不是为了孩子上学、落户，或者某种非它不可的安定感，纯从钱的效率算，现在买房不划算。</p>
+    <p>这话不好听，在饭桌上也会得罪人。所以下面只摆数，不讲立场。</p>
+    <h2>一笔账：300 万的房子，30 年你要付出去多少</h2>
+    <p>拿一套 300 万的房子举例。首付三成 90 万，贷款 210 万，按 4.2% 的利率、30 年等额本息，月供 1 万零 270。</p>
+    <p>30 年还完，本息合计 370 万，其中利息 160 万。再加上契税、维修、物业这些跑不掉的支出，算 30 万。</p>
+    <p>这套房子，总共付出去 490 万。</p>
+    <figure class="art-figure">
+      <svg class="art-fig" viewBox="0 0 720 250" role="img" aria-label="买一套 300 万的房子，30 年总支出约 490 万元；同样的 30 年一直租，租金约 144 万元">
+<rect x="150" y="70" width="442.6" height="44" rx="6" fill="var(--brand-ink)"/>
+<text class="fg-lab" x="150" y="58">买下并还完：首付 90 ＋ 30 年本息 370 ＋ 税费维修 30</text>
+<text class="fg-num" x="604.6" y="99">490 万</text>
+<rect x="150" y="180" width="130.2" height="44" rx="6" fill="var(--brand-accent)"/>
+<text class="fg-lab" x="150" y="168">同样的 30 年一直租：每月 4000 元</text>
+<text class="fg-num" x="292.2" y="209">144 万</text>
+<line x1="150" y1="248" x2="622" y2="248" stroke="var(--color-border)" stroke-width="1"/>
+</svg>
+      <figcaption>按 300 万总价、首付三成、4.2%、30 年等额本息、月租 4000 元算，税费与维修按 30 万估。所有参数都是假设，换个参数结论会变。</figcaption>
+    </figure>
+    <p>同样的 30 年，如果一直租房，月租按 4000 算，总共付出去 144 万。</p>
+    <p>有人会说，房子最后还在你手上，租金付出去就没了。对。所以真正要比的不是 490 和 144，而是「490 万换回一套 30 年房龄的房子」和「省下来的钱，30 年后变成了什么」。</p>
+    <h2>第二笔账：省下来的钱去哪了</h2>
+    <p>每月少付 6270 元（月供 1 万零 270 减房租 4000），按月投出去，年化 6%，30 年后大约 630 万。</p>
+    <p>那 90 万首付如果不压进房子里，一次性投出去，同样年化 6%、30 年，是 517 万。</p>
+    <p>两边加起来 1147 万。而 30 年后那套房子值多少，我不知道；按不涨不跌算，还是 300 万。</p>
+    <p>这个对比有漏洞：租金会涨，6% 不保证，房子也可能升值。但漏洞的方向是对称的——它同样可能对买房更不利：房屋折旧、变现的时间、中途要换城市。我没有把天平压向哪一边，只是把平时不算的那一半也摆上来。</p>
+    <h2>第三件事：切不开</h2>
+    <p>房子最难的地方不是贵，是不能切。你要用 20 万，卖不掉 20 万的房子。</p>
+    <p>30 年里需要现金的时刻很多：失业、生病、家里人出事、一个必须抓住的机会。一套还在按揭的房子，在这些时刻不是资产，是负担——你不能卖，也不敢断供。</p>
+    <p>流动性这个词听起来很金融，说白了就一句：<strong>急用钱的时候，它能不能变成钱。</strong></p>
+    <h2>那什么情况下该买</h2>
+    <p>三种。孩子要上学，学位是硬约束；打算在一个城市待二十年以上，且不打算再换；以及你确实需要那套房子带来的安定感，并且愿意为它付溢价。</p>
+    <p>这三种都不是财务理由。我不反对为这些东西付钱，我反对的是把它们包装成「投资」。</p>
+    <hr>
+    <p>上面所有数字都是假设。4.2% 的利率、6% 的收益、4000 的租金，一个都不保证。换个参数，结论可能反过来。</p>
+    <p>我给的不是答案，是一套算法。你自己把参数填进去，算出来的才是你的答案。</p>
+    <p>这不是投资建议。</p>
+  </template>
+  <template data-art="cost-you-cannot-see" data-title="投资里最贵的那笔钱，账上看不见" data-date="2026.11.12" data-desc="0.2% 和 1.5% 只差 1.3 个点，30 年后差 221 万。">
+    <p>大部分人算收益，算得很细；算成本，只算手续费。</p>
+    <p>投资里最贵的那笔钱，是不出现在对账单上的那一笔。</p>
+    <h2>一个百分点的重量</h2>
+    <p>100 万，年化 7%，30 年，是 761 万。</p>
+    <p>如果每年扣掉 0.2% 的费率，实际年化变成 6.8%，30 年后是 720 万。</p>
+    <p>扣 1.5%，实际年化 5.5%，30 年后是 498 万。</p>
+    <figure class="art-figure">
+      <svg class="art-fig" viewBox="0 0 720 330" role="img" aria-label="100 万元按年化 7% 计 30 年：年费 0.2% 得 720 万，年费 1.5% 得 498 万">
+<line x1="90" y1="34" x2="118" y2="34" stroke="var(--brand-accent)" stroke-width="2" stroke-dasharray="6 4"/>
+<text class="fg-lab" x="126" y="38">年费 0.2%</text>
+<line x1="238" y1="34" x2="266" y2="34" stroke="var(--color-text-tertiary)" stroke-width="2"/>
+<text class="fg-lab" x="274" y="38">年费 1.5%</text>
+<line x1="90" y1="227.5" x2="620" y2="227.5" stroke="var(--color-border-subtle)"/>
+<text class="fg-tick" x="82" y="231.5" text-anchor="end">200</text>
+<line x1="90" y1="165.0" x2="620" y2="165.0" stroke="var(--color-border-subtle)"/>
+<text class="fg-tick" x="82" y="169.0" text-anchor="end">400</text>
+<line x1="90" y1="102.5" x2="620" y2="102.5" stroke="var(--color-border-subtle)"/>
+<text class="fg-tick" x="82" y="106.5" text-anchor="end">600</text>
+<line x1="90" y1="40.0" x2="620" y2="40.0" stroke="var(--color-border-subtle)"/>
+<text class="fg-tick" x="82" y="44.0" text-anchor="end">800</text>
+<polyline points="90.0,258.8 107.7,256.6 125.3,254.4 143.0,251.9 160.7,249.3 178.3,246.6 196.0,243.6 213.7,240.5 231.3,237.1 249.0,233.5 266.7,229.7 284.3,225.6 302.0,221.2 319.7,216.5 337.3,211.5 355.0,206.2 372.7,200.5 390.3,194.4 408.0,187.9 425.7,180.9 443.3,173.5 461.0,165.6 478.7,157.1 496.3,148.1 514.0,138.4 531.7,128.1 549.3,117.1 567.0,105.4 584.7,92.8 602.3,79.4 620.0,65.1" fill="none" stroke="var(--brand-accent)" stroke-width="2.5" stroke-dasharray="7 5" stroke-linecap="round"/>
+<polyline points="90.0,258.8 107.7,257.0 125.3,255.2 143.0,253.3 160.7,251.3 178.3,249.2 196.0,246.9 213.7,244.5 231.3,242.0 249.0,239.4 266.7,236.6 284.3,233.7 302.0,230.6 319.7,227.3 337.3,223.9 355.0,220.2 372.7,216.4 390.3,212.3 408.0,208.1 425.7,203.6 443.3,198.8 461.0,193.8 478.7,188.5 496.3,182.9 514.0,177.0 531.7,170.8 549.3,164.3 567.0,157.4 584.7,150.1 602.3,142.4 620.0,134.3" fill="none" stroke="var(--color-text-tertiary)" stroke-width="2.5" stroke-linecap="round"/>
+<text class="fg-tick" x="90.0" y="310" text-anchor="middle">0 年</text>
+<text class="fg-tick" x="266.7" y="310" text-anchor="middle">10 年</text>
+<text class="fg-tick" x="443.3" y="310" text-anchor="middle">20 年</text>
+<text class="fg-tick" x="620.0" y="310" text-anchor="middle">30 年</text>
+<text class="fg-num" x="632" y="69.1">720 万</text>
+<text class="fg-num" x="632" y="138.3">498 万</text>
+</svg>
+      <figcaption>100 万本金、年化 7%、30 年。两只产品唯一的区别是每年扣多少——扣的是比例，缩水的是指数。</figcaption>
+    </figure>
+    <p>0.2% 和 1.5% 之间，只差 1.3 个百分点。30 年之后，差了 221 万。</p>
+    <p>这就是复利的两面：它让钱长大，也让成本长大。费率是按比例收的，比例乘上指数，最后就是一个没法忽略的数。</p>
+    <p>而且这笔钱不会在任何一张单子上写「你今年付了 1.5 万」。它已经悄悄从净值里扣掉了，你看到的只是「涨得没别人多」。</p>
+    <h2>三笔看不见的钱</h2>
+    <p><strong>第一笔，费率。</strong>申购费、管理费、托管费、销售服务费，四个加起来才是真实成本。很多人只看申购费打几折，剩下三项从来不问。</p>
+    <p><strong>第二笔，换手。</strong>每调一次仓，都有摩擦：佣金、印花税、买卖价差。一年换五次，成本就翻上去了，而换来的那点「更优」未必存在。</p>
+    <p><strong>第三笔，你自己的手。</strong>这笔最贵，也最难承认。跌了恐慌卖出，涨了追进去，一年折腾三四回，收益被磨掉的部分，比任何费率都大。</p>
+    <h2>所以我怎么做</h2>
+    <p>三条，都很笨：</p>
+    <ul>
+      <li>先看费率，再看业绩。两只看起来差不多的产品，费率差 1%，30 年后不是「差不多」。</li>
+      <li>能不换就不换。判断一次值多少钱，得先扣掉摩擦成本再算。</li>
+      <li>把钱分成两份：「五年不用」的和「随时要用」的。后者不投。</li>
+    </ul>
+    <p>最后一条最难。大部分亏损不是因为选错，是因为在错误的时间被迫卖出。</p>
+    <hr>
+    <p>这也不是投资建议。7% 的假设已经偏乐观，真实市场里 30 年不一定有 7%，也可能不止。</p>
+    <p>上面所有数字都是在同一个假设下做的横向比较，不是对未来的预测。它们只能回答一个问题：同样的起点、同样的年化，费用差一点，最后差多少。这个问题的答案跟市场无关，只跟算术有关。</p>
+  </template>
+  <template data-art="ai-cannot-judge" data-title="AI 能给你答案，给不了你判断" data-date="2026.11.08" data-desc="它写的比你好，但前提对不对，只有你知道。">
+    <p>这两年我用 AI 用得很凶。写东西、查资料、读代码、整理表格，能用的地方都用上了。效率是真的提高了，大概是三四倍。</p>
+    <p>但我慢慢发现一个规律：工具越强，人越容易放弃一件不该放弃的事——判断。</p>
+    <h2>它给的答案，通常比你的更完整</h2>
+    <p>完整不等于对。</p>
+    <p>一个写得顺、结构清楚、还带小标题的答案，会让人跳过「这个前提成立吗」这一步。你读着觉得有道理，就往下用了。而问题往往出在最开头那一句假设上，后面全对，只是因为起点偏了。</p>
+    <p>我自己踩过好几次：让它帮我算一个方案的成本，数字都对，但它默认了一个我根本没打算采用的口径。它不会提醒你「你这个前提有问题」，因为在它的视角里，那个前提是你给的。</p>
+    <h2>三件不能外包的事</h2>
+    <p><strong>一是决定做什么。</strong>提什么问题，是判断；回答这个问题，才是执行。问题提错了，答案再漂亮也是浪费。这件事它替不了，因为它不知道你想要什么，也不知道你承受得起什么。</p>
+    <p><strong>二是承担后果。</strong>它能给你三条建议，但半夜睡不着的是你。凡是后果要你担的决定，就不能把决定权交出去。</p>
+    <p><strong>三是知道什么是对的。</strong>这一条最要紧。它说这就是标准答案，你得有能力说「不对」。这个能力只能来自你自己读过、算过、错过的那些东西。</p>
+    <figure class="art-figure">
+      <svg class="art-fig" viewBox="0 0 720 220" role="img" aria-label="流程示意：提出问题、模型给答案、你决定信不信，前两步可以外包，最后一步不能">
+<rect x="40" y="84" width="180" height="68" rx="10" fill="none" stroke="var(--brand-ink)" stroke-width="1.5"/>
+<text class="fg-lab" x="130" y="124" text-anchor="middle">你提出一个问题</text>
+<rect x="270" y="84" width="180" height="68" rx="10" fill="none" stroke="var(--brand-ink)" stroke-width="1.5"/>
+<text class="fg-lab" x="360" y="124" text-anchor="middle">模型给出一份答案</text>
+<rect x="500" y="84" width="180" height="68" rx="10" fill="none" stroke="var(--brand-ink)" stroke-width="1.5"/>
+<text class="fg-lab" x="590" y="124" text-anchor="middle">你决定信不信</text>
+<text class="fg-tick" x="245" y="123" text-anchor="middle">→</text>
+<text class="fg-tick" x="475" y="123" text-anchor="middle">→</text>
+<text class="fg-tick" x="130" y="196" text-anchor="middle">值得外包</text>
+<text class="fg-tick" x="360" y="196" text-anchor="middle">也可外包</text>
+<text class="fg-tick" x="590" y="196" text-anchor="middle">不能外包</text>
+<line x1="590" y1="164" x2="590" y2="176" stroke="var(--brand-accent)" stroke-width="2"/>
+</svg>
+      <figcaption>提问题和拿答案是执行，判断信不信是决策。前两步可以外包，第三步外包出去，就没有人了。</figcaption>
+    </figure>
+    <h2>我现在的用法</h2>
+    <p>让它做三件事：把一堆资料整理成结构；把我写的东西改短、改顺；把一个我不懂的概念换三种说法讲到我能复述。</p>
+    <p>不让它做一件事：替我决定哪一版更好。</p>
+    <p>前者是加速，后者是替换。加速越多次，你的判断越值钱；替换一次，你就少一次练习。</p>
+    <hr>
+    <p>工具越强，越需要一个人站在那里。那个人不能是模型。</p>
+  </template>
   <template data-art="three-hours-interview" data-title="花三小时看了一场访谈" data-date="2026.07.16" data-desc="马斯克和彼得·迪亚曼迪斯那场对谈，我分两天看完，有一段倒回去听了三遍。">
     <p>周末看了马斯克和彼得·迪亚曼迪斯的一场对谈，今年一月录的，在德州那个超级工厂里。全长将近三个小时，我分了两天看完。</p>
     <p>大部分内容你可以猜到。聊 AI、聊机器人、聊火星、聊能源。这些话题马斯克讲了十几年了，不算新鲜。</p>
@@ -2128,21 +2290,6 @@ html.js .view.is-active{ display:block; }
     <p>现在回头看，那个在银行柜台后面迷茫的自己，并不是缺乏学习能力。他是缺一个非学不可的理由。</p>
     <p>项目给你理由。教学给你检验。人生地图给你方向。</p>
     <p>这三样齐了，你不需要「坚持学习」。学习会变成你解决问题的副产品。</p>
-  </template>
-  <template data-art="soccer-data-clean" data-title="足球数据分析师：数据计算的第一步为什么是「删数据」" data-date="2026.06.16" data-desc="只踢 10 分钟进 1 球的前锋，G/90 会算到 9.0——所以先砍样本。">
-    <p>后台收到一个很实在的提问：“费半天劲爬下来的所有球员数据，为什么在写代码的时候，还要专门加一行条件，把出场不足 450 分钟的人踢掉？”</p>
-    <p>这其实是个很好的实战问题。在真实的足球数据业务里，这步操作叫 <strong>“样本量控制”</strong>。今天简单聊聊，为什么做数据的第一步，往往是学会 <strong>“挤水分”</strong>。</p>
-    <h2>一、警惕“小样本”的欺骗性</h2>
-    <p>如果不设出场时间门槛，你做出来的图表基本没法看，业务结论也会跟着跑偏。</p>
-    <p>举个常见的例子：某队的一名替补小将，整个赛季只在最后一场的垃圾时间上了 <strong>10</strong> 分钟。刚好在这 <strong>10</strong> 分钟里，他远射打进一球。</p>
-    <p>如果你在处理数据时不剔除他，按照系统逻辑折算，他的 “每90分钟进球数（G/90）” 会高达 <strong>9.0</strong>，射门转化率是 <strong>100%</strong>。当你把全中超的前锋拉到一个散点图里，这个只踢了 <strong>10</strong> 分钟的球员会直接顶在图表最右上角，数据表现一骑绝尘。而像武磊这样实打实踢了 <strong>2500</strong> 分钟、进了 <strong>20</strong> 个球的绝对核心，反而会被图表的比例尺挤压，显得平平无奇。</p>
-    <p>这就是生数据（<code>Raw Data</code>）不经清洗带来的直接后果。</p>
-    <h2>二、为什么行业门槛定在 450 分钟？</h2>
-    <p>在主流数据库里， <strong>450 分钟</strong> 折算下来刚好是 5 个完整的 90 分钟（5场全场）。这也是机构在做初筛时常用的及格线。背后的逻辑很直接：</p>
-    <ul><li><strong>过滤战术水分</strong>：能在一线队累计踢满 450 分钟，说明球员是常态战术轮换的一部分，而不是只有己方大比分领先、对手体能崩盘时才上场走过场的边缘人。他面对的防守强度具有参考价值。</li><li><strong>均值回归</strong>：足球比赛偶然性极大。前锋可能偶尔一场脚风顺，后卫也可能单场抢断上双。但把时间拉长到 5 场比赛以后，运气成分被逐渐稀释，数据才能相对真实地反映一个球员的平均水平下限。</li><li><strong>按业务需求调整</strong>：450 分钟只是个参考值，具体要看联赛进度。赛季刚打 10 轮，用 450 分钟很合适；但如果是年终的深度球探盘点，分析师通常会把门槛拉高到 <strong>900 分钟</strong> （10个全场）。</li></ul>
-    <p>明白了这个逻辑，代码才算真正服务于业务。</p>
-    <hr>
-    <p>现在，你可以试着运行一下加了过滤条件的代码，把清洗后的干净数据喂给图表工具。去看看剔除掉“伪神锋”后，那两百多名中超主力在四象限图里的真实落位。</p>
   </template>
   <template data-art="own-your-brain" data-title="从租用大脑到拥有大脑" data-date="2026.03.13" data-desc="在自己硬盘上跑模型之后，我重新理解「拥有」和「租用」这两个词。">
     <p>人们对待当下的 AI 浪潮，就像在对待一场没有尽头的跑轮测试。大多数人要么在焦虑地追踪最新的巨型模型，要么在疯狂地学习下周可能就会过时的工具技巧。</p>
