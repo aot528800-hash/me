@@ -6,8 +6,8 @@
 <meta name="color-scheme" content="light dark">
 <!-- 手机浏览器自己那条地址栏也跟着页面走：iOS Safari 与 Android Chrome 都认。
      不写的话，米白的页面顶在一条纯白（或纯黑）的浏览器栏下面，第一眼就断层。 -->
-<meta name="theme-color" content="#FBFAF4" media="(prefers-color-scheme:light)">
-<meta name="theme-color" content="#131614" media="(prefers-color-scheme:dark)">
+<meta name="theme-color" content="#F7F2E8" media="(prefers-color-scheme:light)">
+<meta name="theme-color" content="#121820" media="(prefers-color-scheme:dark)">
 <title>Chew Teck Wai</title>
 <meta name="description" content="做过银行理财经理，踢了十几年后腰，公众号写了 142 篇，现在做学生资助。">
 <link rel="icon" href="data:,">
@@ -42,20 +42,20 @@
    ========================================================================== */
 :root{
   /* A-1 色彩 */
-  --color-bg:#FBFAF4;
-  --color-surface:#F2EFE7;
-  --color-text-primary:#1E1C18;
-  --color-text-secondary:#5A564E;
-  --color-text-tertiary:#6F6B62;
+  --color-bg:#F7F2E8;
+  --color-surface:#EFE9DD;
+  --color-text-primary:#1A2229;
+  --color-text-secondary:#55606B;
+  --color-text-tertiary:#5E6874;
   --color-border-subtle:rgba(30,28,24,.08);
   --color-border:rgba(30,28,24,.15);
   --color-border-strong:rgba(30,28,24,.30);
-  --color-accent:#3F6B52; /* 全站唯一非灰阶色，仅用于：/story 阅读进度线 + :focus-visible 焦点环 */
+  --color-accent:#B8703A; /* 焦琥珀：进度线 + 焦点环 */
 
   /* A-1-2 文本选区：默认的浏览器蓝是这套配色里唯一一处「不是我的颜色」。
      选区底色用品牌淡底、字色用深橄榄，选中一段话时画面仍然是一个色系。 */
   --sel-bg:#E4E9D2;
-  --sel-fg:#2C3B26;
+  --sel-fg:#1B2A3A;
 
   /* A-2 字体
      苹果字体优先：macOS/iOS 自动加载 SF Pro（-apple-system / BlinkMacSystemFont /
@@ -137,15 +137,15 @@
 /* A-6 暗色：逐条覆盖，不新增令牌 */
 @media (prefers-color-scheme:dark){
   :root{
-    --color-bg:#131614;
-    --color-surface:#1B1E1C;
-    --color-text-primary:#E8E5DC;
-    --color-text-secondary:#A9A69C;
-    --color-text-tertiary:#8E8B82;
-    --color-border-subtle:rgba(232,229,220,.09);
-    --color-border:rgba(232,229,220,.17);
-    --color-border-strong:rgba(232,229,220,.42);
-    --color-accent:#9CC9AE;
+    --color-bg:#121820;
+    --color-surface:#1A222C;
+    --color-text-primary:#E8EDF2;
+    --color-text-secondary:#A8B2BD;
+    --color-text-tertiary:#8A959F;
+    --color-border-subtle:rgba(232,237,242,.09);
+    --color-border:rgba(232,237,242,.17);
+    --color-border-strong:rgba(232,237,242,.42);
+    --color-accent:#D9955C;
     --sel-bg:#33402F;
     --sel-fg:#EDEAE1;
   }
@@ -702,7 +702,7 @@ img{ display:block; max-width:100%; }
   content:"——";
   display:block;
   margin-bottom:10px;
-  color:var(--brand-accent);
+  color:var(--brand-accent-text);
   font-weight:600;
   letter-spacing:.1em;
 }
@@ -854,7 +854,7 @@ img{ display:block; max-width:100%; }
   display:inline-block;
   color:#fff;
   font-weight:600;
-  background:var(--brand-accent);
+  background:var(--brand-accent-text);
   border-radius:2px;
   padding:2px 7px;
   margin-left:2px;
@@ -917,7 +917,7 @@ img{ display:block; max-width:100%; }
 }
 .work-tag{
   font-size:var(--fs-micro);
-  color:var(--brand-accent-text);
+  color:var(--color-text-secondary);
   background:var(--brand-tint);
   border-radius:999px;
   padding:2px 10px;
@@ -1122,16 +1122,16 @@ html.js .reveal.is-in{
    本段只覆盖视觉层，不动路由、动效降级、语义结构。
    ========================================================================== */
 :root{
-  --brand-ink:#2C3B26;   /* 深橄榄：比纯森林绿偏黄 50°，是「英国黄绿」的深色版，和土金同属暖土色系 */
-  --brand-accent:#8A6A2F;
-  --brand-accent-text:#7E6229; /* 金的深版，专给 12–13px 小字用：4.80:1 在米白底上够 AA；浅金 #B08D4A 只有 2.97:1，不能承载小字 */
-  --brand-tint:#EEF1E2;
+  --brand-ink:#1B2A3A;   /* 深墨蓝：银行五年的信任底色，比纯黑有温度 */
+  --brand-accent:#B8703A;
+  --brand-accent-text:#A05F2E; /* 焦琥珀的深版，给小字用（5.2:1 够 AA） */
+  --brand-tint:#EDE6D8;
   --card-bg:#FFFFFF;
-  --card-border:#E3E6DA;
+  --card-border:#E0D8C8;
   --card-shadow:0 2px 14px rgba(44,59,38,.07);
   --radius-card:14px;
   --radius-btn:9px;
-  --page-bg:#FBFAF4;   /* 暖米白：纯白 #FFFFFF 在整屏大块时会顶眼，米白像纸。必须走变量，写死会在暗色下变「白底浅字」 */
+  --page-bg:#F7F2E8;   /* 暖米纸：写作者的底色 */
 }
 body{ background:var(--page-bg); }
 
@@ -1161,8 +1161,8 @@ body{ background:var(--page-bg); }
    实心金只留给导航里的「联系我」——那一处需要跳出深绿条。 */
 .btn--blue{ background:transparent; color:var(--brand-accent-text); border:1.5px solid var(--brand-accent); }
 .btn--blue:hover{ background:var(--brand-tint); filter:none; }
-.header-cta.btn--blue{ background:var(--brand-accent); color:#fff; border-color:var(--brand-accent); }
-.header-cta.btn--blue:hover{ background:var(--brand-accent); filter:brightness(1.08); }
+.header-cta.btn--blue{ background:var(--brand-accent-text); color:#fff; border-color:var(--brand-accent-text); }
+.header-cta.btn--blue:hover{ background:var(--brand-accent-text); filter:brightness(1.12); }
 .btn--ink{ background:var(--brand-ink); color:#fff; }
 .btn--ghost{ background:transparent; color:var(--brand-ink); border:1.5px solid var(--brand-ink); }
 .btn-row{ display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
@@ -1178,7 +1178,7 @@ body{ background:var(--page-bg); }
 @media (min-width:1024px){ .hero-wrap{ padding-block:88px 56px; } }
 .hero-eyebrow{
   display:inline-flex; align-items:center; gap:8px;
-  font-size:13px; font-weight:600; color:var(--brand-accent);
+  font-size:13px; font-weight:600; color:var(--brand-accent-text);
   letter-spacing:.02em;
 }
 .hero-eyebrow::before{
@@ -1196,7 +1196,7 @@ body{ background:var(--page-bg); }
   line-height:1.32; letter-spacing:-.02em;
   color:var(--brand-ink);
 }
-.hero-big em{ font-style:normal; color:var(--brand-accent); }
+.hero-big em{ font-style:normal; color:var(--brand-accent-text); }
 .hero-desc{
   margin-top:20px; max-width:34em;
   font-size:16px; line-height:1.85; color:var(--color-text-secondary);
@@ -1263,7 +1263,7 @@ body{ background:var(--page-bg); }
 }
 .section-kicker{
   font-size:12px; font-weight:600; letter-spacing:.08em;
-  text-transform:uppercase; color:var(--brand-accent);
+  text-transform:uppercase; color:var(--brand-accent-text);
   margin:0 0 10px;
 }
 .h2{ color:var(--brand-ink); }
@@ -1277,7 +1277,7 @@ body{ background:var(--page-bg); }
 .qr-block{ margin-top:18px; }
 .qr-block h3{
   font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
-  color:var(--brand-accent); margin:0 0 14px;
+  color:var(--brand-accent-text); margin:0 0 14px;
 }
 .qr-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
 .qr-card{
@@ -1317,39 +1317,39 @@ body{ background:var(--page-bg); }
 /* 暗色下卡片跟随系统，避免白块刺眼 */
 @media (prefers-color-scheme:dark){
   :root{
-    --card-bg:#1C201D; --card-border:#3A4038; --brand-tint:#2A3024;
+    --card-bg:#1E2630; --card-border:#33414F; --brand-tint:#24303C;
     --card-shadow:0 2px 14px rgba(0,0,0,.42);
-    --page-bg:#131614;
+    --page-bg:#121820;
     /* 土金在暗底上只有 2.5:1，直接换变量，省得漏掉某一处小字。
        金只被拿去当文字/描边/点阵，不当大面积背景，所以整体提亮是安全的。 */
-    --brand-accent:#D9C08A;
-    --brand-accent-text:#D9C08A;
+    --brand-accent:#D9955C;
+    --brand-accent-text:#D9955C;
   }
   /* 唯一的例外：拿金当实心背景的两处，作者色要退回深金，否则白字糊在金上 */
-  .header-cta.btn--blue{ background:#8A6A2F; border-color:#8A6A2F; color:#fff; }
+  .header-cta.btn--blue{ background:#A05F2E; border-color:#A05F2E; color:#fff; }
   /* 徽记在暗色下也用深金底：亮金底上白字只有 1.77:1，不够 */
-  .race-honor{ background:#8A6A2F; }
-  .btn--blue{ border-color:#8A6A2F; }
+  .race-honor{ background:#A05F2E; }
+  .btn--blue{ border-color:#A05F2E; }
   /* 头像在暗色下必须反相：正片叠底会让深色线稿乘进深背景，整块糊成黑。
      反相后线稿变成浅色，再 sepia 加暖，就不会是死白。 */
   .hero-photo img{
     filter:invert(1) sepia(1) hue-rotate(60deg) saturate(.6) brightness(1.05);
     mix-blend-mode:normal;
   }
-  .qr-card, .figure-card{ background:#1C201D; }
+  .qr-card, .figure-card{ background:#1E2630; }
   /* --brand-ink 是深橄榄，暗色下会糊成一片：凡是用它当文字色的地方一律提亮。
      注意不能直接覆盖变量本身 —— .btn--ink 拿它当背景，覆盖了按钮就没底了。 */
   .hero-big, .hero-name, .h1, .h2, .qr-card figcaption,
   .race-group-title, .race-result--win, .race-result--national,
   .work-name,
   /* 纸面化 header 后品牌字吃 --brand-ink，暗色下深字压深底看不见，一并提亮 */
-  .site-header .brand{ color:#E4EFE6; }
-  #view-blog .blog-row{ background:#1C201D; }
-  #view-blog .blog-row .blog-title{ color:#E4EFE6; }
-  .btn--ghost{ color:#E4EFE6; border-color:#93AE9B; }
+  .site-header .brand{ color:#E8EDF2; }
+  #view-blog .blog-row{ background:#1E2630; }
+  #view-blog .blog-row .blog-title{ color:#E8EDF2; }
+  .btn--ghost{ color:#E8EDF2; border-color:#7A8BA0; }
 }
 
-.fb-intro-line{ margin-top:10px; font-size:var(--fs-body); color:var(--brand-accent); font-weight:600; }
+.fb-intro-line{ margin-top:10px; font-size:var(--fs-body); color:var(--brand-accent-text); font-weight:600; }
 
 /* ==========================================================================
    B-14 /post 博客详情（站内全文）
@@ -1602,12 +1602,12 @@ a.blog-row{ text-decoration:none; }
 a.blog-row:hover .blog-title{ color:var(--brand-accent-text); }
 
 @media (prefers-color-scheme:dark){
-  .post-body h3, .post-body strong, .post-body th{ color:#E4EFE6; }
+  .post-body h3, .post-body strong, .post-body th{ color:#E8EDF2; }
   .post-body code{ background:#26302A; }
-  /* --brand-accent-text(#7E6229) 在 #1C201D 上只有 3.2:1，正文里的链接与列表圆点要提亮 */
+  /* 焦琥珀小字在深底上对比度不足时，正文链接与列表圆点要提亮 */
   .post-body a, .post-body li::marker{ color:#B7D8BE; }
   .post-back:hover, .post-foot a:hover,
-  .blog-row:hover .blog-title, .blog-row:hover .blog-link{ color:var(--brand-accent); }
+  .blog-row:hover .blog-title, .blog-row:hover .blog-link{ color:var(--brand-accent-text); }
 }
 
 /* ==========================================================================
