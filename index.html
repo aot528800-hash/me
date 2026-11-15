@@ -421,9 +421,11 @@ img{ display:block; max-width:100%; }
 }
 .tl-rail{ display:none; }          /* 360 档去掉圆点与竖线（C-2） */
 .tl-time{
-  font-size:var(--fs-micro);
-  color:var(--color-text-tertiary);
-  letter-spacing:.01em;
+  font-family:var(--font-mono);
+  font-size:15px;                  /* 大年份：每条的锚，不再是脚注 */
+  color:var(--color-text-primary);
+  letter-spacing:0;
+  font-variant-numeric:tabular-nums;
 }
 /* 单位 / 事件是每一条的主线，保持正文字号。 */
 .tl-org{
@@ -1041,11 +1043,11 @@ html.js .reveal.is-in{
 .blog-row:last-child{ border-bottom:1px solid var(--color-border-subtle); }
 @media (min-width:768px){
   .blog-row{
-    grid-template-columns:76px minmax(0,1fr);
+    grid-template-columns:92px minmax(0,1fr);
     grid-template-areas:
       "meta title"
       "meta desc";
-    column-gap:20px;
+    column-gap:28px;
     row-gap:7px;
     align-items:start;
   }
@@ -1059,11 +1061,19 @@ html.js .reveal.is-in{
   font-family:var(--font-mono);
   font-size:var(--fs-micro);
   line-height:1.5;
-  color:var(--color-text-secondary);
+  color:var(--color-text-tertiary);
   white-space:nowrap;
 }
+/* 目录式：桌面上日期是 15px mono 大号锚点（杂志目录页的月日），时长退成 11px 注脚 */
 @media (min-width:768px){
-  .blog-meta{ flex-direction:column; gap:3px; }
+  .blog-meta{ flex-direction:column; gap:4px; align-items:flex-start; }
+  .blog-meta span:first-child{
+    font-size:15px;
+    color:var(--color-text-primary);
+  }
+  .blog-meta span + span{
+    font-size:11px;
+  }
 }
 
 .blog-title{
@@ -1104,14 +1114,19 @@ html.js .reveal.is-in{
 body{ background:var(--page-bg); }
 
 /* ---- Header：深色品牌栏 + 实心 CTA（参考案例 1 与 3） ---- */
-.site-header{ background:var(--brand-ink); }
+/* B-0 Header · 编辑部式：纸面 + 底部一条 hairline，不再用深绿实心条。
+   深绿从「铺满背景」退到「文字色」和「锚点色」，层级靠色彩不是靠面积。 */
+.site-header{
+  background:var(--page-bg);
+  border-bottom:1px solid var(--color-border-subtle);
+}
 .site-header .header-inner{ height:64px; }
 @media (min-width:768px){ .site-header .header-inner{ height:72px; } }
 .brand{
-  color:#fff; font-size:17px; font-weight:600; letter-spacing:-.01em;
+  color:var(--brand-ink); font-size:17px; font-weight:600; letter-spacing:-.01em;
 }
-.site-nav a{ color:#D6E2F5; font-size:14px; }
-.site-nav a:hover{ color:#fff; }
+.site-nav a{ color:var(--color-text-secondary); font-size:14px; }
+.site-nav a:hover{ color:var(--brand-ink); }
 .btn{
   display:inline-flex; align-items:center; justify-content:center;
   min-height:44px; padding:0 20px;
@@ -1134,7 +1149,10 @@ body{ background:var(--page-bg); }
 .header-nav-wrap{ display:flex; align-items:center; gap:28px; }
 
 /* ---- Hero：超大双色标题 + 圆形照片 + 点阵（参考案例 3） ---- */
-.hero-wrap{ padding-block:56px 40px; }
+.hero-wrap{
+  padding-block:56px 48px;
+  border-bottom:1px solid var(--color-border-subtle);
+}
 @media (min-width:1024px){ .hero-wrap{ padding-block:88px 56px; } }
 .hero-eyebrow{
   display:inline-flex; align-items:center; gap:8px;
@@ -1187,43 +1205,39 @@ body{ background:var(--page-bg); }
 @media (max-width:1023px){ .hero-photo{ max-width:300px; margin-top:32px; } .hero-dots{ left:2%; } }
 
 /* ---- 卡片化：首页 Hero 之后各区块、博客页（参考案例 1 双列卡片） ---- */
-.card-surface{
-  background:var(--card-bg);
-  border:1px solid var(--card-border);
-  border-radius:var(--radius-card);
-  box-shadow:var(--card-shadow);
-  padding:28px 26px;
-}
-@media (min-width:768px){ .card-surface{ padding:36px 40px; } }
+/* 卡片化全部废除 → 纸面分区：
+   区块不再是「浮在米白上的白卡」，就是纸的一部分，靠上下留白分段。
+   区块之间由 hero 底部的分隔线 + section 自身的 padding 撑开，不靠描边。 */
+.card-surface{ padding:0; }
 #view-home > section:not(:first-child) > .container,
 #view-blog > section > .container,
 #view-football > section > .container{
-  background:var(--card-bg);
-  border:1px solid var(--card-border);
-  border-radius:var(--radius-card);
-  box-shadow:var(--card-shadow);
-  padding:28px 26px;
-  max-width:calc(var(--content-max) + 52px);
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+  padding-block:56px;
+  max-width:var(--content-max);
 }
 @media (min-width:768px){
   #view-home > section:not(:first-child) > .container,
   #view-blog > section > .container,
-  #view-football > section > .container{ padding:36px 40px; }
+  #view-football > section > .container{ padding-block:72px; }
 }
 /* 博客页：一间窄卡片。
    全站是卡片语言，博客如果光秃秃铺在白底上，会和其它页像两个网站；
    但卡片一旦拉满 1172px，一行字又长到没法读。折中：卡片本身收窄到 760，
    里面一根 680 的正文栏 —— 既在同一套语言里，又是可读的行长。 */
 #view-blog > section > .container{
-  max-width:760px;
-  padding:28px 22px;
-  background:var(--card-bg);
-  border:1px solid var(--card-border);
-  border-radius:var(--radius-card);
-  box-shadow:var(--card-shadow);
+  max-width:680px;
+  padding-block:56px;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
 }
 @media (min-width:768px){
-  #view-blog > section > .container{ padding:40px 40px 44px; }
+  #view-blog > section > .container{ padding-block:72px; }
 }
 .section-kicker{
   font-size:12px; font-weight:600; letter-spacing:.08em;
@@ -1245,9 +1259,9 @@ body{ background:var(--page-bg); }
 }
 .qr-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
 .qr-card{
-  margin:0; padding:14px; text-align:center;
+  margin:0; padding:12px; text-align:center;
   background:#fff; border:1px solid var(--card-border);
-  border-radius:12px; box-shadow:var(--card-shadow);
+  border-radius:10px;
 }
 .qr-card img{
   width:100%; max-width:168px; height:auto; aspect-ratio:1/1;
@@ -1264,9 +1278,9 @@ body{ background:var(--page-bg); }
 
 /* ---- 图片卡（获奖原表 / 操场照）：直接用用户给的原图，零转录零编造 ---- */
 .figure-card{
-  margin:22px 0 0; padding:18px;
+  margin:22px 0 0; padding:16px;
   background:#fff; border:1px solid var(--card-border);
-  border-radius:12px; box-shadow:var(--card-shadow);
+  border-radius:10px;
 }
 .figure-card img{
   display:block; width:100%; height:auto; border-radius:6px;
@@ -1300,15 +1314,14 @@ body{ background:var(--page-bg); }
     filter:invert(1) sepia(1) hue-rotate(60deg) saturate(.6) brightness(1.05);
     mix-blend-mode:normal;
   }
-  #view-home > section:not(:first-child) > .container,
-  #view-blog > section > .container,
-  #view-football > section > .container,
-  .card-surface, .qr-card, .figure-card{ background:#1C201D; }
+  .qr-card, .figure-card{ background:#1C201D; }
   /* --brand-ink 是深橄榄，暗色下会糊成一片：凡是用它当文字色的地方一律提亮。
      注意不能直接覆盖变量本身 —— .btn--ink 拿它当背景，覆盖了按钮就没底了。 */
   .hero-big, .hero-name, .h1, .h2, .qr-card figcaption,
   .race-group-title, .race-result--win, .race-result--national,
-  .work-name{ color:#E4EFE6; }
+  .work-name,
+  /* 纸面化 header 后品牌字吃 --brand-ink，暗色下深字压深底看不见，一并提亮 */
+  .site-header .brand{ color:#E4EFE6; }
   #view-blog .blog-row{ background:#1C201D; }
   #view-blog .blog-row .blog-title{ color:#E4EFE6; }
   .btn--ghost{ color:#E4EFE6; border-color:#93AE9B; }
@@ -1324,12 +1337,12 @@ body{ background:var(--page-bg); }
 
 /* 文章页与博客列表同一间卡片、同一根栏宽，点进去不会「换了个网站」 */
 #view-post > section > .container{
-  max-width:760px;
-  padding:28px 22px;
-  background:var(--card-bg);
-  border:1px solid var(--card-border);
-  border-radius:var(--radius-card);
-  box-shadow:var(--card-shadow);
+  max-width:680px;
+  padding-block:56px;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
 }
 @media (min-width:768px){
   #view-post > section > .container{ padding:44px 40px; }
@@ -1440,11 +1453,8 @@ body{ background:var(--page-bg); }
   display:block;
   width:100%;
   height:auto;
-  padding:20px;
-  background:var(--card-bg);
-  border:1px solid var(--card-border);
-  border-radius:var(--radius-card);
-  box-shadow:var(--card-shadow);
+  background:#fff;               /* 图内容需要浅底衬托，但不再有边框圆角阴影的「卡片感」 */
+  border-radius:6px;
 }
 .art-figure figcaption{
   margin-top:12px;
