@@ -631,7 +631,7 @@ img{ display:block; max-width:100%; }
   .ct-right{ grid-column:7 / span 6; margin-top:0; }
 }
 .ct-call{
-  margin-top:var(--space-3);      /* 约球一句紧跟 H2，在邮箱之前 */
+  margin-top:var(--space-3);      /* 约球一句紧跟 H2，位于联系区左侧文案 */
   font-size:var(--fs-lead);
   color:var(--color-text-secondary);
   line-height:1.7;
@@ -1859,6 +1859,151 @@ a.blog-row:hover .blog-title{ color:var(--brand-accent-text); }
 }
 
 /* ==========================================================================
+   J-25 · 办公室信息 + 班级小贴士（2026-11-15）
+   岗位、工位、工作时间由本人给出，逐字照抄；联系电话明确不写，也不编造别的入口。
+   ========================================================================== */
+
+/* 找到我：办公信息是一张「值班牌」，不是宣传语 */
+.office{
+  display:grid; grid-template-columns:1fr; gap:var(--space-6);
+  margin-top:var(--space-7);
+}
+@media (min-width:768px){
+  .office{ grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:var(--space-9); }
+}
+.ct-card-label{
+  font-family:var(--font-mono); font-size:var(--fs-micro);
+  letter-spacing:.06em; color:var(--brand-accent-text);
+}
+.ct-place{
+  margin:var(--space-2) 0 0;
+  font-size:var(--fs-h2); font-weight:600; line-height:1.4;
+  color:var(--brand-ink);
+}
+.ct-desk{
+  margin:var(--space-2) 0 0;
+  font-family:var(--font-mono); font-size:var(--fs-small);
+  color:var(--color-text-secondary);
+}
+.ct-hours{
+  list-style:none; margin:var(--space-5) 0 0; padding:0;
+  border-top:1px solid var(--color-border-subtle);
+}
+.ct-hours li{
+  display:flex; align-items:baseline; justify-content:space-between;
+  flex-wrap:wrap; gap:0 var(--space-4);
+  padding:var(--space-3) 0;
+  border-bottom:1px solid var(--color-border-subtle);
+}
+.ct-hours-key{ font-size:var(--fs-small); color:var(--color-text-secondary); }
+.ct-hours-val{
+  font-family:var(--font-mono); font-size:var(--fs-small);
+  color:var(--color-text-primary); font-variant-numeric:tabular-nums;
+}
+.ct-hours-val--rest{
+  font-family:var(--font-sans); color:var(--color-text-tertiary);
+}
+.office-side{ align-self:end; }
+.ct-remind{
+  margin:0 0 var(--space-3);
+  font-size:var(--fs-small); line-height:1.9;
+  color:var(--color-text-secondary);
+}
+.ct-tips-link{
+  display:inline-flex; align-items:center; gap:8px;
+  min-height:44px;                 /* WCAG 2.2 SC 2.5.8 */
+  margin-top:var(--space-3);
+  font-size:var(--fs-small);
+  color:var(--brand-accent-text);
+  border-bottom:1px solid currentColor;
+}
+.ct-tips-link:hover{ color:var(--brand-ink); }
+
+/* 小贴士页：一根阅读栏，宽窄与博客页一致 */
+#view-tips > section > .container{
+  max-width:760px; padding-block:56px;
+  background:transparent; border:0; border-radius:0; box-shadow:none;
+}
+@media (min-width:768px){ #view-tips > section > .container{ padding-block:72px; } }
+@media (max-width:767px){
+  #view-tips > section > .container{ width:auto; margin-inline:14px; padding:24px 20px; }
+}
+.tips-back{ display:inline-flex; align-items:center; min-height:44px; }
+.tips-lead{
+  margin-top:var(--space-5); max-width:62ch;
+  font-size:var(--fs-lead); line-height:1.8;
+  color:var(--color-text-secondary);
+}
+.tips-h2{ margin-top:var(--space-9); }
+.tips-steps{
+  list-style:none; counter-reset:tipstep;
+  margin:var(--space-5) 0 0; padding:0;
+}
+.tips-steps li{
+  counter-increment:tipstep;
+  display:grid; grid-template-columns:34px minmax(0,1fr);
+  gap:var(--space-3);
+  padding:var(--space-4) 0;
+  border-top:1px solid var(--color-border-subtle);
+  font-size:var(--fs-body); line-height:1.85;
+  color:var(--color-text-primary);
+}
+.tips-steps li::before{
+  content:counter(tipstep,decimal-leading-zero);
+  font-family:var(--font-mono); font-size:var(--fs-small);
+  color:var(--brand-accent-text); line-height:1.85;
+}
+.tips-steps strong{ font-weight:600; color:var(--brand-ink); }
+.tips-warn{
+  margin-top:var(--space-6); padding:var(--space-4) var(--space-5);
+  border-left:3px solid var(--brand-accent);
+  background:var(--brand-tint);
+  font-size:var(--fs-small); line-height:1.8;
+  color:var(--color-text-primary);
+}
+.tpl-head{
+  display:flex; flex-wrap:wrap; align-items:center;
+  justify-content:space-between; gap:var(--space-3);
+  margin-top:var(--space-10);
+  padding-top:var(--space-5);
+  border-top:var(--border-w) solid var(--color-border);
+}
+.tpl-head .h2{ margin:0; }
+.tpl-copy{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:44px; min-width:96px; padding:0 var(--space-5);
+  font-family:var(--font-sans); font-size:var(--fs-small); font-weight:500;
+  color:#fff; background:var(--brand-accent-text);
+  border:0; border-radius:var(--radius-img); cursor:pointer;
+}
+.tpl-copy:hover{ filter:brightness(1.1); }
+.tpl-copy:focus-visible{ outline:2px solid var(--brand-accent); outline-offset:2px; }
+.tpl-status{
+  margin-left:var(--space-2);
+  font-size:var(--fs-micro); white-space:nowrap;
+}
+.tpl-pre{
+  max-width:100%; margin:var(--space-5) 0 0; padding:var(--space-5);
+  overflow-x:auto;
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:var(--radius-img);
+  font-family:var(--font-mono); font-size:13px; line-height:1.9;
+  color:var(--color-text-primary);
+  white-space:pre-wrap; overflow-wrap:anywhere;
+  -webkit-user-select:text; user-select:text;
+}
+.tpl-note{
+  margin-top:var(--space-4);
+  font-size:var(--fs-micro); line-height:1.8;
+  color:var(--color-text-tertiary);
+}
+@media (prefers-color-scheme:dark){
+  .ct-place, .tips-steps strong{ color:#E8EDF2; }
+  .tpl-copy{ background:#A05F2E; }
+}
+
+/* ==========================================================================
    占位符统一色 · 必须留在样式表最末
    与 .field-val / .blog-title / .ct-val 同特异度，靠顺序取胜。
    ========================================================================== */
@@ -2018,7 +2163,7 @@ html.js .view.is-active{ display:block; }
           <li class="tl-item">
             <span class="tl-time num">2019.9 –</span>
             <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
-            <p class="tl-org">重庆工程职业技术大学 <span class="tl-place">· 两所学院专职辅导员，2022.9 转资助中心</span></p>
+            <p class="tl-org">重庆工程职业技术大学 <span class="tl-place">· 两所学院专职辅导员，2022.9 转学生处资助管理中心</span></p>
           </li>
           <li class="tl-item tl-item--parallel">
             <span class="tl-time num">2020.9 – 2023.6</span>
@@ -2170,23 +2315,39 @@ html.js .view.is-active{ display:block; }
       </div>
     </section>
 
-    <!-- 区块 ⑤ 找到我（2026-11-15 从「说句话」改名）：全站不设任何表单，联系=内容入口 -->
+    <!-- 区块 ⑤ 找到我：全站不设任何表单，联系=内容入口。
+         J-25 补办公信息：岗位 / 10 号工作位 / 工作时间全部由本人给出，逐字照抄。
+         联系电话本人明确「不要写」，页面上不出现电话，也不拿别的入口冒充。 -->
     <section class="section reveal" aria-labelledby="ct-title">
       <div class="container">
         <div class="sec-open">
           <span class="sec-num" aria-hidden="true">05</span>
           <h2 class="h2" id="ct-title">找到我</h2>
-          <span class="h2-sub">网上都能找到</span>
+          <span class="h2-sub">办公室 · 网上都能找到</span>
         </div>
+
+        <div class="office">
+          <div class="office-main">
+            <span class="ct-card-label">现在在哪儿</span>
+            <p class="ct-place">学生处资助管理中心</p>
+            <p class="ct-desk">10 号工作位</p>
+            <ul class="ct-hours" aria-label="工作时间">
+              <li><span class="ct-hours-key">上午</span><span class="ct-hours-val">8:30 – 11:40</span></li>
+              <li><span class="ct-hours-key">中午</span><span class="ct-hours-val ct-hours-val--rest">休息</span></li>
+              <li><span class="ct-hours-key">下午</span><span class="ct-hours-val">14:00 – 16:45</span></li>
+            </ul>
+          </div>
+          <div class="office-side">
+            <p class="ct-remind">有事尽量在工作时间段找我。找我时把事情说清楚：哪个班、学号、姓名、要办什么，一次说完，省得来回问。</p>
+            <a class="ct-tips-link" href="#/tips">班级小贴士 · 请假怎么办 <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+
         <div class="cols">
           <div class="ct-left">
-            <p class="ct-call">人在重庆，网上都能找到我。公众号、微信、邮箱，哪个城市都连得上。</p>
+            <p class="ct-call">人在重庆。窗口的事当面说最清楚，别的事公众号、微信都能找到我。</p>
           </div>
           <div class="ct-right">
-            <div class="ct-row">
-              <span class="ct-key">邮箱</span>
-              <span class="ct-val ph">【待补：邮箱地址】</span>
-            </div>
             <div class="ct-row">
               <span class="ct-key">公众号</span>
               <span class="ct-val">停不下来的独行侠<span class="ct-sub">2020 年写到 2026 年，142 篇。政策怎么落地、数据怎么看、钱怎么算，尽量说人话</span></span>
@@ -2289,7 +2450,7 @@ html.js .view.is-active{ display:block; }
             <li class="tl-item">
               <span class="tl-time num">2022.9 –</span>
               <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
-              <p class="tl-org">重庆工程职业技术大学 资助中心 <span class="tl-place">· 至今</span></p>
+              <p class="tl-org">重庆工程职业技术大学 学生处资助管理中心 <span class="tl-place">· 至今</span></p>
             </li>
             <li class="tl-item">
               <span class="tl-time num">2026.10</span>
@@ -2665,6 +2826,51 @@ html.js .view.is-active{ display:block; }
     </section>
 
   </div><!-- /视图 4½ · post -->
+
+  <!-- ======================================================================
+       视图 5 · /tips（J-25 班级小贴士）
+       面向学生的实用说明，不进主导航：首页仍是一个人的主页，不是办公服务页。
+       学生可直接拿 #/tips 这条链接。请假模板按本人给的原样贴，一个字没改。
+       ====================================================================== -->
+  <div class="view" data-view="/tips" id="view-tips">
+    <section class="section" aria-labelledby="tips-h1">
+      <div class="container">
+        <a class="post-back tips-back" href="#/">← 回首页</a>
+        <h1 class="h1" id="tips-h1">班级小贴士</h1>
+        <p class="tips-lead">给学生留的一页。平时问得最多的是请假，把流程和模板放在这儿，照着填就行。</p>
+
+        <h2 class="h2 tips-h2">请假怎么办</h2>
+        <ol class="tips-steps">
+          <li><span><strong>先来找我</strong>，当面说明情况和原因。尽量在工作时间段内来，别等要走了才说。</span></li>
+          <li><span>我给你一份<strong>请假申请模板</strong>，就是下面这一份。</span></li>
+          <li><span><strong>直接填空，填完整条发给我</strong>。缺项、只写半句的，我没法批。</span></li>
+          <li><span>等我回复同意再走；返校后按时销假，行程有变动及时报备。</span></li>
+        </ol>
+        <p class="tips-warn">以我回复同意才算审批通过，请勿提前离校。</p>
+
+        <div class="tpl-head">
+          <h2 class="h2" id="tpl-title">请假申请模板</h2>
+          <button class="tpl-copy" type="button" id="tpl-copy">复制模板<span class="tpl-status" id="tpl-status" role="status"></span></button>
+        </div>
+        <pre class="tpl-pre" id="tpl-text">【请假申请，请直接填空，填完整条发给我】
+老师您好，我是【班】【学号：】【姓名：】，本人电话【________】
+事由：【】，请假类型：【事假/病假/回家/就医/其他】
+请假时段：【年__月__日 :】—【年__月__日 :】，共【】天/【】节课
+去向：【】
+同行人：【，关系____，电话____，无则填无】
+往返：去程【】，返程【】
+紧急联系人：【，关系，电话____】
+家长知情同意：【是/否】，凭证：【聊天截图/电话（:）/书面】
+身体特殊情况：【无】
+附件：【无/材料名称】
+本人承诺：信息真实，未收到同意不离校，按时返校销假，行程变动及时报备，注意安全、保持通讯畅通。
+学生签名：________
+填写时间：____年__月__日 :
+⚠️ 提示：以我回复同意才算审批通过，请勿提前离校。</pre>
+        <p class="tpl-note">按本人给的原样贴出，填空后一次性发给我。复制后直接粘到微信里改空格就行。</p>
+      </div>
+    </section>
+  </div><!-- /视图 5 · tips -->
 
 </main>
 
@@ -3625,13 +3831,14 @@ html.js .view.is-active{ display:block; }
   'use strict';
 
   /* ---------------- 路由表 ---------------- */
-  var ROUTES = ['/', '/story', '/football', '/blog', '/post'];
+  var ROUTES = ['/', '/story', '/football', '/blog', '/post', '/tips'];
   var TITLES = {
     '/': 'Chew Teck Wai',
     '/story': '时间线 — Chew Teck Wai',
     '/football': '后腰 — Chew Teck Wai',
     '/blog': '博客 — Chew Teck Wai',
-    '/post': '博客 — Chew Teck Wai'
+    '/post': '博客 — Chew Teck Wai',
+    '/tips': '班级小贴士 — Chew Teck Wai'
   };
 
   var views = Array.prototype.slice.call(document.querySelectorAll('.view'));
@@ -3888,6 +4095,46 @@ html.js .view.is-active{ display:block; }
       }, 60);
     });
   });
+
+  /* 班级小贴士：一键复制请假模板。
+     file:// 下 navigator.clipboard 常被禁，退回 execCommand；
+     都不行就提示手动选中，不弹窗、不打断阅读。 */
+  var tplBtn = document.getElementById('tpl-copy');
+  var tplPre = document.getElementById('tpl-text');
+  var tplStatus = document.getElementById('tpl-status');
+  if (tplBtn && tplPre && tplStatus) {
+    var tplTimer = null;
+    function tplDone(ok) {
+      tplStatus.textContent = ok ? '已复制' : '请手动选中复制';
+      if (tplTimer) clearTimeout(tplTimer);
+      tplTimer = setTimeout(function () { tplStatus.textContent = ''; }, 2600);
+    }
+    function tplFallback(text) {
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.top = '-1000px';
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        tplDone(ok);
+      } catch (e) { tplDone(false); }
+    }
+    tplBtn.addEventListener('click', function () {
+      var text = tplPre.textContent;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(
+          function () { tplDone(true); },
+          function () { tplFallback(text); }
+        );
+      } else {
+        tplFallback(text);
+      }
+    });
+  }
 })();
 </script>
 
