@@ -485,17 +485,14 @@ img{ display:block; max-width:100%; }
     background:var(--color-border-subtle);
   }
   .tl-item:first-child .tl-rail::before{ top:36px; }
-  /* 并行条目（在职读研这类）：不占主时间轴的独立圆点，
-     用更小的空心点 + 内容缩进，表示「和上面的工作同期发生」 */
+  /* 并行条目（在职读研这类）：只保留空心点表示「和上面的工作同期」。
+     字重、字号、颜色一律与其他条目相同 —— 在职读研不是次要经历，不做视觉降级。 */
   .tl-item--parallel .tl-dot{
     width:7px; height:7px;
     left:calc(50% - 3.5px);
     background:transparent;
     border:1.5px solid var(--brand-accent);
   }
-  .tl-item--parallel .tl-time{ color:var(--color-text-secondary); }
-  .tl-item--parallel .tl-org{ font-weight:500; }
-  .tl-item--parallel .tl-content{ padding-left:0; }
 
   .tl-item:last-child .tl-rail::before{ top:0; bottom:auto; height:36px; }
   /* 圆点 5px 实心 · 品牌金：时间线上的"此刻"，是这条色系的锚点色 */
@@ -1385,6 +1382,27 @@ body{ background:var(--page-bg); }
 }
 @media (max-width:520px){ .qr-row{ grid-template-columns:1fr; } }
 
+/* ---- 去过的国家 · 小国旗（内联 SVG，不用 emoji） ---- */
+.flag-sprite{ position:absolute; overflow:hidden; }
+.country-row{
+  display:flex; flex-wrap:wrap; gap:var(--space-4) var(--space-6);
+  list-style:none; margin:var(--space-6) 0 0; padding:0;
+}
+.country-row li{
+  display:inline-flex; align-items:center; gap:var(--space-2);
+  font-size:var(--fs-small);
+  color:var(--color-text-secondary);
+}
+.flag{
+  display:block; width:26px; height:18px; flex:none;
+  border-radius:2px;
+  box-shadow:0 0 0 1px var(--color-border);
+}
+/* 博客页标题下的紧凑版 */
+.blog-countries{ margin-top:var(--space-4); gap:var(--space-3) var(--space-5); }
+.blog-countries li{ font-size:var(--fs-micro); }
+.blog-countries .flag{ width:22px; height:15px; }
+
 /* ---- 照片条（J-23）：编辑部式，无卡片无边框，靠小字图注说明 ---- */
 .photo-strip{
   display:grid;
@@ -1426,6 +1444,103 @@ body{ background:var(--page-bg); }
 /* 实拍照片在深底上过亮，压一档亮度融入纸与墨 */
 @media (prefers-color-scheme:dark){
   .photo-strip img{ filter:brightness(.86) saturate(.9); }
+}
+
+/* ---- J-24 · 照片不是配图，是记录 ----
+   图注拆两行：等宽小字的「记录头」写年份 / 地点 / 成绩，下面一行写画面里
+   或官方记录里能核对的事实。核对不到的，记录头写「未记」，绝不拿推测填空。 */
+.photo-strip--doc{ grid-template-columns:1fr; max-width:900px; margin-inline:auto; }
+.photo-strip--doc img{ aspect-ratio:auto; object-fit:contain; }
+.photo-strip figcaption.photo-rec{
+  display:flex; flex-direction:column; gap:3px; max-width:52ch;
+}
+.photo-rec-key{
+  font-family:var(--font-mono);
+  font-size:var(--fs-micro);
+  letter-spacing:.04em;
+  color:var(--brand-accent-text);
+}
+.photo-rec-key--unknown{ color:var(--color-text-tertiary); }
+.photo-rec-val{
+  font-size:var(--fs-micro);
+  line-height:1.7;
+  color:var(--color-text-tertiary);
+}
+.photo-note{
+  margin-top:var(--space-5);
+  font-size:var(--fs-micro);
+  line-height:1.85;
+  color:var(--color-text-tertiary);
+}
+
+/* 走过的地方：一段自述 + 四面小旗，不堆旅游照 */
+.travel-intro{ margin-top:var(--space-6); max-width:62ch; }
+.travel-lead{ font-size:var(--fs-lead); line-height:1.8; color:var(--color-text-primary); }
+.travel-sub{
+  margin-top:var(--space-3);
+  font-size:var(--fs-small); line-height:1.85;
+  color:var(--color-text-secondary);
+}
+.country-lead{
+  font-size:var(--fs-micro); letter-spacing:.08em;
+  color:var(--color-text-tertiary);
+}
+.blog-places{
+  display:flex; flex-wrap:wrap; align-items:center;
+  gap:var(--space-2) var(--space-4);
+  margin-top:var(--space-4);
+}
+.blog-countries{ margin-top:0; }
+.post-places{ margin-top:var(--space-5); }
+
+/* 带队高光（足球页）：一项成果从赛绩列表里抬出来，单独成档 */
+.coach-block{
+  margin-top:var(--space-10);
+  padding-top:var(--space-6);
+  border-top:var(--border-w) solid var(--color-border);
+}
+.coach-kicker{
+  font-family:var(--font-mono); font-size:var(--fs-micro);
+  letter-spacing:.06em; color:var(--brand-accent-text);
+}
+.coach-block .h2{ margin:var(--space-2) 0 0; }
+.coach-lead{
+  margin-top:var(--space-3); font-size:var(--fs-body);
+  line-height:1.85; color:var(--color-text-secondary);
+}
+.coach-record{
+  display:grid; grid-template-columns:1fr; gap:var(--space-5);
+  margin-top:var(--space-7);
+}
+@media (min-width:768px){
+  .coach-record{ grid-template-columns:160px minmax(0,1fr); gap:var(--space-8); }
+}
+.coach-result-word{
+  display:block;
+  font-size:clamp(30px,3.6vw,44px); font-weight:600; line-height:1;
+  letter-spacing:.02em; color:var(--brand-ink);
+}
+.coach-result-sub{
+  display:block; margin-top:var(--space-2);
+  font-family:var(--font-mono); font-size:var(--fs-micro);
+  letter-spacing:.04em; color:var(--brand-accent-text);
+}
+.coach-race{
+  margin:0; font-size:var(--fs-lead); font-weight:600;
+  line-height:1.55; color:var(--brand-ink);
+}
+.coach-meta{
+  margin-top:var(--space-3); font-size:var(--fs-small);
+  line-height:1.85; color:var(--color-text-secondary);
+}
+.coach-src{
+  margin-top:var(--space-4); padding-left:var(--space-4);
+  border-left:2px solid var(--color-border);
+  font-size:var(--fs-micro); line-height:1.9;
+  color:var(--color-text-tertiary);
+}
+@media (prefers-color-scheme:dark){
+  .coach-result-word, .coach-race{ color:#E8EDF2; }
 }
 
 /* ---- 图片卡（获奖原表 / 操场照）：直接用用户给的原图，零转录零编造 ---- */
@@ -1754,6 +1869,57 @@ html.js .view.is-active{ display:block; }
 </head>
 <body>
 
+<!-- 小国旗 sprite：Windows 的 emoji 国旗会显示成 KR/US/JP/AU 字母，
+     所以全部用内联 SVG 画，零外链、暗色也清晰。 -->
+<svg class="flag-sprite" aria-hidden="true" focusable="false" width="0" height="0">
+  <symbol id="flag-kr" viewBox="0 0 24 16">
+    <rect width="24" height="16" fill="#fff"/>
+    <circle cx="12" cy="8" r="3.5" fill="#CD2E3A"/>
+    <path d="M8.5 8a3.5 3.5 0 0 0 7 0 1.75 1.75 0 0 0-3.5 0 1.75 1.75 0 0 1-3.5 0Z" fill="#0047A0"/>
+    <g fill="#1A1A1A">
+      <g transform="rotate(-34 12 8)">
+        <rect x="3.4" y="1.7" width="3.2" height=".55"/><rect x="3.4" y="2.7" width="3.2" height=".55"/><rect x="3.4" y="3.7" width="3.2" height=".55"/>
+        <rect x="17.4" y="1.7" width="3.2" height=".55"/><rect x="17.4" y="2.7" width="3.2" height=".55"/><rect x="17.4" y="3.7" width="3.2" height=".55"/>
+        <rect x="3.4" y="11.8" width="3.2" height=".55"/><rect x="3.4" y="12.8" width="3.2" height=".55"/><rect x="3.4" y="13.8" width="3.2" height=".55"/>
+        <rect x="17.4" y="11.8" width="3.2" height=".55"/><rect x="17.4" y="12.8" width="3.2" height=".55"/><rect x="17.4" y="13.8" width="3.2" height=".55"/>
+      </g>
+    </g>
+  </symbol>
+  <symbol id="flag-us" viewBox="0 0 24 16">
+    <rect width="24" height="16" fill="#fff"/>
+    <g fill="#B22234">
+      <rect y="0" width="24" height="1.23"/><rect y="2.46" width="24" height="1.23"/>
+      <rect y="4.92" width="24" height="1.23"/><rect y="7.38" width="24" height="1.23"/>
+      <rect y="9.84" width="24" height="1.23"/><rect y="12.3" width="24" height="1.23"/>
+      <rect y="14.77" width="24" height="1.23"/>
+    </g>
+    <rect width="10.2" height="8.62" fill="#3C3B6E"/>
+    <g fill="#fff">
+      <circle cx="1.8" cy="1.8" r=".5"/><circle cx="4.6" cy="1.8" r=".5"/><circle cx="7.4" cy="1.8" r=".5"/>
+      <circle cx="3.2" cy="4.3" r=".5"/><circle cx="6" cy="4.3" r=".5"/><circle cx="8.8" cy="4.3" r=".5"/>
+      <circle cx="1.8" cy="6.8" r=".5"/><circle cx="4.6" cy="6.8" r=".5"/><circle cx="7.4" cy="6.8" r=".5"/>
+    </g>
+  </symbol>
+  <symbol id="flag-jp" viewBox="0 0 24 16">
+    <rect width="24" height="16" fill="#fff"/>
+    <circle cx="12" cy="8" r="4.3" fill="#BC002D"/>
+  </symbol>
+  <symbol id="flag-au" viewBox="0 0 24 16">
+    <rect width="24" height="16" fill="#00247D"/>
+    <g>
+      <path d="M0 0 11 8M11 0 0 8" stroke="#fff" stroke-width="2"/>
+      <path d="M0 0 11 8M11 0 0 8" stroke="#C8102E" stroke-width=".8"/>
+      <path d="M5.5 0V8M0 4h11" stroke="#fff" stroke-width="2.4"/>
+      <path d="M5.5 0V8M0 4h11" stroke="#C8102E" stroke-width="1.1"/>
+    </g>
+    <g fill="#fff">
+      <circle cx="5.5" cy="12.4" r="1.25"/>
+      <circle cx="17.4" cy="3.4" r=".8"/><circle cx="17.4" cy="8.4" r=".8"/>
+      <circle cx="17.4" cy="13" r=".8"/><circle cx="20.4" cy="6" r=".6"/>
+    </g>
+  </symbol>
+</svg>
+
 <!-- /story 顶部阅读进度线 · 全站唯一非灰阶色使用处之一 -->
 <div class="progress" id="progress" aria-hidden="true"></div>
 
@@ -1838,15 +2004,15 @@ html.js .view.is-active{ display:block; }
             <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
             <p class="tl-org">中国银行总行 <span class="tl-place">· 间歇借调，北京</span></p>
           </li>
-          <li class="tl-item tl-item--parallel">
-            <span class="tl-time num">2020.9 – 2023.6</span>
-            <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
-            <p class="tl-org">华东交通大学 <span class="tl-place">· 教育学硕士，在职</span></p>
-          </li>
           <li class="tl-item">
             <span class="tl-time num">2019.9 –</span>
             <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
             <p class="tl-org">重庆工程职业技术大学 <span class="tl-place">· 两所学院专职辅导员，2022.9 转资助中心</span></p>
+          </li>
+          <li class="tl-item tl-item--parallel">
+            <span class="tl-time num">2020.9 – 2023.6</span>
+            <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
+            <p class="tl-org">华东交通大学 <span class="tl-place">· 教育学硕士，和工作同期读的</span></p>
           </li>
         </ol>
         <p class="turn-more"><a class="link" href="#/story">完整时间线 <span class="arrow" aria-hidden="true">↗</span></a></p>
@@ -1907,21 +2073,6 @@ html.js .view.is-active{ display:block; }
         <!-- 顺带：顶级个人站的惯用收尾（Dan Eden 的 In my spare time…、
              Tania 的 Also: …）——作品是作品，人还有作品之外的活法。 -->
         <p class="work-also">顺带：投资理财、足球、读书、旅行，还有用 AI 折腾各种新东西——兴趣挺杂的，一直在玩。</p>
-        <p class="photo-kicker">路上 · 几张照片</p>
-        <div class="photo-strip">
-          <figure>
-            <img src="assets/photos/trip-google.webp" alt="美国 Google 总部 1625 Charleston Road 的门牌，一个人站在牌旁" width="1000" height="750" loading="lazy" decoding="async">
-            <figcaption>美国 · Google 总部，门牌 1625 Charleston Road。</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/photos/trip-pier.webp" alt="美国圣莫尼卡海滩的栈桥旁留影，身后是摩天轮" width="1000" height="750" loading="lazy" decoding="async">
-            <figcaption>美国 · 圣莫尼卡海滩，栈桥和摩天轮。</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/photos/trip-friend.webp" alt="两个人在室内合影，都竖起大拇指" width="1000" height="750" loading="lazy" decoding="async">
-            <figcaption>一张合影。</figcaption>
-          </figure>
-        </div>
       </div>
     </section>
 
@@ -1967,11 +2118,52 @@ html.js .view.is-active{ display:block; }
       </div>
     </section>
 
-    <!-- 区块 ④ 找到我（2026-11-15 从「说句话」改名）：全站不设任何表单，联系=内容入口 -->
-    <section class="section reveal" aria-labelledby="ct-title">
+    <!-- 区块 ④ 走过的地方（J-24）：照片在这里不是配图，是带年份、地点、事件的记录。
+         2017 年美国三周、去过的四个国家均由本人确认；没给的年份一律不写。 -->
+    <section class="section reveal" aria-labelledby="travel-title">
       <div class="container">
         <div class="sec-open">
           <span class="sec-num" aria-hidden="true">04</span>
+          <h2 class="h2" id="travel-title">走过的地方</h2>
+          <span class="h2-sub">出过几趟门</span>
+        </div>
+        <div class="travel-intro">
+          <p class="travel-lead">2017 年在美国待了三个星期。第一次在外面待这么久，回来以后看事情的眼光不太一样了。</p>
+          <p class="travel-sub">后来陆续去过韩国、日本、澳大利亚。不算走得多远，但每趟回来都要缓一阵，把看到的东西慢慢捋清楚。</p>
+        </div>
+        <div class="blog-places">
+          <span class="country-lead">去过</span>
+          <ul class="country-row blog-countries" aria-label="去过的国家">
+            <li><svg class="flag" role="img" aria-label="韩国国旗"><use href="#flag-kr"></use></svg>韩国</li>
+            <li><svg class="flag" role="img" aria-label="美国国旗"><use href="#flag-us"></use></svg>美国</li>
+            <li><svg class="flag" role="img" aria-label="日本国旗"><use href="#flag-jp"></use></svg>日本</li>
+            <li><svg class="flag" role="img" aria-label="澳大利亚国旗"><use href="#flag-au"></use></svg>澳大利亚</li>
+          </ul>
+        </div>
+        <p class="photo-kicker">2017 · 美国 · 三个星期</p>
+        <div class="photo-strip">
+          <figure>
+            <img src="assets/photos/trip-google.webp" alt="美国 Google 总部 1625 Charleston Road 的门牌，一个人站在牌旁" width="1000" height="750" loading="lazy" decoding="async">
+            <figcaption class="photo-rec"><span class="photo-rec-key">2017 · 美国</span><span class="photo-rec-val">Google 总部，门牌 1625 Charleston Road。三个星期里的一天。</span></figcaption>
+          </figure>
+          <figure>
+            <img src="assets/photos/trip-pier.webp" alt="美国圣莫尼卡海滩的栈桥旁留影，身后是摩天轮" width="1000" height="750" loading="lazy" decoding="async">
+            <figcaption class="photo-rec"><span class="photo-rec-key">2017 · 美国</span><span class="photo-rec-val">圣莫尼卡海滩，栈桥和摩天轮。</span></figcaption>
+          </figure>
+          <figure>
+            <img src="assets/photos/trip-friend.webp" alt="室内，年长男士搭着同伴肩膀，右边穿深色 T 恤的人双手竖起大拇指" width="1000" height="750" loading="lazy" decoding="async">
+            <figcaption class="photo-rec"><span class="photo-rec-key photo-rec-key--unknown">年份、地点未记</span><span class="photo-rec-val">和一位朋友的合影。没留下具体记录，就不往下写了。</span></figcaption>
+          </figure>
+        </div>
+        <p class="photo-note">照片都当记录写：能核对的写年份、地点、发生了什么；核对不到的写「未记」，不拿推测填空。</p>
+      </div>
+    </section>
+
+    <!-- 区块 ⑤ 找到我（2026-11-15 从「说句话」改名）：全站不设任何表单，联系=内容入口 -->
+    <section class="section reveal" aria-labelledby="ct-title">
+      <div class="container">
+        <div class="sec-open">
+          <span class="sec-num" aria-hidden="true">05</span>
           <h2 class="h2" id="ct-title">找到我</h2>
           <span class="h2-sub">网上都能找到</span>
         </div>
@@ -2081,7 +2273,7 @@ html.js .view.is-active{ display:block; }
             <li class="tl-item tl-item--parallel">
               <span class="tl-time num">2020.9 – 2023.6</span>
               <span class="tl-rail" aria-hidden="true"><span class="tl-dot"></span></span>
-              <p class="tl-org">华东交通大学 <span class="tl-place">· 教育学硕士，在职读的，和上面的工作同期</span></p>
+              <p class="tl-org">华东交通大学 <span class="tl-place">· 教育学硕士，和工作同期读的</span></p>
             </li>
             <li class="tl-item">
               <span class="tl-time num">2022.9 –</span>
@@ -2094,11 +2286,11 @@ html.js .view.is-active{ display:block; }
               <p class="tl-org">CQPUE 资助政策 <span class="tl-place">· 上线，21 个项目 · 13 份政策依据 · 47 项业务</span></p>
             </li>
           </ol>
-          <p class="photo-kicker">留影</p>
+          <p class="photo-kicker">留影 · 中国银行</p>
           <div class="photo-strip photo-strip--one">
             <figure>
               <img src="assets/photos/bank-steps.webp" alt="坐在大楼内的绿色台阶上，身后是一面红色圆形标志" width="1000" height="750" loading="lazy" decoding="async">
-              <figcaption>在中国银行那几年拍的。</figcaption>
+              <figcaption class="photo-rec"><span class="photo-rec-key photo-rec-key--unknown">中国银行 · 年份未记</span><span class="photo-rec-val">楼里那面绿色台阶，身后是一面红色圆形标志。哪一年拍的没留下记录。</span></figcaption>
             </figure>
           </div>
         </div>
@@ -2293,11 +2485,12 @@ html.js .view.is-active{ display:block; }
             </li>
           </ol>
           <!-- 领奖照横幅写着「2011-2012 李宁中国大学生足球联赛（北区决赛）」，
-               与上面 2012.5.22–29 秦皇岛那条记录对应。图注只抄横幅，不写未核实的名次。 -->
+               与上面 2012.5.22–29 秦皇岛那条记录对应。图注只抄横幅上读得到的字，
+               名次交给上面的表格，不从照片里推。 -->
           <div class="photo-strip photo-strip--one">
             <figure>
               <img src="assets/photos/football-trophy-2012.webp" alt="穿着蓝色运动外套和白色球裤，手举奖杯站在赛场横幅前" width="1000" height="750" loading="lazy" decoding="async">
-              <figcaption>横幅是「2011-2012 李宁中国大学生足球联赛（北区决赛）」。</figcaption>
+              <figcaption class="photo-rec"><span class="photo-rec-key">2012.5 · 秦皇岛</span><span class="photo-rec-val">领奖时手举奖杯，横幅写着「2011-2012 李宁中国大学生足球联赛（北区决赛）」。名次见上表，不从照片里推。</span></figcaption>
             </figure>
           </div>
         </div>
@@ -2346,21 +2539,49 @@ html.js .view.is-active{ display:block; }
         </div>
 
         <p class="race-note">「代表」是参赛单位。市级赛事代表就读学校，市运会代表沙坪坝区，全国中学生运动会是以重庆队出战，大学生联赛代表西安财经大学，在中国银行那两场分别代表中国金融体协和中国银行。</p>
-        <p class="photo-kicker">赛场 · 几张照片</p>
+        <p class="photo-kicker">赛场 · 留档</p>
         <div class="photo-strip">
           <figure>
-            <img src="assets/photos/football-stand.webp" alt="坐在体育场看台上，胸前挂着证件" width="1000" height="750" loading="lazy" decoding="async">
-            <figcaption>看台上。</figcaption>
+            <img src="assets/photos/football-stand.webp" alt="坐在体育场看台上，胸前挂着赛事证件，身后是坐满人的看台" width="1000" height="750" loading="lazy" decoding="async">
+            <figcaption class="photo-rec"><span class="photo-rec-key photo-rec-key--unknown">场次未记</span><span class="photo-rec-val">看台留影，胸前挂着赛事证件，身后坐满了人。哪一场没留下记录。</span></figcaption>
           </figure>
           <figure>
             <img src="assets/photos/football-match-a.webp" alt="足球比赛中，几名球员在争抢球" width="1000" height="750" loading="lazy" decoding="async">
-            <figcaption>比赛中。</figcaption>
+            <figcaption class="photo-rec"><span class="photo-rec-key photo-rec-key--unknown">场次未记</span><span class="photo-rec-val">比赛中几名球员争抢球的瞬间。年份、对手没留下记录。</span></figcaption>
           </figure>
           <figure>
             <img src="assets/photos/football-match-b.webp" alt="足球比赛中，12 号球员背对镜头带球" width="1000" height="750" loading="lazy" decoding="async">
-            <figcaption>比赛中。</figcaption>
+            <figcaption class="photo-rec"><span class="photo-rec-key photo-rec-key--unknown">场次未记</span><span class="photo-rec-val">12 号背对镜头带球。年份、对手没留下记录。</span></figcaption>
           </figure>
         </div>
+        <p class="photo-note">照片只当记录用：能核对的写年份、地点、成绩；核对不到的写「场次未记」，不补推测。</p>
+
+        <!-- 带队（J-24）：2019 年之后从「自己踢」转到「带学生踢」。
+             赛事名称、届次、时间、等级、参与人逐条对过官方来源；
+             年报写「第一名」、江津日报写「前两名」、学校新闻写「冠军」，
+             三处措辞不同，在 .coach-src 里照原样分开写，不并成一句漂亮话。 -->
+        <section class="coach-block" aria-labelledby="coach-title">
+          <span class="coach-kicker">2019 年之后 · 从踢到带</span>
+          <h2 class="h2" id="coach-title">带队</h2>
+          <p class="coach-lead">后来自己上场少了，改带学生队。2021 年这一次是和几位同事一起带的。</p>
+          <div class="coach-record">
+            <div>
+              <span class="coach-result-word">冠军</span>
+              <span class="coach-result-sub">2021.10 · 江津</span>
+            </div>
+            <div>
+              <p class="coach-race">「三五三三杯」江津区第四届运动会 · 足球项目（在津高校组）</p>
+              <p class="coach-meta">重庆工程职业技术学院（2026 年更名重庆工程职业技术大学）· 11 人制 · 江津区人民政府主办，每四年一届，2021 年 8–10 月举行。</p>
+              <p class="coach-src">出处：学校《高等职业教育质量年度报告（2022）》表 7 把这项记为「第一名」，发奖单位江津区人民政府，获奖时间 2021.10，成果参与人「李非亚、周泽维」；《江津日报》2021.10.27 写「重庆工程职业技术学院和重庆能源职业学院分别获得在津高校组别前两名」；学校当年新闻标题用的是「高校组冠军」。三处措辞不同，照原样分开写。</p>
+            </div>
+          </div>
+          <div class="photo-strip photo-strip--doc">
+            <figure>
+              <img src="assets/photos/football-coach-champion-2021.webp" alt="一支穿青绿色球衣的球队在草地上合影，队员挂着奖牌、举起双手，中间的人把一张奖状举过头顶" width="1400" height="933" loading="lazy" decoding="async">
+              <figcaption class="photo-rec"><span class="photo-rec-key">2021.10 · 江津 · 在津高校组第一名</span><span class="photo-rec-val">领奖后的全队合影，队员挂着奖牌，中间把奖状举过头顶。奖状上的字过曝看不清，所以没照抄。</span></figcaption>
+            </figure>
+          </div>
+        </section>
         <!-- 校勘留档（2026-11-14：原先是可见文案，访客不需要看考据，移到注释里）：
              前三组 16 行按原表逐行转录，未增删；其余各场的赛事名称、时间、地点
              依据赛事主办方公开记录与本人提供材料补全。 -->
@@ -2381,6 +2602,15 @@ html.js .view.is-active{ display:block; }
         <div class="blog-wrap">
           <h1 class="h1" id="blog-h1">博客</h1>
           <p class="blog-count num" id="blog-count"></p>
+          <div class="blog-places">
+            <span class="country-lead">写字之外，去过</span>
+            <ul class="country-row blog-countries" aria-label="去过的国家">
+              <li><svg class="flag" role="img" aria-label="韩国国旗"><use href="#flag-kr"></use></svg>韩国</li>
+              <li><svg class="flag" role="img" aria-label="美国国旗"><use href="#flag-us"></use></svg>美国</li>
+              <li><svg class="flag" role="img" aria-label="日本国旗"><use href="#flag-jp"></use></svg>日本</li>
+              <li><svg class="flag" role="img" aria-label="澳大利亚国旗"><use href="#flag-au"></use></svg>澳大利亚</li>
+            </ul>
+          </div>
           <div class="blog-list"></div>
         </div>
       </div>
@@ -2409,6 +2639,15 @@ html.js .view.is-active{ display:block; }
           <div class="post-foot">
             <a href="#/blog">← 全部文章</a>
             <span id="post-foot-note"></span>
+          </div>
+          <div class="blog-places post-places">
+            <span class="country-lead">写字之外，去过</span>
+            <ul class="country-row blog-countries" aria-label="去过的国家">
+              <li><svg class="flag" role="img" aria-label="韩国国旗"><use href="#flag-kr"></use></svg>韩国</li>
+              <li><svg class="flag" role="img" aria-label="美国国旗"><use href="#flag-us"></use></svg>美国</li>
+              <li><svg class="flag" role="img" aria-label="日本国旗"><use href="#flag-jp"></use></svg>日本</li>
+              <li><svg class="flag" role="img" aria-label="澳大利亚国旗"><use href="#flag-au"></use></svg>澳大利亚</li>
+            </ul>
           </div>
         </div>
       </div>
