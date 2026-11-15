@@ -1530,6 +1530,16 @@ body{ background:var(--page-bg); }
   font-family:var(--font-mono); font-size:var(--fs-micro);
   letter-spacing:.04em; color:var(--brand-accent-text);
 }
+/* J-33 · 本人参赛身份：队长不是官方职务头衔，是本人自述。
+   描边小标签与 56px 的「冠军」拉开层次，字号仍走 --fs-small，暗色吃琥珀令牌自动切换。 */
+.coach-role{
+  display:block; width:fit-content; max-width:100%;
+  margin-top:var(--space-3);
+  padding:3px 9px;
+  font-size:var(--fs-small); line-height:1.5; font-weight:600;
+  color:var(--brand-accent-text);
+  border:1px solid var(--brand-accent-text); border-radius:2px;
+}
 .coach-race{
   margin:0; font-size:var(--fs-lead); font-weight:600;
   line-height:1.55; color:var(--brand-ink);
@@ -2344,7 +2354,7 @@ html.js .view.is-active{ display:block; }
         </div>
         <div class="cols fb-inner">
           <div class="fb-intro">
-            <p class="fb-intro-line">2005 年到 2019 年一直踢这个位置。后来成家立业，踢得少了——但球还是爱看的，数据还是爱分析的。</p>
+            <p class="fb-intro-line">2005 年起一直踢这个位置。后来成家立业，踢得少了——但球还是爱看的，数据还是爱分析的。</p>
             <div class="fb-stats">
               <div class="fb-stat">
                 <span class="fb-stat-num">19</span>
@@ -2833,23 +2843,25 @@ html.js .view.is-active{ display:block; }
         </div>
         <p class="photo-note">照片只当记录用：能核对的写年份、地点、成绩；核对不到的写「场次未记」，不补推测。</p>
 
-        <!-- 带队（J-24）：2019 年之后从「自己踢」转到「带学生踢」。
+        <!-- 带队（J-24 / J-33）：2019 年之后上场少了，也带学生队；
+             2021 年这一场本人以队长身份参赛、每场踢满，同时和几位同事一起带队。
              赛事名称、届次、时间、等级、参与人逐条对过官方来源；
              年报写「第一名」、江津日报写「前两名」、学校新闻写「冠军」，
              三处措辞不同，在 .coach-src 里照原样分开写，不并成一句漂亮话。 -->
         <section class="coach-block" aria-labelledby="coach-title">
-          <span class="coach-kicker">2019 年之后 · 从踢到带</span>
+          <span class="coach-kicker">2019 年之后 · 带队也上场</span>
           <h2 class="h2" id="coach-title">带队</h2>
-          <p class="coach-lead">后来自己上场少了，改带学生队。2021 年这一次是和几位同事一起带的。</p>
+          <p class="coach-lead">后来上场少了，也带学生队。2021 年这一次是和几位同事一起带的，我自己也上场，是队长，每场都踢满。</p>
           <div class="coach-record">
             <div>
               <span class="coach-result-word">冠军</span>
               <span class="coach-result-sub">2021.10 · 江津</span>
+              <span class="coach-role">队长 · 每场踢满</span>
             </div>
             <div>
               <p class="coach-race">「三五三三杯」江津区第四届运动会 · 足球项目（在津高校组）</p>
               <p class="coach-meta">重庆工程职业技术学院（2026 年更名重庆工程职业技术大学）· 11 人制 · 江津区人民政府主办，每四年一届，2021 年 8–10 月举行。</p>
-              <p class="coach-src">出处：学校《高等职业教育质量年度报告（2022）》表 7 把这项记为「第一名」，发奖单位江津区人民政府，获奖时间 2021.10，成果参与人「李非亚、周泽维」；《江津日报》2021.10.27 写「重庆工程职业技术学院和重庆能源职业学院分别获得在津高校组别前两名」；学校当年新闻标题用的是「高校组冠军」。三处措辞不同，照原样分开写。</p>
+              <p class="coach-src">出处：学校《高等职业教育质量年度报告（2022）》表 7 把这项记为「第一名」，发奖单位江津区人民政府，获奖时间 2021.10，成果参与人「李非亚、周泽维」；《江津日报》2021.10.27 写「重庆工程职业技术学院和重庆能源职业学院分别获得在津高校组别前两名」；学校当年新闻标题用的是「高校组冠军」。三处措辞不同，照原样分开写。学校当年新闻（中国高校之窗 2021.10.27 转载）写的是「师生混合代表队」「四战全胜」，列出的参赛教师含杨雪平、李非亚、周泽维；队长与每场踢满是本人自述，官方来源未载。</p>
             </div>
           </div>
           <div class="photo-strip photo-strip--doc">
