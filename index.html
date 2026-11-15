@@ -1449,7 +1449,8 @@ body{ background:var(--page-bg); }
 
 /* ---- J-24 · 照片不是配图，是记录 ----
    图注拆两行：等宽小字的「记录头」写年份 / 地点 / 成绩，下面一行写画面里
-   或官方记录里能核对的事实。核对不到的，记录头写「未记」，绝不拿推测填空。 */
+   或官方记录里能核对的事实；信息不全的记录头写「未记」。
+   J-34：这类编写规则只留在注释里，不写进访客可见的文案。 */
 .photo-strip--doc{ grid-template-columns:1fr; max-width:900px; margin-inline:auto; }
 .photo-strip--doc img{ aspect-ratio:auto; object-fit:contain; }
 .photo-strip figcaption.photo-rec{
@@ -1465,12 +1466,6 @@ body{ background:var(--page-bg); }
 .photo-rec-val{
   font-size:var(--fs-micro);
   line-height:1.7;
-  color:var(--color-text-tertiary);
-}
-.photo-note{
-  margin-top:var(--space-5);
-  font-size:var(--fs-micro);
-  line-height:1.85;
   color:var(--color-text-tertiary);
 }
 
@@ -2420,10 +2415,9 @@ html.js .view.is-active{ display:block; }
           </figure>
           <figure>
             <img src="assets/photos/trip-friend.webp" alt="室内，年长男士搭着同伴肩膀，右边穿深色 T 恤的人双手竖起大拇指" width="1000" height="750" loading="lazy" decoding="async">
-            <figcaption class="photo-rec"><span class="photo-rec-key photo-rec-key--unknown">年份、地点未记</span><span class="photo-rec-val">和一位朋友的合影。没留下具体记录，就不往下写了。</span></figcaption>
+            <figcaption class="photo-rec"><span class="photo-rec-key photo-rec-key--unknown">年份、地点未记</span><span class="photo-rec-val">和一位朋友的合影。</span></figcaption>
           </figure>
         </div>
-        <p class="photo-note">照片都当记录写：能核对的写年份、地点、发生了什么；核对不到的写「未记」，不拿推测填空。</p>
       </div>
     </section>
 
@@ -2772,12 +2766,11 @@ html.js .view.is-active{ display:block; }
             </li>
           </ol>
           <!-- 领奖照横幅写着「2011-2012 李宁中国大学生足球联赛（北区决赛）」，
-               与上面 2012.5.22–29 秦皇岛那条记录对应。图注只抄横幅上读得到的字，
-               名次交给上面的表格，不从照片里推。 -->
+               与上面 2012.5.22–29 秦皇岛那条记录对应。 -->
           <div class="photo-strip photo-strip--one">
             <figure>
               <img src="assets/photos/football-trophy-2012.webp" alt="穿着蓝色运动外套和白色球裤，手举奖杯站在赛场横幅前" width="1000" height="750" loading="lazy" decoding="async">
-              <figcaption class="photo-rec"><span class="photo-rec-key">2012.5 · 秦皇岛</span><span class="photo-rec-val">领奖时手举奖杯，横幅写着「2011-2012 李宁中国大学生足球联赛（北区决赛）」。名次见上表，不从照片里推。</span></figcaption>
+              <figcaption class="photo-rec"><span class="photo-rec-key">2012.5 · 秦皇岛</span><span class="photo-rec-val">领奖时手举奖杯，横幅写着「2011-2012 李宁中国大学生足球联赛（北区决赛）」。</span></figcaption>
             </figure>
           </div>
         </div>
@@ -2841,13 +2834,12 @@ html.js .view.is-active{ display:block; }
             <figcaption class="photo-rec"><span class="photo-rec-key photo-rec-key--unknown">场次未记</span><span class="photo-rec-val">12 号背对镜头带球。年份、对手没留下记录。</span></figcaption>
           </figure>
         </div>
-        <p class="photo-note">照片只当记录用：能核对的写年份、地点、成绩；核对不到的写「场次未记」，不补推测。</p>
 
         <!-- 带队（J-24 / J-33）：2019 年之后上场少了，也带学生队；
              2021 年这一场本人以队长身份参赛、每场踢满，同时和几位同事一起带队。
              赛事名称、届次、时间、等级、参与人逐条对过官方来源；
              年报写「第一名」、江津日报写「前两名」、学校新闻写「冠军」，
-             三处措辞不同，在 .coach-src 里照原样分开写，不并成一句漂亮话。 -->
+             三处措辞不同，出处里分别列出。 -->
         <section class="coach-block" aria-labelledby="coach-title">
           <span class="coach-kicker">2019 年之后 · 带队也上场</span>
           <h2 class="h2" id="coach-title">带队</h2>
@@ -2861,13 +2853,13 @@ html.js .view.is-active{ display:block; }
             <div>
               <p class="coach-race">「三五三三杯」江津区第四届运动会 · 足球项目（在津高校组）</p>
               <p class="coach-meta">重庆工程职业技术学院（2026 年更名重庆工程职业技术大学）· 11 人制 · 江津区人民政府主办，每四年一届，2021 年 8–10 月举行。</p>
-              <p class="coach-src">出处：学校《高等职业教育质量年度报告（2022）》表 7 把这项记为「第一名」，发奖单位江津区人民政府，获奖时间 2021.10，成果参与人「李非亚、周泽维」；《江津日报》2021.10.27 写「重庆工程职业技术学院和重庆能源职业学院分别获得在津高校组别前两名」；学校当年新闻标题用的是「高校组冠军」。三处措辞不同，照原样分开写。学校当年新闻（中国高校之窗 2021.10.27 转载）写的是「师生混合代表队」「四战全胜」，列出的参赛教师含杨雪平、李非亚、周泽维；队长与每场踢满是本人自述，官方来源未载。</p>
+              <p class="coach-src">出处：学校《高等职业教育质量年度报告（2022）》表 7 把这项记为「第一名」，发奖单位江津区人民政府，获奖时间 2021.10，成果参与人「李非亚、周泽维」；《江津日报》2021.10.27 写「重庆工程职业技术学院和重庆能源职业学院分别获得在津高校组别前两名」；学校当年新闻标题用的是「高校组冠军」，报道里写的是「师生混合代表队」「四战全胜」，列出的参赛教师含杨雪平、李非亚、周泽维。队长和每场踢满是我自己记的，公开报道里没写。</p>
             </div>
           </div>
           <div class="photo-strip photo-strip--doc">
             <figure>
               <img src="assets/photos/football-coach-champion-2021.webp" alt="一支穿青绿色球衣的球队在草地上合影，队员挂着奖牌、举起双手，中间的人把一张奖状举过头顶" width="1400" height="933" loading="lazy" decoding="async">
-              <figcaption class="photo-rec"><span class="photo-rec-key">2021.10 · 江津 · 在津高校组第一名</span><span class="photo-rec-val">领奖后的全队合影，队员挂着奖牌，中间把奖状举过头顶。奖状上的字过曝看不清，所以没照抄。</span></figcaption>
+              <figcaption class="photo-rec"><span class="photo-rec-key">2021.10 · 江津 · 在津高校组第一名</span><span class="photo-rec-val">领奖后的全队合影，队员挂着奖牌，中间把奖状举过头顶。奖状上的字过曝看不清。</span></figcaption>
             </figure>
           </div>
         </section>
@@ -2984,7 +2976,7 @@ html.js .view.is-active{ display:block; }
 学生签名：________
 填写时间：____年__月__日 :
 ⚠️ 提示：以我回复同意才算审批通过，请勿提前离校。</pre>
-        <p class="tpl-note">按本人给的原样贴出，填空后一次性发给我。复制后直接粘到微信里改空格就行。</p>
+        <p class="tpl-note">填空后一次性发给我。复制后直接粘到微信里改空格就行。</p>
       </div>
     </section>
   </div><!-- /视图 5 · tips -->
