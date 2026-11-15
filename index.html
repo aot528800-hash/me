@@ -1501,6 +1501,47 @@ body{ background:var(--page-bg); }
   font-size:var(--fs-micro);
   color:var(--color-text-secondary);
 }
+
+/* ---- 「继续读」：文章读完之后的同一主题出口 ----
+   与博客列表同系：标题 + 日期两栏，分隔线用细线。
+   它是正文与页脚之间的一层，视觉上比页脚轻、比正文静。 */
+.post-more{
+  margin-top:var(--space-9);
+  padding-top:var(--space-5);
+  border-top:1px solid var(--color-border);
+}
+.post-more-head{
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:var(--space-3);
+}
+.post-more-list{
+  list-style:none;
+}
+.post-more-link{
+  display:flex;
+  align-items:baseline;
+  gap:var(--space-5);
+  padding-block:11px;
+  border-top:1px solid var(--color-border-subtle);
+  color:var(--color-text-primary);
+}
+.post-more-link:first-child{ border-top:0; }
+.post-more-title{
+  flex:1;
+  font-size:var(--fs-body);
+  font-weight:500;
+  line-height:1.5;
+}
+.post-more-date{
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.04em;
+}
+.post-more-link:hover .post-more-title{ color:var(--brand-accent-text); }
+.post-more-link:hover .post-more-date{ color:var(--brand-accent-text); }
 .post-foot a{ color:var(--color-text-secondary); }
 .post-foot a:hover{ color:var(--brand-accent-text); }
 @media (max-width:720px){
@@ -2093,6 +2134,10 @@ html.js .view.is-active{ display:block; }
           <p class="post-lede" id="post-lede"></p>
           <p class="post-meta" id="post-meta"></p>
           <div class="post-body" id="post-body"></div>
+          <div class="post-more" id="post-more" hidden>
+            <p class="post-more-head">继续读</p>
+            <ol class="post-more-list" id="post-more-list"></ol>
+          </div>
           <div class="post-foot">
             <a href="#/blog">← 全部文章</a>
             <span id="post-foot-note"></span>
@@ -2117,7 +2162,7 @@ html.js .view.is-active{ display:block; }
   <!-- 2026-11-14 第二轮选文：只留「所思所想」。资助类全部撤下（本人明确不要）；
        ETF 教程与中超单场报告也撤下 —— 同为工具/报告，放进来会把博客变成第二作品栏。
        原文配图仍全部移除：图走 mmbiz.qpic.cn 防盗链，站外引用会裂图。 -->
-  <template data-art="why-not-buy-house" data-title="我为什么不建议现在就买房" data-date="2026.11.15" data-desc="把一套房子 30 年要付出去的钱摆成两行，再谈要不要买。">
+  <template data-art="why-not-buy-house" data-topic="investment" data-title="我为什么不建议现在就买房" data-date="2026.11.15" data-desc="把一套房子 30 年要付出去的钱摆成两行，再谈要不要买。">
     <p>先说结论：如果不是为了孩子上学、落户，或者某种非它不可的安定感，纯从钱的效率算，现在买房不划算。</p>
     <p>这话不好听，在饭桌上也会得罪人。所以下面只摆数，不讲立场。</p>
     <h2>一笔账：300 万的房子，30 年你要付出去多少</h2>
@@ -2155,7 +2200,7 @@ html.js .view.is-active{ display:block; }
     <p>我给的不是答案，是一套算法。你自己把参数填进去，算出来的才是你的答案。</p>
     <p>这不是投资建议。</p>
   </template>
-  <template data-art="cost-you-cannot-see" data-title="投资里最贵的那笔钱，账上看不见" data-date="2026.11.12" data-desc="0.2% 和 1.5% 只差 1.3 个点，30 年后差 221 万。">
+  <template data-art="cost-you-cannot-see" data-topic="investment" data-title="投资里最贵的那笔钱，账上看不见" data-date="2026.11.12" data-desc="0.2% 和 1.5% 只差 1.3 个点，30 年后差 221 万。">
     <p>大部分人算收益，算得很细；算成本，只算手续费。</p>
     <p>投资里最贵的那笔钱，是不出现在对账单上的那一笔。</p>
     <h2>一个百分点的重量</h2>
@@ -2206,7 +2251,7 @@ html.js .view.is-active{ display:block; }
     <p>这也不是投资建议。7% 的假设已经偏乐观，真实市场里 30 年不一定有 7%，也可能不止。</p>
     <p>上面所有数字都是在同一个假设下做的横向比较，不是对未来的预测。它们只能回答一个问题：同样的起点、同样的年化，费用差一点，最后差多少。这个问题的答案跟市场无关，只跟算术有关。</p>
   </template>
-  <template data-art="ai-cannot-judge" data-title="AI 能给你答案，给不了你判断" data-date="2026.11.08" data-desc="它写的比你好，但前提对不对，只有你知道。">
+  <template data-art="ai-cannot-judge" data-topic="ai" data-title="AI 能给你答案，给不了你判断" data-date="2026.11.08" data-desc="它写的比你好，但前提对不对，只有你知道。">
     <p>这两年我用 AI 用得很凶。写东西、查资料、读代码、整理表格，能用的地方都用上了。效率是真的提高了，大概是三四倍。</p>
     <p>但我慢慢发现一个规律：工具越强，人越容易放弃一件不该放弃的事——判断。</p>
     <h2>它给的答案，通常比你的更完整</h2>
@@ -2241,7 +2286,7 @@ html.js .view.is-active{ display:block; }
     <hr>
     <p>工具越强，越需要一个人站在那里。那个人不能是模型。</p>
   </template>
-  <template data-art="three-hours-interview" data-title="花三小时看了一场访谈" data-date="2026.07.16" data-desc="马斯克和彼得·迪亚曼迪斯那场对谈，我分两天看完，有一段倒回去听了三遍。">
+  <template data-art="three-hours-interview" data-topic="ai" data-title="花三小时看了一场访谈" data-date="2026.07.16" data-desc="马斯克和彼得·迪亚曼迪斯那场对谈，我分两天看完，有一段倒回去听了三遍。">
     <p>周末看了马斯克和彼得·迪亚曼迪斯的一场对谈，今年一月录的，在德州那个超级工厂里。全长将近三个小时，我分了两天看完。</p>
     <p>大部分内容你可以猜到。聊 AI、聊机器人、聊火星、聊能源。这些话题马斯克讲了十几年了，不算新鲜。</p>
     <p>但有一段话我反复倒回去听了三遍。</p>
@@ -2298,7 +2343,7 @@ html.js .view.is-active{ display:block; }
     <hr>
     <p>本文提及的访谈为 Elon Musk 与 Peter Diamandis 在 Moonshots Podcast #220 的对谈，2026 年 1 月 6 日录制于 Giga Texas。完整视频可搜索「Musk Moonshots Peter Diamandis」观看，已超过百万播放。</p>
   </template>
-  <template data-art="deep-reading-method" data-title="一套可以反复复用的深度读书方法：读完一本书，真正解决一个难题" data-date="2026.07.15" data-desc="读书方法：读完整本、解决一个真问题，而不是打卡">
+  <template data-art="deep-reading-method" data-topic="learning" data-title="一套可以反复复用的深度读书方法：读完一本书，真正解决一个难题" data-date="2026.07.15" data-desc="读书方法：读完整本、解决一个真问题，而不是打卡">
     <p>去年底我翻自己的豆瓣记录，发现一年读了 37 本书。</p>
     <p>然后我问了自己一个问题：这 37 本里，有哪一本是我合上书之后，真正用它解决了一个实际问题的？</p>
     <p>想了五分钟。答案是零。</p>
@@ -2347,7 +2392,7 @@ html.js .view.is-active{ display:block; }
     <p>如果你也想试试，不妨从一本你一直想读但没读透的书开始。不需要买任何东西——Socratopia 有免费版，ChatGPT 有免费额度，抖音你手机上就有。</p>
     <p>唯一需要的，是你愿意坐下来，被问到墙角。</p>
   </template>
-  <template data-art="socratopia" data-title="Socratopia：一个不给答案的 AI 学习工具" data-date="2026.07.14" data-desc="一个不给答案的 AI 学习工具，逼你自己想">
+  <template data-art="socratopia" data-topic="ai" data-title="Socratopia：一个不给答案的 AI 学习工具" data-date="2026.07.14" data-desc="一个不给答案的 AI 学习工具，逼你自己想">
     <h2>Socratopia：AI 学习工具</h2>
     <p>一个多月前发现的 Socratopia，用到现在，确实帮我提升了学习效率。</p>
     <p>它不是搜题工具，不是听课平台，也不替你画重点、出摘要。它干的事特别简单：不给答案，只问你问题。</p>
@@ -2386,7 +2431,7 @@ html.js .view.is-active{ display:block; }
     <p>这软件不画重点，不给答案，不出摘要。就拿一个问题接一个问题，把你心里那些自己都没意识到的思考，一点一点往外逼。</p>
     <p>用过之后我觉得，愿意这么干的工具，实在太少了。</p>
   </template>
-  <template data-art="learn-by-doing" data-title="有一种学习方法我用了六年才知道它不算学习" data-date="2026.07.13" data-desc="在银行学的那些，辞职以后基本用不上。后来换了个学法。">
+  <template data-art="learn-by-doing" data-topic="learning" data-title="有一种学习方法我用了六年才知道它不算学习" data-date="2026.07.13" data-desc="在银行学的那些，辞职以后基本用不上。后来换了个学法。">
     <p>前几天看到一个视频。Dan Koe 的，标题很夸张：「用 AI 把学习速度拉到 10 倍」。</p>
     <p>这种标题我一般会划走。但那天没有。视频开头他问了一个问题：你有没有发现自己学了很多东西，但生活一点都没变？</p>
     <p>这个问题我太熟了。</p>
@@ -2423,7 +2468,7 @@ html.js .view.is-active{ display:block; }
     <p>项目给你理由。教学给你检验。人生地图给你方向。</p>
     <p>这三样齐了，你不需要「坚持学习」。学习会变成你解决问题的副产品。</p>
   </template>
-  <template data-art="middle-age-bitterness" data-title="中年人的戾气，不是性格问题，是商业模式问题" data-date="2026.05.09" data-desc="戾气不是性格，是处境；没人为你的情绪买单">
+  <template data-art="middle-age-bitterness" data-topic="thinking" data-title="中年人的戾气，不是性格问题，是商业模式问题" data-date="2026.05.09" data-desc="戾气不是性格，是处境；没人为你的情绪买单">
     <p>#</p>
     <p>一个人晚上快十点下班，在地铁上刷到大学同学在海外度假的照片，他面无表情地划过去。回到家，孩子作业还没写完，妻子说辅导班又要续费了。他坐在沙发上，没来由地吼了一句：</p>
     <blockquote><p>“你就不能盯着他写完吗？”</p></blockquote>
@@ -2465,7 +2510,7 @@ html.js .view.is-active{ display:block; }
     <p>残忍的地方在于，他并不是不努力。他比很多年轻人都努力。他只是从一开始就选了一个对自己最不利的模式，然后被困在里面，再也没有出来过。</p>
     <p>他不是不知道要学新东西。他只是很清楚，学习也需要成本，而他最缺的，恰恰不是道理，而是可以重新开始的余量。</p>
   </template>
-  <template data-art="involution-trap" data-title="内卷：达尔文的恶魔陷阱" data-date="2026.04.06" data-desc="内卷不是努力，是达尔的磨盘">
+  <template data-art="involution-trap" data-topic="thinking" data-title="内卷：达尔文的恶魔陷阱" data-date="2026.04.06" data-desc="内卷不是努力，是达尔的磨盘">
     <p>为什么现在的小孩放学后补习到半夜十一点，考上的大学似乎并没有比三十年前每天下午五点放学的孩子更好？</p>
     <p>我们从小被灌输一个常识：努力追求个人利益的最大化，结果是对所有人都有好处。这大概来源于亚当·斯密的“看不见的手”。只要面包师想赚更多钱，他就会努力烤出更好吃的面包。他赚到了钱，我们吃到了好面包。世界因此进步。</p>
     <p>听起来很完美。所以我们顺理成章地认为，只要每个学生都拼命念书，每个人都拼命加班，社会就会变得更好。</p>
@@ -2482,7 +2527,7 @@ html.js .view.is-active{ display:block; }
     <p>当一个系统里的所有人都在玩“比别人好”的游戏时，系统本身就不再产出新东西了。所有的能量都用来抵消别人的能量。就像两台互相发送垃圾数据的服务器，CPU都在全速运转，发出了巨大的轰鸣和热量，但毫无输出。</p>
     <p>要在坐满人的电影院里看清屏幕，最理性的做法也许不是跟着站起来。我们可能得回头看看，是不是非得看这场拥挤的电影不可。</p>
   </template>
-  <template data-art="shackles-of-meaning" data-title="意义的枷锁：“普通”为何成了这个时代的奢侈品？" data-date="2026.04.05" data-desc="普通人的「意义」，在哪个时代都不便宜">
+  <template data-art="shackles-of-meaning" data-topic="thinking" data-title="意义的枷锁：“普通”为何成了这个时代的奢侈品？" data-date="2026.04.05" data-desc="普通人的「意义」，在哪个时代都不便宜">
     <p>发现一个奇怪的现象。现在很多人聊起自己的工作，语气里总带着点隐蔽的歉意。</p>
     <p>只要这份工作没能“改变世界”，没能“实现自我”，仅仅只是为了每个月换取一笔交房租的钱，他们似乎就觉得自己搞砸了什么。什么时候开始，靠双手赚钱养活自己，变成了一件需要心虚的事？</p>
     <p>我们是怎么走到这一步的？大概是因为过去二十年，社会给我们安装了一套叫作“寻找热爱”的思想补丁。学校的演讲、网上的爆款文章都在暗示：你不仅有权利，而且有义务去找到一份充满意义的工作。</p>
@@ -2503,7 +2548,7 @@ html.js .view.is-active{ display:block; }
     <p>当幻象破灭，生存博弈变得越来越具体而微。如果你明天早上能按时醒来，去完成那些你并不喜欢但必须去做的任务，然后在月底用自己赚来的钱付清账单，买一兜新鲜的番茄。</p>
     <p>你不需要向任何人道歉，也不需要觉得这叫作平庸。在这个时代，能把这套基础程序稳稳当当地跑通，就已经是属于普通人的英雄主义了。</p>
   </template>
-  <template data-art="shedding-shell" data-title="脱壳时刻：AI迫使我们告别技能身份，回归“你是谁”" data-date="2026.04.05" data-desc="AI 拿走技能后，剩下的那个你才是你">
+  <template data-art="shedding-shell" data-topic="ai" data-title="脱壳时刻：AI迫使我们告别技能身份，回归“你是谁”" data-date="2026.04.05" data-desc="AI 拿走技能后，剩下的那个你才是你">
     <p>我观察到一个深刻的转变，它尚未被许多人完全领会，却正在静默地重塑价值的根基。这个真相是：我们长期以来珍视并磨练的技能“表现层”，其价值正在迅速消融，而那驱动一切创造的“生成力的深层结构”，正成为未来版图中唯一真正稀缺的宝藏。</p>
     <h2>这意味着什么？</h2>
     <p>意味着你曾倾注十年心血，学习如何捕捉光影的精髓拍出一张动人的照片，如何构思布局呈现一个和谐的页面，如何渲染光影构建一个逼真的场景——所有这些外在的技艺形态，那些“如何做”的答案，正被大模型以一种近乎漠然的效率廉价地复制。它无需灵感的沉淀，不依赖情绪的起伏，仅凭一行指令，就能瞬间涌现出你过去视为壁垒的“技艺”成果。</p>
@@ -2528,7 +2573,7 @@ html.js .view.is-active{ display:block; }
     <p>找到它，安住于其中，并让它自然流淌。这，或许才是通往未来真正自由与创造的唯一路径。</p>
     <p>#人工智能 (Artificial Intelligence / AI) #技能贬值 (Skill Devaluation) #价值重塑 (Value Shift / Reshaping Value) #内在意识 (Inner Consciousness / Awareness) #生成力 (Generative Power / Creativity) #表达动机 (Expression Motive / Creative Intent) #非通用能力 (Non-Universal Ability / Unique Capability) #深度思考 (Deep Thinking) #个人成长 (Personal Growth) #未来趋势 (Future Trends) #存在价值 (Value of Being / Existential Value)</p>
   </template>
-  <template data-art="own-your-brain" data-title="从租用大脑到拥有大脑" data-date="2026.03.13" data-desc="在自己硬盘上跑模型之后，我重新理解「拥有」和「租用」这两个词。">
+  <template data-art="own-your-brain" data-topic="ai" data-title="从租用大脑到拥有大脑" data-date="2026.03.13" data-desc="在自己硬盘上跑模型之后，我重新理解「拥有」和「租用」这两个词。">
     <p>人们对待当下的 AI 浪潮，就像在对待一场没有尽头的跑轮测试。大多数人要么在焦虑地追踪最新的巨型模型，要么在疯狂地学习下周可能就会过时的工具技巧。</p>
     <p>但这是一种极其低效的策略。新工具的半衰期太短了。</p>
     <p>如果你去观察那些在历次技术变革中真正获益的人，会发现他们不在乎零散的坐标，他们在画一张地图。你需要的是一套认知框架，一套能把工具、职业、产业甚至人文思考串联起来的系统。</p>
@@ -2560,7 +2605,7 @@ html.js .view.is-active{ display:block; }
     <p>但我猜，真正的未来可能恰恰相反。它可能看起来更像 1970 年代末微型计算机取代大型机的那个时刻—— 每个人都在自己的硬盘里，耐心地喂养和调试着一个只属于自己的智能体。</p>
     <p>当那一天到来时，数字世界里最大的分水岭，或许不再是“用 AI 的人”和“不用 AI 的人”：</p> <p>而是“租用大脑的人”，和“拥有大脑的人”。</p>
   </template>
-  <template data-art="no-pre-made-knowledge" data-title="别吃知识的预制菜" data-date="2026.02.27" data-desc="把一本书压成三条要点，是一种很隐蔽的偷懒。">
+  <template data-art="no-pre-made-knowledge" data-topic="learning" data-title="别吃知识的预制菜" data-date="2026.02.27" data-desc="把一本书压成三条要点，是一种很隐蔽的偷懒。">
     <h2>一、效率的错觉：当书本沦为检索库</h2>
     <p>人们正在把书变成效率低下的检索库。找个人工智能把几百页纸压缩成三条要点，扫一眼就觉得自己掌握了精髓。这听起来无懈可击。花三分钟拿到现成答案，总比熬上三十个小时划线做笔记显得聪明。</p>
     <p>这种错觉其实是长期应试教育留下的后遗症。上学时我们被训练成答题机器，衡量聪明的标准是你记住了多少标准答案。既然现在的机器能在一秒钟内吐出所有正确的结论，自己苦哈哈地去啃大部头，看起来就像是坚持用算盘计算轨道参数一样可笑。</p>
@@ -2578,7 +2623,7 @@ html.js .view.is-active{ display:block; }
     <p>如果你习惯了只吞咽那些被预先咀嚼过的残渣，智力的消化系统迟早会彻底退化。我怀疑未来社会最大的分层，根本不取决于你用不用那些聪明的算法工具。真正的鸿沟，将横亘在：</p>
     <ol><li>那些依然保留了从原始代码构建认知能力的人；</li><li>与那些大脑里只装满别人写好的执行程序的躯壳之间。</li></ol>
   </template>
-  <template data-art="broad-interests" data-title="如果你兴趣广泛，切莫虚度未来两三年" data-date="2026.01.19" data-desc="兴趣广泛不是缺点，是还没被整理的能力">
+  <template data-art="broad-interests" data-topic="thinking" data-title="如果你兴趣广泛，切莫虚度未来两三年" data-date="2026.01.19" data-desc="兴趣广泛不是缺点，是还没被整理的能力">
     <p>原文来自 DAN KOE，本文为逐句精翻，与原文一一匹配</p>
     <p>#</p>
     <h2>![](https://res.wx.qq.com/t/wx_fed/we-</h2>
@@ -2668,7 +2713,7 @@ html.js .view.is-active{ display:block; }
     <p>这封信就到这里。感谢阅读。</p>
     <h3>– Dan</h3>
   </template>
-  <template data-art="how-to-learn-in-ai-era" data-title="AI时代如何学习？" data-date="2025.08.27" data-desc="AI 时代，学习的顺序变了">
+  <template data-art="how-to-learn-in-ai-era" data-topic="ai" data-title="AI时代如何学习？" data-date="2025.08.27" data-desc="AI 时代，学习的顺序变了">
     <p>#</p>
     <p>想象一下，你想学做菜。现在有两个选择：</p>
     <h2>A计划：</h2>
@@ -2703,7 +2748,7 @@ html.js .view.is-active{ display:block; }
     <p>在这个循环中，AI是你无价的伙伴，它在你“动手做”时，能帮你扫清障碍；在你“啃理论”时，能为你答疑解惑。但它永远无法替代你 <strong>深度的思考</strong> 和 <strong>系统的认知</strong>。</p>
     <p>别再纠结于是该先看菜谱还是先下厨房了。真正的学习，是从走进厨房的那一刻开始，并永不止步地去探索烹饪背后的科学与艺术。</p>
   </template>
-  <template data-art="yap-island-money" data-title="从雅浦岛石币到银行数字：我们都是被框架操控的傀儡" data-date="2025.04.19" data-desc="从石币到数字，钱的形态在变，游戏没变">
+  <template data-art="yap-island-money" data-topic="investment" data-title="从雅浦岛石币到银行数字：我们都是被框架操控的傀儡" data-date="2025.04.19" data-desc="从石币到数字，钱的形态在变，游戏没变">
     <p>#</p>
     <p>你认为自己活得明白吗？</p>
     <p>昨天，我朋友小张拿着手机给我看他的蚂蚁财富： 「看，又涨了2000多。」 眼睛里闪烁着胜利的光芒，仿佛那串数字就是他生命的意义。</p>
@@ -2760,7 +2805,7 @@ html.js .view.is-active{ display:block; }
     <h2>互动话题</h2>
     <p>分享一个你曾经深信不疑，后来发现完全错误的「人生信条」，它是怎么坑了你的？</p>
   </template>
-  <template data-art="work-life-meaning" data-title="工作、生活和意义的拉扯：寻找平衡的另一种可能" data-date="2025.03.19" data-desc="工作、生活、意义，拉扯本身可能就是答案">
+  <template data-art="work-life-meaning" data-topic="thinking" data-title="工作、生活和意义的拉扯：寻找平衡的另一种可能" data-date="2025.03.19" data-desc="工作、生活、意义，拉扯本身可能就是答案">
     <p>#</p>
     <p>最近的工作强度让我有些喘不过气来。不只是我，身边的同事们也普遍感受到工作正在侵占个人时间。这种状态让我开始认真思考一个问题：</p>
     <h2>工作和生活的平衡到底意味着什么？</h2>
@@ -2811,7 +2856,7 @@ html.js .view.is-active{ display:block; }
     <h3> 关注我，共同成长。 </h3>
     <h3> 加油，同路人！ </h3>
   </template>
-  <template data-art="money-mental-model" data-title="改变我财务人生的简单心智模型：聚焦 “重大金钱决策”" data-date="2025.03.17" data-desc="决定财务人生的不是细节，是几个大决策">
+  <template data-art="money-mental-model" data-topic="investment" data-title="改变我财务人生的简单心智模型：聚焦 “重大金钱决策”" data-date="2025.03.17" data-desc="决定财务人生的不是细节，是几个大决策">
     <p>#</p>
     <p>#</p>
     <blockquote><p><strong>“花好钱，省时间和金钱”</strong> —— 让未来的自己谢谢现在的你。</p></blockquote>
@@ -2867,7 +2912,7 @@ html.js .view.is-active{ display:block; }
     <h3> 关注我，共同成长。 </h3>
     <h3> 加油，同路人！ </h3>
   </template>
-  <template data-art="money-is-not-real" data-title="金钱并不是真实存在的东西（Money is not real）" data-date="2025.03.16" data-desc="钱是一场信任游戏，别把记分牌当财富">
+  <template data-art="money-is-not-real" data-topic="investment" data-title="金钱并不是真实存在的东西（Money is not real）" data-date="2025.03.16" data-desc="钱是一场信任游戏，别把记分牌当财富">
     <p>请大家发挥一下想象力：此刻你手里紧紧攥着一张崭新的百元钞票。仔细瞧瞧，它实际上不过是一张印着精美花纹的纸张罢了。然而，奇妙之处就在于，如果所有人都一致认同它价值「100 块」，那么它所能发挥的作用可就大了去了。它能够让你在热闹的火锅店大快朵颐，换来一顿美味可口的火锅；也可以让你挑选到一件心仪的 T 恤；甚至还能助力你开启一次潇洒随性、说走就走的旅行 —— 这，就是金钱所拥有的神奇魔法（magic of money）。金钱就仿佛是一场规模宏大、覆盖全球的「信任游戏」（trust game），而我们每一个人都在这场游戏之中，充当着玩家的角色。</p>
     <p>经济学家常常会提到，金钱本质上是一种「社会共识」（social construct）。就拿我们熟悉的网络游戏来说吧，网游里的金币，一旦离开了服务器的支撑，瞬间就变成了一串毫无意义的代码。同样的道理，金钱一旦脱离了人类对于价值所形成的集体信仰，它也就仅仅只是一张废纸或者一块普通的金属片而已。回顾历史，在遥远的雅浦岛，当地的岛民们竟然用巨大的石头当作货币来进行交易；再看看如今，比特币玩家们为了那些虚拟的代币如痴如狂 —— 尽管货币的外在形态一直在不断地发生变化，但是这场关于价值认可和交换的游戏，其本质却从来都没有改变过。</p>
     <p>你或许会觉得自己银行账户里显示的那些数字是无比「真实」的。然而，2008 年那场震惊全球的金融危机却无情地揭露了背后的真相：当房贷证券（mortgage - backed securities）摇身一变，成为了一场击鼓传花般的欺诈骗局时，数万亿的「财富」仿佛像泡沫一样，在一夜之间就消失得无影无踪。这场景就好比有人冷不丁地突然关掉了游戏的服务器（server），玩家们辛苦积累的所有装备瞬间就归零了，一切仿佛回到了原点。</p>
@@ -2878,7 +2923,7 @@ html.js .view.is-active{ display:block; }
     <h3> 关注我，共同成长。 </h3>
     <h3> 加油，同路人！ </h3>
   </template>
-  <template data-art="digital-evolution" data-title="数字洪流中的进化论：多维能力锻造与反脆弱生存法则" data-date="2025.02.25" data-desc="信息洪流里，多维度能力才是反脆弱">
+  <template data-art="digital-evolution" data-topic="thinking" data-title="数字洪流中的进化论：多维能力锻造与反脆弱生存法则" data-date="2025.02.25" data-desc="信息洪流里，多维度能力才是反脆弱">
     <p>朋友，今天说点实在的</p>
     <p>我知道你可能也有这样的困惑： <strong>工作到底还能不能稳定？该如何提升自己？要不要搞副业？</strong></p>
     <p>说真的，这些问题我也经常在想，也一直在实践。今天，就聊聊我的思考和尝试，没什么高高在上的理论，都是一些个人的片面经验。</p>
@@ -2922,7 +2967,7 @@ html.js .view.is-active{ display:block; }
     <hr>
     <p>** </p>
   </template>
-  <template data-art="slow-is-sincere" data-title="慢慢来是一种诚意，长文本更适合深度思考。" data-date="2025.02.15" data-desc="长文本正在死去，而深度思考需要它">
+  <template data-art="slow-is-sincere" data-topic="thinking" data-title="慢慢来是一种诚意，长文本更适合深度思考。" data-date="2025.02.15" data-desc="长文本正在死去，而深度思考需要它">
     <p>最近不少朋友问我：“现在短视频那么火，公众号还有人看么？”“写长文章是不是太‘老派’了？” 甚至有人断言：“公众号早凉了！” 但有意思的是，今年微信内部悄悄把 2024 年定为 “公众号元年”，算法调整后，不少小号突然爆出十万加，阅读大盘不降反升。这背后的门道，值得唠一唠。</p>
     <h2>1、公众号像你家客厅，其他平台是菜市场</h2>
     <p>有人说抖音是 “娱乐场”，小红书是 “时尚街区”，而公众号更像是你的 “书房”。你在外头看热闹、逛商场，但最后总得回家刷点有深度的东西。想一下，都是谁才愿意长期关注文字内容？我想他们大多是高学历、爱琢磨的主儿。这群人不在乎花 5 分钟看一篇长文，反而觉得刷完短视频心里空落落的。就像你买书会挑出版社，他们看文章也认账号调性。更绝的是，公众号文章能直接丢进微信群和朋友圈，一句 “转给你看看” 背后，藏着态度、身份甚至价值观。品牌要是能在这 “客厅” 里聊透一件事，比在 “菜市场” 吆喝一百遍都管用。</p>
@@ -2937,7 +2982,7 @@ html.js .view.is-active{ display:block; }
     <p>关注我，共同成长。</p>
     <h3>加油，同路人！</h3>
   </template>
-  <template data-art="zhuanshengben-truth" data-title="专升本的真相：是命运的门票，还是学历的陷阱？" data-date="2025.01.24" data-desc="专升本：门票还是陷阱，取决于你用它换什么">
+  <template data-art="zhuanshengben-truth" data-topic="learning" data-title="专升本的真相：是命运的门票，还是学历的陷阱？" data-date="2025.01.24" data-desc="专升本：门票还是陷阱，取决于你用它换什么">
     <h2>“专升本到底值不值？”这是许多专科生绕不开的问题。</h2>
     <p><strong>根据2024年重庆市专升本数据统计，报考人数为49,995人（不含免试生），较上年减少约8,000人；实际录取人数为29,636人，录取率为51.1%（若按招生计划33,923人计算理论录取率为57.75%）。其中，民办院校是扩招主力，占招生计划的75%以上，录取率为51.17%，而公办院校因名额有限，录取率仅6.58%，竞争激烈。尽管报考人数显著下降，但实际录取率较2023年仅微增0.61%，呈现“民办主导、公办趋难”的趋势，考生需针对性提升竞争力以应对分化加剧的招生格局。</strong></p>
     <p>但与此同时，网络上关于“毕业即失业”的吐槽层出不穷，甚至有人戏称：“专升本的学生，不过是把就业焦虑推迟了几年。”升本，究竟是改变命运的门票，还是一场无谓的学历游戏？</p>
@@ -2980,21 +3025,7 @@ html.js .view.is-active{ display:block; }
     <p>在中国，学历从来不仅仅是教育的结果，而是社会规则的缩影。从高考到专升本，再到考研，我们被告知，学历是唯一能够改变命运的钥匙。但现实却无情地揭示，越来越多的专升本毕业生手握文凭，却依然徘徊在职场的门外。学历的光环下，是无数人用时间和金钱堆砌出的焦虑与迷茫。我们困在一场“学历崇拜”的游戏里，迷信它能解决一切，却忘了社会真正需要的，是创造价值的人。</p>
     <p>当敲门砖不再稀缺，你靠什么站稳脚跟？真正的问题不是你能否升本，而是升本之后，是否已经失去了方向。学历不能替你回答这个问题，但你的能力可以。</p>
   </template>
-  <template data-art="not-necessarily-right" data-title="不一定对，也不一定都错。（1）" data-date="2022.07.19" data-desc="早期的一篇短思考，不一定对，也不一定都错">
-    <p>这张图是「导航」</p>
-    <h2>一、为什么要做体系？</h2>
-    <p>这个问题的答案可在这篇文章内找到《 <a href="http://mp.weixin.qq.com/s?_biz=MzIyOTMzODk4NQ==&amp;mid=2247483940&amp;idx=1&amp;sn=1291f23490b4feeae5fd06d95215fd10&amp;chksm=e8457822df32f1344092b290cd84396c5d59e1f6fecf7e1e71a0ac0fd6e77b2d83f0352bdeb0&amp;scene=21#wechat_redirect"> Three years and three years! </a> 》</p>
-    <p>大学本科期间，我主修工商管理，也学过宏微观经济学、政治经济学等基础知识。工作后，因为工作性质的原因，需要经常给人解释投资是什么，那时我发现我并不具备这个能力。因为学校从来没有教过我投资是什么，我只知道通过工作换取一份薪水而已。可能对投资的概念有且仅有来源于小时候父母到银行存定期，只知道在几年以后可以拿到一笔可怜利息。我意识到我需要好好地恶补一下了。</p>
-    <p>起初，在同事们的“帮助”中尝试了解投资是怎么一回事，慢慢摸索，一路上可走了不少弯路。碎片化的学习就像是到一个陌生国家，语言不通，没有指南针，没有地图，就这么漫无目的地游荡。好在阅读是个捷径，从茫然无知到逐步建立体系的过程，学到的大量零散知识能够各归其位，才能随时调动出来。听了好友Jery的建议，现在自己建立这套可能只有我自己看的投资体系，开始输出模式（单纯的对自己的输出"费曼学习法"），就是想解决这个问题——为自己小孩学习理财梳理一个学习主线，让他知道哪些是投资的重要知识，也知道不同知识点之间的关系；知道每个知识点该放在哪里，也知道它会通向何方。如果说这些知识点是一个个地标，那么，知识体系就是一幅全景地图，有它陪着一起走出投资这片迷雾森林。</p>
-    <p>二、投资学习的目的地在哪儿？</p>
-    <p>对我个人而言，对投资其实并没有多热爱，更多的是，希望自己辛苦赚的钱能投得踏实些。我不是专业投资选手，也有自己的本职工作，更不想把大量时间花在投资上。</p>
-    <p>所以，我只采摘那些投资中的「重要知识」。格雷厄姆说：“投资艺术有一个特点不为大众所知。门外汉只需些微努力与能力，便可以取得令人尊敬（即使并不可观）的结果。”我们只需要具备一些基础的金融素养，就可以避开投资中的大部分坑了。比如，理解金融市场的运行规律，理解财富是怎么创造的，知道我们赚的钱是哪儿来的，知道如何分配自己的钱……</p>
-    <p>这需要花一些时间来学习，但并不难。当真正建立这些认知，普通人也能获得良好的投资收益。</p>
-    <h2>三、如何使用这个知识体系？</h2>
-    <p>当然是先去看导图，这个系列会用连载的方式持续更新，当然更新的时间只能说是随机了。我会按照思维导图的逻辑，在后期的连载当中把每个知识点提取出来解释学习。</p>
-    <p>慢慢聊吧~不一定都对！</p>
-  </template>
-  <template data-art="age-30" data-title="30 岁，我的人生旅程刚开始" data-date="2021.02.22" data-desc="2021 年生日写的，时间线上大部分节点出自这里。">
+  <template data-art="age-30" data-topic="thinking" data-title="30 岁，我的人生旅程刚开始" data-date="2021.02.22" data-desc="2021 年生日写的，时间线上大部分节点出自这里。">
     <p>今年2月4号是我三十岁的生日，30年来，父母助力我实现了诸多的理想，我很庆幸有这么优秀的父母，也庆幸自己的人生沿着光照亮的道路稳步前行着。或许是因为面对爸爸妈妈不好表达爱意，《请回答1988》里的种种小故事才如此感人。爸爸妈妈，您二老辛苦了，请不要为我担心，我爱您！</p>
     <p>都说三十而立，立的是什么？立在哪里？立的是成家立业，立在心智的成熟。近几年的科学统计人的平均寿命已经能达到八十岁左右，预计再过二十年，人类平均寿命突破百岁也不是一个梦想。旧语三十而立的三十对应的寿命终点是在七十岁，如果按照终点是百岁换算一下，三十岁才只是青春期。对于我来说，这一切只是一个刚刚开始。</p>
     <h2>（一）Where am I from?</h2>
@@ -3012,7 +3043,7 @@ html.js .view.is-active{ display:block; }
     <p>最后我想说的是：不管愿不愿意接受，在亿万年之后，属于人类文明的一切痕迹都将被抹去！不管你曾创造出多么辉煌的成就，不管你是领袖，还是伟人，我们都会永远消失。就像从没在宇宙中出现过一样......</p>
     <p>在宇宙的大尺度范围下，仔细想想，关于我们人类的一切，其实根本就不值一提！我们的存在与消失，对宇宙来说，也没有丝毫的影响。可能只有在接近死亡时，才会明白，精神上的富足远远要比物质上的堆砌来的更加宝贵。我们主观意识下的车与房，其实根本就没有任何的意义与价值。我们拼尽全力赚取的金钱在脱离了人类社会体系后，也不过就是一张张纸而已。那些所谓的物质与金钱，其实，都没有那么重要！你唯一能带走的，是你的精神与信仰，是永不磨灭的意识，与灵魂！</p>
   </template>
-  <template data-art="ten-k-usd-society" data-title="“万元美金社会”社会的职业选择" data-date="2020.02.27" data-desc="万元美金社会来临，职业选择要换算法">
+  <template data-art="ten-k-usd-society" data-topic="thinking" data-title="“万元美金社会”社会的职业选择" data-date="2020.02.27" data-desc="万元美金社会来临，职业选择要换算法">
     <p>2019 年 12 月 31 日晚 7 时，国家主席习近平通过中央广播电视总台和互联网，发表二〇二〇年新年贺词。</p>
     <p>在贺词的第一段习主席就提到 2019 年我国国内生产总值预计将接近 100 万亿元人民币、人均 GDP将迈上 1 万美元的台阶。这将意味什么呢？当代大学生又能从中获得什么？</p>
     <p>图为1980-2018年中国以美元计人均GDP</p>
@@ -3073,6 +3104,7 @@ html.js .view.is-active{ display:block; }
         title: t.getAttribute('data-title') || '',
         date: t.getAttribute('data-date') || '',
         desc: t.getAttribute('data-desc') || '',
+        topic: t.getAttribute('data-topic') || '',
         frag: t.content || null
       };
       if (!post.slug) return;
@@ -3165,6 +3197,47 @@ html.js .view.is-active{ display:block; }
     while (body.firstChild) body.removeChild(body.firstChild);
     if (post.frag) body.appendChild(post.frag.cloneNode(true));
     body.setAttribute('data-slug', slug);
+
+    renderMore(post);
+  }
+
+  /* ---------------- 继续读 ----------------
+     相关推荐：同 data-topic 的其它文章取最新的 2 篇；同主题不足时，
+     用全站最新文章补齐到 2 篇。推荐列表与博客列表同样式，点进去就是下一篇。 */
+  var TOPIC_NAME = { investment: '投资', ai: 'AI 与工具', learning: '学习方法', thinking: '思考' };
+
+  function renderMore(post) {
+    var box = document.getElementById('post-more');
+    var list = document.getElementById('post-more-list');
+    if (!box || !list) return;
+
+    var same = POSTS.filter(function (p) { return p !== post && p.topic === post.topic; });
+    var rest = POSTS.filter(function (p) { return p !== post && p.topic !== post.topic; });
+    var pick = same.slice(0, 2);
+    var k = 0;
+    while (pick.length < 2 && k < rest.length) {
+      if (pick.indexOf(rest[k]) === -1) pick.push(rest[k]);
+      k++;
+    }
+
+    while (list.firstChild) list.removeChild(list.firstChild);
+    pick.forEach(function (p) {
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#/blog/' + p.slug;
+      a.className = 'post-more-link';
+      var t = document.createElement('span');
+      t.className = 'post-more-title';
+      t.textContent = p.title;
+      var meta = document.createElement('span');
+      meta.className = 'post-more-date num';
+      meta.textContent = (p.date || '').slice(0, 7);
+      a.appendChild(t);
+      a.appendChild(meta);
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    box.hidden = pick.length === 0;
   }
 
   function buildBlogList() {
