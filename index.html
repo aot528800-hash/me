@@ -1251,6 +1251,41 @@ body{ background:var(--page-bg); }
 @media (min-width:768px){ .header-cta{ display:inline-flex; min-height:44px; padding:0 16px; font-size:var(--fs-small); } }
 .header-nav-wrap{ display:flex; align-items:center; gap:28px; }
 
+/* ---- 回到顶部：常驻但不抢戏的返回控件 ----
+   规则：滚动过一屏才淡入；44×44 触控目标；纸面底 + 墨蓝描边，跟亮暗主题走；
+   默认 visibility:hidden —— JS 没跑起来时它不可见也不可聚焦，不会留一个死按钮。 */
+.to-top{
+  position:fixed; z-index:40;
+  right:calc(var(--pad-inline) + env(safe-area-inset-right, 0px));
+  bottom:calc(var(--space-6) + env(safe-area-inset-bottom, 0px));
+  width:44px; height:44px; padding:0;
+  display:inline-flex; align-items:center; justify-content:center;
+  border:1.5px solid var(--color-border-strong);
+  border-radius:50%;
+  background:var(--page-bg);
+  color:var(--brand-ink);
+  box-shadow:0 4px 16px rgba(30,28,24,.12);
+  cursor:pointer;
+  opacity:0; visibility:hidden; pointer-events:none;
+  transform:translateY(8px);
+  transition:opacity var(--dur-base) var(--ease),
+             transform var(--dur-base) var(--ease),
+             background var(--dur-fast) var(--ease);
+}
+.to-top.is-visible{ opacity:1; visibility:visible; pointer-events:auto; transform:none; }
+.to-top:hover{ background:var(--brand-tint); }
+.to-top:active{ transform:translateY(1px); }
+.to-top:focus-visible{ outline:2px solid var(--brand-accent); outline-offset:3px; }
+@media (max-width:767px){
+  .to-top{ bottom:calc(var(--space-5) + env(safe-area-inset-bottom, 0px)); }
+}
+@media (prefers-reduced-motion:reduce){
+  .to-top{ transition:none; }
+}
+@media print{
+  .to-top{ display:none !important; }
+}
+
 /* ---- Hero：超大双色标题 + 圆形照片 + 点阵（参考案例 3） ---- */
 .hero-wrap{
   padding-block:56px 48px;
@@ -1597,6 +1632,9 @@ body{ background:var(--page-bg); }
   #view-blog .blog-row{ background:#1E2630; }
   #view-blog .blog-row .blog-title{ color:#E8EDF2; }
   .btn--ghost{ color:#E8EDF2; border-color:#7A8BA0; }
+  /* 回到顶部：底色跟 --page-bg 走（暗色是深底），字色必须提亮，否则深墨蓝糊在深底上 */
+  .to-top{ color:#E8EDF2; box-shadow:0 4px 16px rgba(0,0,0,.5); }
+  .to-top:hover{ background:#1E2630; }
   .sec-num{ color:#D9955C; }
 }
 
@@ -4038,6 +4076,14 @@ html.js .view.is-active{ display:block; }
   </div>
 </footer>
 
+<!-- 回到顶部：滚动过一屏后由脚本淡入。写在 body 末尾是为了不挤进文档流，
+     键盘用户在页尾能直接 Tab 到它；脚本没执行时它不可见、不可聚焦。 -->
+<button class="to-top" id="to-top" type="button" aria-label="回到页面顶部" title="回到顶部">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M12 19V5"/><path d="M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
 <script>
 (function () {
   'use strict';
@@ -4346,6 +4392,33 @@ html.js .view.is-active{ display:block; }
         tplFallback(text);
       }
     });
+  }
+
+  /* 回到顶部：滚动过 1.2 屏才淡入（刚下滑一点不冒按钮）。
+     scroll 用 rAF 合并，一次滚动只算一次；系统开了「减少动态效果」就直接跳，不做平滑。 */
+  var toTop = document.getElementById('to-top');
+  if (toTop) {
+    var toTopRaf = 0;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    function syncToTop() {
+      toTopRaf = 0;
+      toTop.classList.toggle('is-visible', window.scrollY > window.innerHeight * 1.2);
+    }
+    function queueToTop() {
+      if (!toTopRaf) toTopRaf = window.requestAnimationFrame(syncToTop);
+    }
+
+    window.addEventListener('scroll', queueToTop, { passive: true });
+    window.addEventListener('resize', queueToTop, { passive: true });
+
+    toTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+      /* 回顶后按钮随即隐藏，焦点留在隐藏元素上会让读屏用户失去落点，交还给文档 */
+      if (typeof toTop.blur === 'function') toTop.blur();
+    });
+
+    syncToTop();
   }
 })();
 </script>
