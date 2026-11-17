@@ -1304,6 +1304,77 @@ body{ background:var(--page-bg); }
   .to-top{ display:none !important; }
 }
 
+/* ---- 图片放大：点任意图片独立铺满窗口 ----
+   规则：只在视口里出现，不改文档流（无 CLS）；图片直接复用原 src，不新增请求；
+   点一下在「适应窗口」与「原始像素」间切换，原来模糊的小图这时能看细节。
+   二维码也一样能放大——扫码时省得眯眼睛。 */
+.lightbox{
+  position:fixed; inset:0; z-index:80;
+  display:flex; align-items:center; justify-content:center;
+  padding:clamp(12px,3vw,40px);
+  background:rgba(12,16,22,.93);
+  overscroll-behavior:contain;
+}
+html.lb-locked{ overflow:hidden; }
+html.lb-locked .to-top{ display:none; }
+.lightbox[hidden]{ display:none; }
+.lightbox-stage{
+  position:relative;
+  width:100%; height:100%;
+  display:flex; align-items:center; justify-content:center;
+  overflow:auto;
+  overscroll-behavior:contain;
+}
+.lightbox-media{
+  display:block; flex:none;
+  max-width:100%; max-height:100%;
+  width:auto; height:auto;
+  background:#fff;                 /* 透明底线稿与二维码在暗底上要白背 */
+  box-shadow:0 24px 64px rgba(0,0,0,.5);
+  cursor:zoom-in;
+  transition:transform var(--dur-base) var(--ease);
+}
+.lightbox.is-raw .lightbox-media{
+  max-width:none; max-height:none;
+  cursor:zoom-out;
+}
+/* 内联 SVG 信息图：线稿颜色走主题变量，白底会让暗色主题的浅线看不见，用纸色底 */
+.lightbox-media--svg{ background:var(--page-bg); }
+.lightbox-close{
+  position:absolute; top:clamp(8px,2vw,20px); right:clamp(8px,2vw,20px);
+  z-index:1;
+  width:44px; height:44px; padding:0;
+  display:inline-flex; align-items:center; justify-content:center;
+  border:1.5px solid rgba(255,255,255,.42);
+  border-radius:50%;
+  background:rgba(12,16,22,.72);
+  color:#F7F2E8;
+  font-size:22px; line-height:1;
+  cursor:pointer;
+}
+.lightbox-close:hover{ background:rgba(255,255,255,.16); }
+.lightbox-close:focus-visible{ outline:2px solid var(--brand-accent); outline-offset:3px; }
+/* 页内所有图片与信息图：鼠标移上去就是「可放大」，不用另外加提示文字 */
+.view img,
+.view svg.art-fig{ cursor:zoom-in; }
+.view img:focus-visible,
+.view svg.art-fig:focus-visible{ outline:2px solid var(--brand-accent); outline-offset:3px; }
+.lightbox-cap{
+  position:absolute; left:clamp(12px,3vw,40px); right:clamp(12px,3vw,40px);
+  bottom:calc(clamp(12px,3vw,40px) - 8px);
+  margin:0; padding:0;
+  font-size:var(--fs-micro); line-height:1.6;
+  color:rgba(247,242,232,.72);
+  text-align:center;
+  pointer-events:none;
+}
+@media (prefers-reduced-motion:reduce){
+  .lightbox-media{ transition:none; }
+}
+@media print{
+  .lightbox{ display:none !important; }
+}
+
 /* ---- Hero：超大双色标题 + 圆形照片 + 点阵（参考案例 3） ---- */
 .hero-wrap{
   padding-block:56px 48px;
@@ -4182,6 +4253,14 @@ html.js .view.is-active{ display:block; }
   </svg>
 </button>
 
+<!-- 图片放大（J-46）：点任意图片独立铺满窗口，不嵌进正文。
+     结构留在文档末尾，脚本没跑时不显示（hidden），不会挡页面。 -->
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="图片查看">
+  <button class="lightbox-close" id="lightbox-close" type="button" aria-label="关闭">×</button>
+  <div class="lightbox-stage" id="lightbox-stage"></div>
+  <p class="lightbox-cap" id="lightbox-cap"></p>
+</div>
+
 <script>
 (function () {
   'use strict';
@@ -4410,6 +4489,21 @@ html.js .view.is-active{ display:block; }
     }
   }
 
+  function markZoomable() {
+    /* 给当前可见视图里的图片和 SVG 信息图补上「可点、可聚焦」的语义。
+       只标语义，不绑事件——点击统一走下面的 document 委托，博客正文后渲染也覆盖得到。 */
+    var nodes = document.querySelectorAll('.view img, .view svg.art-fig');
+    Array.prototype.forEach.call(nodes, function (el) {
+      if (el.closest('.lightbox')) return;
+      if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+      if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
+      if (!el.hasAttribute('aria-label')) {
+        var label = el.getAttribute('alt') || el.getAttribute('aria-label') || '图片';
+        el.setAttribute('aria-label', label + '，放大查看');
+      }
+    });
+  }
+
   function applyRoute() {
     var parsed = parseHash(window.location.hash);
     var route = parsed.route;
@@ -4431,6 +4525,8 @@ html.js .view.is-active{ display:block; }
 
     observePending();
     queueProgress();
+    /* 图片放大：给当前视图里的图补上「可点」的语义与键盘可达性 */
+    markZoomable();
   }
 
   buildBlogList();
@@ -4517,6 +4613,135 @@ html.js .view.is-active{ display:block; }
     });
 
     syncToTop();
+  }
+
+  /* ---------------- 图片放大（J-46） ----------------
+     点任意图片：独立铺满窗口看；点图片循环 适应 → 1:1 → 2x → 3x → 回适应。
+     关闭：点画面外、点右上角关闭、按 ESC。关闭后焦点回到原来那张图。
+     事件委托：博客正文是脚本渲染的，绑 document 才能覆盖所有图片。
+     博客里的内联 SVG 信息图（.art-fig）同样可点开。 */
+  var lb = document.getElementById('lightbox');
+  var lbStage = document.getElementById('lightbox-stage');
+  var lbClose = document.getElementById('lightbox-close');
+  var lbCap = document.getElementById('lightbox-cap');
+  var lbReturn = null;
+  var lbBase = 0;           // 打开时的基准宽度（照片取原像素，SVG 取适应宽度），缩放都按它算
+  var lbSteps = [1, 2, 3];
+  var lbStep = -1;          // -1 = 适应窗口
+
+  function lbFit() {
+    lbStep = -1;
+    lb.classList.remove('is-raw');
+    var m = lbStage.firstElementChild;
+    if (m) { m.style.width = ''; m.style.maxWidth = '100%'; m.style.maxHeight = '100%'; }
+  }
+
+  function lbZoom(step) {
+    var m = lbStage.firstElementChild;
+    if (!m) return;
+    lbStep = step;
+    lb.classList.add('is-raw');
+    m.style.maxWidth = 'none';
+    m.style.maxHeight = 'none';
+    m.style.width = Math.round(lbBase * lbSteps[step]) + 'px';
+    if (m.tagName && m.tagName.toLowerCase() === 'svg') m.style.height = 'auto';
+  }
+
+  if (lb && lbStage) {
+    function lbOpen(el) {
+      var isSvg = el.tagName && el.tagName.toLowerCase() === 'svg';
+      lbReturn = el;
+      lbStage.textContent = '';
+      var big;
+      if (isSvg) {
+        big = el.cloneNode(true);
+        big.setAttribute('class', 'lightbox-media lightbox-media--svg');
+        big.removeAttribute('style');
+        lbCap.textContent = el.getAttribute('aria-label') || '';
+      } else {
+        var src = el.currentSrc || el.getAttribute('src');
+        if (!src) return;
+        big = document.createElement('img');
+        big.className = 'lightbox-media';
+        big.src = src;
+        big.alt = el.getAttribute('alt') || '';
+        big.decoding = 'async';
+        lbCap.textContent = el.getAttribute('alt') || '';
+      }
+      lbStage.appendChild(big);
+      lb.hidden = false;
+      root.classList.add('lb-locked');
+      /* 打开时锁住背景滚动，关回去再放行；手机上避免穿透滑动 */
+      document.body.style.overflow = 'hidden';
+      lbFit();
+      /* 基准宽度优先级：原图已解码就用 naturalWidth；懒加载还没解码时退到标签上的
+         width 属性（本站每张图都写了原尺寸），最后才量当前渲染宽。 */
+      lbBase = isSvg
+        ? (Math.round(big.getBoundingClientRect().width) || 800)
+        : (el.naturalWidth || parseInt(el.getAttribute('width'), 10) ||
+           Math.round(big.getBoundingClientRect().width) || 800);
+      if (!isSvg && !el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
+      if (lbClose) lbClose.focus();
+    }
+
+    function lbShut() {
+      if (lb.hidden) return;
+      lb.hidden = true;
+      lb.classList.remove('is-raw');
+      lbStage.textContent = '';
+      root.classList.remove('lb-locked');
+      document.body.style.overflow = '';
+      if (lbReturn && typeof lbReturn.focus === 'function') lbReturn.focus();
+      lbReturn = null;
+    }
+
+    /* 点击：图片本体开灯箱；灯箱内点图切换缩放档；点空白关闭 */
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      if (!t || t.nodeType !== 1) return;
+      if (lb.contains(t)) {
+        if (t === lbClose) { lbShut(); return; }
+        /* 点图片本体（含 SVG 内部的 path/rect）都算：往上找最近的媒体元素 */
+        var hit = t.classList && t.classList.contains('lightbox-media') ? t : (t.closest ? t.closest('.lightbox-media') : null);
+        if (hit) {
+          if (lbStep + 1 >= lbSteps.length) { lbFit(); }
+          else { lbZoom(lbStep + 1); }
+          return;
+        }
+        if (t === lbStage || t === lb) { lbShut(); }
+        return;
+      }
+      if (t.tagName === 'IMG') {
+        e.preventDefault();
+        lbOpen(t);
+        return;
+      }
+      var fig = t.closest ? t.closest('svg.art-fig') : null;
+      if (fig) {
+        e.preventDefault();
+        lbOpen(fig);
+      }
+    });
+
+    /* 键盘也能开图：焦点在图片或信息图上，回车/空格即可 */
+    document.addEventListener('keydown', function (e) {
+      if (!lb.hidden) {
+        if (e.key === 'Escape' || e.key === 'Esc') { e.preventDefault(); lbShut(); }
+        return;
+      }
+      var t = e.target;
+      if (!t || (e.key !== 'Enter' && e.key !== ' ')) return;
+      if (t.tagName === 'IMG') {
+        e.preventDefault();
+        lbOpen(t);
+        return;
+      }
+      var fig = t.closest ? t.closest('svg.art-fig') : null;
+      if (fig) { e.preventDefault(); lbOpen(fig); }
+    });
+
+    /* 灯箱里图片自己抛错时（本地 file:// 也能触发），保持关闭态即可，不弹提示 */
+    lbStage.addEventListener('error', function () { lbShut(); }, true);
   }
 })();
 </script>
