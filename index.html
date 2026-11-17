@@ -1012,22 +1012,34 @@ img{ display:block; max-width:100%; }
   line-height:1.8;
   color:var(--color-text-tertiary);
 }
-/* J-44 「正在做的事」整块做成琥珀卡：三条里只有 CQPUE 有底色，读者从上往下一眼停在这 */
+/* J-44/50 「正在做的事」整块做成墨蓝实底卡：三条里只有 CQPUE 有底色，
+   米纸上一块深墨蓝，从任何位置扫下来都先看见它。白字压深墨蓝 8.9:1，够 AA。 */
 .play-work-list li.play-work-live{
   border-top:0;
   margin-top:var(--space-4);
   padding:var(--space-5) var(--space-5) var(--space-5);
-  background:var(--brand-tint);
+  background:var(--brand-ink);
   border-radius:12px;
-  transition:transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
+  transition:transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease), filter var(--dur-base) var(--ease);
 }
 .play-work-list li.play-work-live:hover{
   transform:translateY(-2px);
-  box-shadow:0 6px 18px rgba(44,59,38,.12);
+  box-shadow:0 10px 24px rgba(20,30,40,.22);
+  filter:brightness(1.1);
 }
 .play-work-list li.play-work-live .play-work-name,
 .play-work-list li.play-work-live .play-work-name .arrow{
-  color:var(--brand-accent-text);
+  color:#FFF;
+}
+.play-work-list li.play-work-live .play-work-tag{ color:rgba(255,255,255,.62); }
+.play-work-list li.play-work-live .play-work-desc{ color:rgba(255,255,255,.84); }
+/* 暗色主题：页面本身是深底，墨蓝卡会糊进去，换成亮琥珀实底 + 深字 */
+@media (prefers-color-scheme:dark){
+  .play-work-list li.play-work-live{ background:#C8843F; }
+  .play-work-list li.play-work-live .play-work-name,
+  .play-work-list li.play-work-live .play-work-name .arrow{ color:#1A2229; }
+  .play-work-list li.play-work-live .play-work-tag{ color:rgba(26,34,41,.66); }
+  .play-work-list li.play-work-live .play-work-desc{ color:rgba(26,34,41,.86); }
 }
 @media (max-width:640px){
   .play-list li{ grid-template-columns:1fr; gap:6px; }
