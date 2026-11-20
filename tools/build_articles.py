@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""从 index.html 的文章模板生成独立静态文章页、sitemap 与 robots。
+"""从 assets/articles.html 的文章模板生成独立静态文章页、sitemap 与 robots。
 
 设计原则：
-1. index.html 中的 <template data-art="..."> 是唯一内容源，不在别处维护正文；
+1. assets/articles.html 中的 <template data-art="..."> 是唯一内容源，不在别处维护正文；
+   index.html 只作页面外壳，首屏不内联 25 篇文章，体积减半；
 2. 生成页仍是完整站点副本，只改 head 元信息、默认路由与正文占位，
    这样 CSS / 灯箱 / 导航全部复用，不引入第二套样式；
 3. 生成页地址为 /me/blog/<slug>/，每页有独立 title、description、OG、canonical，
@@ -19,6 +20,7 @@ from pathlib import Path
 
 BASE = Path(__file__).resolve().parent.parent
 SRC = BASE / "index.html"
+ARTICLES_SRC = BASE / "assets" / "articles.html"
 OUT = BASE / "blog"
 SITE = "https://aot528800-hash.github.io/me"
 
@@ -221,7 +223,7 @@ def build_sitemap(posts: list[dict]) -> str:
 
 def main() -> None:
     source = SRC.read_text(encoding="utf-8")
-    posts = load_posts(source)
+    posts = load_posts(ARTICLES_SRC.read_text(encoding="utf-8"))
     if not posts:
         raise SystemExit("未解析到任何文章，构建终止")
 

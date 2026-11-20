@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""为博客正文图生成 640w 派生图，并给 index.html 的图片加 srcset/sizes。
+"""为博客正文图生成 640w 派生图，并给 assets/articles.html 的图片加 srcset/sizes。
 
 背景：正文栏桌面只有 600px 宽（容器 680px - 左右各 40px），
 但原图统一 1200px；手机上下载 1200px 属于明显超采。
@@ -16,7 +16,7 @@ from PIL import Image
 
 BASE = Path(__file__).resolve().parent.parent
 BLOG_DIR = BASE / "assets" / "blog"
-SRC = BASE / "index.html"
+SRC = BASE / "assets" / "articles.html"
 
 SIZES = "(max-width: 767px) calc(100vw - 68px), 600px"
 
