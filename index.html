@@ -122,7 +122,7 @@
 }
 @media (min-width:1024px){
   :root{
-    --section-gap:128px; --hero-top:80px;
+    --section-gap:88px; --hero-top:64px;
   }
 }
 @media (min-width:1200px){ :root{ --pad-inline:56px; } }
@@ -936,10 +936,10 @@ img{ display:block; max-width:100%; }
   line-height:1.85;
   color:var(--color-text-secondary);
 }
+/* 上面 .play-list 的最后一项已有一条底边线，这里不再补顶线：
+   两条线相隔 60px 且中间没有内容，只会变成噪声。改用纯间距分组。 */
 .play-work{
-  margin-top:var(--space-9);
-  padding-top:var(--space-5);
-  border-top:var(--border-w) solid var(--color-border);
+  margin-top:var(--space-10);
 }
 .play-work-head{
   margin:0 0 var(--space-4);
