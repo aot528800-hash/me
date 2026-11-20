@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F7F2E8" media="(prefers-color-scheme:light)">
+<meta name="theme-color" content="#121820" media="(prefers-color-scheme:dark)">
+<title>页面未找到 — Chew Teck Wai</title>
+<meta name="description" content="这个地址不存在。回首页，或直接去博客看文章。">
+<link rel="icon" href="/me/assets/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://aot528800-hash.github.io/me/">
+<style>
+  :root{ --bg:#F7F2E8; --ink:#1B2A3A; --muted:#55606B; --accent:#B8703A; --line:rgba(30,28,24,.15); }
+  @media (prefers-color-scheme:dark){
+    :root{ --bg:#121820; --ink:#E8EDF2; --muted:#9AA7B4; --accent:#D08A50; --line:rgba(232,237,242,.18); }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; display:grid; place-items:center; padding:32px;
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.7;
+  }
+  main{ width:100%; max-width:560px; }
+  .code{ font-size:clamp(64px,14vw,112px); font-weight:700; letter-spacing:-.06em; line-height:1; margin:0 0 12px; color:var(--accent); }
+  h1{ font-size:clamp(22px,5vw,30px); margin:0 0 12px; letter-spacing:-.02em; }
+  p{ color:var(--muted); margin:0 0 28px; }
+  nav{ display:flex; flex-wrap:wrap; gap:12px; }
+  a{
+    display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:0 20px;
+    border:1.5px solid var(--accent); border-radius:10px; color:var(--accent); text-decoration:none; font-weight:600;
+  }
+  a.primary{ background:var(--ink); border-color:var(--ink); color:var(--bg); }
+  a:hover{ filter:brightness(1.08); }
+  footer{ margin-top:40px; padding-top:20px; border-top:1px solid var(--line); font-size:14px; color:var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <p class="code" aria-hidden="true">404</p>
+  <h1>这个地址不存在</h1>
+  <p>链接可能写错了，或者文章已经搬家。下面两个入口都还在。</p>
+  <nav aria-label="返回导航">
+    <a class="primary" href="/me/">回首页</a>
+    <a href="/me/#/blog">看全部文章</a>
+  </nav>
+  <footer>© 2026 Chew Teck Wai · 这是个人主页，不是任何单位的官方渠道。</footer>
+</main>
+</body>
+</html>
