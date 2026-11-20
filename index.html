@@ -1213,8 +1213,10 @@ body{ background:var(--page-bg); }
 .btn--ink{ background:var(--brand-ink); color:#fff; }
 .btn--ghost{ background:transparent; color:var(--brand-ink); border:1.5px solid var(--brand-ink); }
 .btn-row{ display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
-.header-cta{ display:none; }
-@media (min-width:768px){ .header-cta{ display:inline-flex; min-height:44px; padding:0 16px; font-size:var(--fs-small); } }
+/* 手机端也保留联系入口：文字缩成「联系」、内边距收紧，
+   320 宽下仍与品牌 + 三个导航项同处一行（实测无溢出）。 */
+.header-cta{ display:inline-flex; align-items:center; min-height:40px; padding:0 10px; font-size:var(--fs-micro); }
+@media (min-width:768px){ .header-cta{ min-height:44px; padding:0 16px; font-size:var(--fs-small); } }
 .header-nav-wrap{ display:flex; align-items:center; gap:28px; }
 
 /* ---- 回到顶部：常驻但不抢戏的返回控件 ----
@@ -1355,6 +1357,7 @@ html.lb-locked .to-top{ display:none; }
 }
 .hero-text{ min-width:0; }
 .hero-big{
+  text-wrap:balance;
   font-size:var(--fs-h2);
   font-weight:600;
   line-height:1.25;
