@@ -254,23 +254,7 @@ img{ display:block; max-width:100%; }
   padding-top:var(--space-6);
   border-top:var(--border-w) solid var(--color-border);
 }
-.sec-num{
-  font-family:var(--font-mono);
-  font-size:var(--fs-small);
-  font-weight:400;
-  color:var(--brand-accent-text);
-  letter-spacing:.06em;
-  line-height:1;
-  flex-shrink:0;
-}
 .sec-open .h2{ margin:0; }
-.sec-open .h2-sub{
-  font-size:var(--fs-small);
-  font-weight:400;
-  color:var(--color-text-tertiary);
-  letter-spacing:.02em;
-  margin-left:var(--space-2);
-}
 
 /* D-3 链接下划线与 hover 展开 —— 全站动效 #1 */
 .link{
@@ -757,12 +741,6 @@ img{ display:block; max-width:100%; }
   color:var(--color-text-primary);
 }
 /* /story 标题下的一句说明：只交代这一页放什么，不写任何感受 */
-.story-lead{
-  margin-top:var(--space-4);
-  font-size:var(--fs-lead);
-  line-height:1.75;
-  color:var(--color-text-secondary);
-}
 .story-body p + p{ margin-top:28px; }            /* 段间距 28 > 0.8 倍行高 */
 .story-body p{
   overflow-wrap:break-word;
@@ -932,15 +910,6 @@ img{ display:block; max-width:100%; }
    和后腰数字锚点的先例，暗色令牌自动切 #D9955C），陈述句退回导语档，
    手机端不再把兴趣名压到 16px。
    ========================================================================== */
-.play-lead{
-  margin:var(--space-6) 0 0;
-  max-width:42ch;
-  font-size:var(--fs-lead);
-  font-weight:500;
-  line-height:1.75;
-  letter-spacing:-.01em;
-  color:var(--brand-ink);
-}
 .play-list{
   list-style:none;
   margin:var(--space-9) 0 0;
@@ -1006,12 +975,6 @@ img{ display:block; max-width:100%; }
   line-height:1.8;
   color:var(--color-text-secondary);
 }
-.play-work-foot{
-  margin:var(--space-5) 0 0;
-  font-size:var(--fs-micro);
-  line-height:1.8;
-  color:var(--color-text-tertiary);
-}
 /* J-50 「正在做的事」整块做成焦琥珀实底卡：三条里只有 CQPUE 有底色，
    米纸上一块暖琥珀，从任何位置扫下来都先看见它，又不至于压成一块黑。
    白字压 #A05F2E 是 5.03:1，够 AA；这块底色对米纸 4.51:1，边界清楚。 */
@@ -1048,7 +1011,7 @@ img{ display:block; max-width:100%; }
   .play-work-tag{ text-align:left; }
 }
 @media (prefers-color-scheme:dark){
-  .play-lead, .play-work-name{ color:#E8EDF2; }
+  .play-work-name{ color:#E8EDF2; }
   /* .play-key 不在这里提亮：它吃 --brand-accent-text，暗色令牌段已把它切到 #D9955C */
 }
 /* 短句版：一句一行，行距放大；组与组之间靠 p+p 的 28px 断开 */
@@ -1395,13 +1358,6 @@ html.lb-locked .to-top{ display:none; }
 }
 /* 杂志封面式 Hero：姓名是绝对主角，头像是右侧锚点 */
 .hero-plate{ position:relative; }
-.hero-eyebrow{
-  font-size:var(--fs-micro);
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:var(--brand-accent-text);
-  margin-bottom:var(--space-6);
-}
 .hero-name{
   font-family:var(--font-sans);
   font-size:var(--fs-display);
@@ -1421,20 +1377,11 @@ html.lb-locked .to-top{ display:none; }
   .hero-body{
     /* 头像列从 280 提到 360：姓名 104px 时，280px 的圆撑不住右侧的视觉重量 */
     grid-template-columns:minmax(0,1fr) 360px;
-    align-items:start;
+    align-items:center;
     gap:var(--space-10);
   }
 }
 .hero-text{ min-width:0; }
-.hero-big{
-  font-size:var(--fs-h2);
-  font-weight:600;
-  line-height:1.25;
-  letter-spacing:-.02em;
-  color:var(--brand-ink);
-  margin:0;
-}
-.hero-big em{ font-style:normal; color:var(--brand-accent-text); }
 .hero-desc{
   margin-top:var(--space-5);
   max-width:42em;
@@ -1567,14 +1514,6 @@ html.lb-locked .to-top{ display:none; }
   color:var(--color-text-tertiary);
 }
 .photo-strip figcaption em{ font-style:normal; color:var(--color-text-secondary); }
-.photo-kicker{
-  margin-top:var(--space-9);
-  padding-top:var(--space-5);
-  border-top:var(--border-w) solid var(--color-border-subtle);
-  font-size:var(--fs-micro);
-  letter-spacing:.08em;
-  color:var(--color-text-tertiary);
-}
 /* 实拍照片在深底上过亮，压一档亮度融入纸与墨 */
 @media (prefers-color-scheme:dark){
   .photo-strip img{ filter:brightness(.86) saturate(.9); }
@@ -1633,10 +1572,6 @@ html.lb-locked .to-top{ display:none; }
   margin-top:var(--space-10);
   padding-top:var(--space-6);
   border-top:var(--border-w) solid var(--color-border);
-}
-.coach-kicker{
-  font-family:var(--font-mono); font-size:var(--fs-micro);
-  letter-spacing:.06em; color:var(--brand-accent-text);
 }
 .coach-block .h2{ margin:var(--space-2) 0 0; }
 .coach-lead{
@@ -1726,7 +1661,7 @@ html.lb-locked .to-top{ display:none; }
   .figure-card{ background:#1E2630; }
   /* --brand-ink 是深橄榄，暗色下会糊成一片：凡是用它当文字色的地方一律提亮。
      注意不能直接覆盖变量本身 —— .btn--ink 拿它当背景，覆盖了按钮就没底了。 */
-  .hero-big, .hero-name, .h1, .h2,
+  .hero-name, .h1, .h2,
   .race-group-title,
   .fb-stat-num,
   /* 纸面化 header 后品牌字吃 --brand-ink，暗色下深字压深底看不见，一并提亮 */
@@ -1737,7 +1672,6 @@ html.lb-locked .to-top{ display:none; }
   /* 回到顶部：底色跟 --page-bg 走（暗色是深底），字色必须提亮，否则深墨蓝糊在深底上 */
   .to-top{ color:#E8EDF2; box-shadow:0 4px 16px rgba(0,0,0,.5); }
   .to-top:hover{ background:#1E2630; }
-  .sec-num{ color:#D9955C; }
 }
 
 /* ==========================================================================
@@ -2045,11 +1979,6 @@ a.blog-row:hover .blog-title{ color:var(--brand-accent-text); }
   font-family:var(--font-sans); color:var(--color-text-tertiary);
 }
 .office-side{ align-self:end; }
-.ct-remind{
-  margin:0 0 var(--space-3);
-  font-size:var(--fs-small); line-height:1.9;
-  color:var(--color-text-secondary);
-}
 .ct-tips-link{
   display:inline-flex; align-items:center; gap:8px;
   min-height:44px;                 /* WCAG 2.2 SC 2.5.8 */
@@ -2222,11 +2151,6 @@ a.blog-row:hover .blog-title{ color:var(--brand-accent-text); }
   margin:0; font-size:var(--fs-small); font-weight:600;
   letter-spacing:.06em; color:var(--brand-accent-text);
 }
-.site-footer .site-about-lead{
-  margin:var(--space-4) 0 0;
-  font-size:var(--fs-lead); line-height:1.8;
-  letter-spacing:0; color:var(--color-text-primary);
-}
 .site-footer .site-about-body{
   margin:var(--space-3) 0 0;
   font-size:var(--fs-small); line-height:1.95;
@@ -2343,12 +2267,10 @@ html.js .view.is-active{ display:block; }
     <section class="section" aria-labelledby="hero-name">
       <div class="container hero-wrap">
         <div class="hero-plate">
-          <p class="hero-eyebrow">重庆 · 2026</p>
           <h1 class="hero-name" id="hero-name" lang="en">Chew Teck Wai</h1>
           <div class="hero-body">
             <div class="hero-text">
-              <p class="hero-big">做过银行，踢过球<br><em>写着公众号，现在做学生资助</em></p>
-              <p class="hero-desc">在中国银行当了五年理财经理，2016 年起间歇借调北京总行。踢了十几年后腰，拿过两次全国亚军。公众号写了 142 篇。资助那座能查的网站，是现在正在做的事。</p>
+              <p class="hero-desc">在中国银行做了五年理财经理，踢了十几年后腰，公众号写了 142 篇，现在在重庆工程职业技术大学做学生资助。</p>
               <p class="btn-row">
                 <a class="btn btn--ink" href="#/story">时间线</a>
                 <a class="btn btn--blue" href="#/football">足球记录</a>
@@ -2373,9 +2295,7 @@ html.js .view.is-active{ display:block; }
     <section class="section reveal" aria-labelledby="tl-title">
       <div class="container">
         <div class="sec-open">
-          <span class="sec-num" aria-hidden="true">01</span>
           <h2 class="h2" id="tl-title">来路</h2>
-          <span class="h2-sub">从重庆到北京再回来</span>
         </div>
         <ol class="timeline">
           <li class="tl-item">
@@ -2419,12 +2339,8 @@ html.js .view.is-active{ display:block; }
     <section class="section reveal" aria-labelledby="play-title">
       <div class="container">
         <div class="sec-open">
-          <span class="sec-num" aria-hidden="true">02</span>
           <h2 class="h2" id="play-title">一直在玩</h2>
-          <span class="h2-sub">兴趣挺杂的</span>
         </div>
-
-        <p class="play-lead">投资理财、足球、读书、旅行，还有用 AI 折腾各种新东西——兴趣挺杂的，一直在玩。</p>
 
         <ul class="play-list" aria-label="平时在玩的几件事">
           <li>
@@ -2450,7 +2366,7 @@ html.js .view.is-active{ display:block; }
         </ul>
 
         <div class="play-work">
-          <p class="play-work-head">顺手做出来的，留三条</p>
+          <p class="play-work-head">作品</p>
           <ul class="play-work-list">
             <li>
               <span class="play-work-name">足球数据分析</span>
@@ -2468,7 +2384,6 @@ html.js .view.is-active{ display:block; }
               <span class="play-work-desc">把 21 个资助项目整理成学生自己就能查的地方。</span>
             </li>
           </ul>
-          <p class="play-work-foot">同一个公众号还写过别的系列，不在这儿一条条列了。</p>
         </div>
       </div>
     </section>
@@ -2477,9 +2392,7 @@ html.js .view.is-active{ display:block; }
     <section class="section reveal" aria-labelledby="fb-title" aria-label="后腰简介">
       <div class="container">
         <div class="sec-open">
-          <span class="sec-num" aria-hidden="true">03</span>
           <h2 class="h2" id="fb-title">后腰</h2>
-          <span class="h2-sub">防守型中场</span>
         </div>
         <div class="cols fb-inner">
           <div class="fb-intro">
@@ -2520,9 +2433,7 @@ html.js .view.is-active{ display:block; }
     <section class="section reveal" aria-labelledby="travel-title">
       <div class="container">
         <div class="sec-open">
-          <span class="sec-num" aria-hidden="true">04</span>
           <h2 class="h2" id="travel-title">走过的地方</h2>
-          <span class="h2-sub">出过几趟门</span>
         </div>
         <div class="travel-intro">
           <p class="travel-lead">2017 年在美国待了三个星期。第一次在外面待这么久，回来以后看事情的眼光不太一样了。</p>
@@ -2537,7 +2448,6 @@ html.js .view.is-active{ display:block; }
             <li><svg class="flag" role="img" aria-label="澳大利亚国旗"><use href="#flag-au"></use></svg>澳大利亚</li>
           </ul>
         </div>
-        <p class="photo-kicker">2017 · 美国 · 三个星期</p>
         <div class="photo-strip">
           <figure>
             <img src="assets/photos/trip-google.webp" alt="美国山景城 Google 总部 1625 Charleston Road 的门牌，一个人站在牌旁" width="1000" height="750" loading="lazy" decoding="async">
@@ -2552,8 +2462,6 @@ html.js .view.is-active{ display:block; }
             <figcaption class="photo-rec"><span class="photo-rec-key">2017 · 美国 · 旧金山</span><span class="photo-rec-val">和一位大学教授的合影。</span></figcaption>
           </figure>
         </div>
-
-        <p class="photo-kicker">澳大利亚</p>
         <div class="photo-strip photo-strip--two photo-strip--wide">
           <figure>
             <img src="assets/photos/trip-au-poster.webp" alt="大字海报：一个人背对镜头坐在长椅上，身后是弧线" width="1000" height="667" loading="lazy" decoding="async">
@@ -2574,9 +2482,7 @@ html.js .view.is-active{ display:block; }
     <section class="section reveal" aria-labelledby="ct-title">
       <div class="container">
         <div class="sec-open">
-          <span class="sec-num" aria-hidden="true">05</span>
           <h2 class="h2" id="ct-title">找到我</h2>
-          <span class="h2-sub">办公室 · 网上都能找到</span>
         </div>
 
         <p class="contact-intro">人在重庆。窗口的事当面说最清楚，别的事公众号、微信都能找到我。</p>
@@ -2593,7 +2499,6 @@ html.js .view.is-active{ display:block; }
             </ul>
           </div>
           <div class="office-side">
-            <p class="ct-remind">有事尽量在工作时间段找我。找我时把事情说清楚：哪个班、学号、姓名、要办什么，一次说完，省得来回问。</p>
             <a class="ct-tips-link" href="#/tips">班级小贴士 · 请假怎么办 <span aria-hidden="true">↗</span></a>
           </div>
         </div>
@@ -2633,7 +2538,6 @@ html.js .view.is-active{ display:block; }
       <div class="container">
         <div class="story-measure">
           <h1 class="h1" id="story-h1">时间线</h1>
-          <p class="story-lead">日期、单位、每次换的原因。没有别的。</p>
         </div>
       </div>
     </section>
@@ -2711,7 +2615,6 @@ html.js .view.is-active{ display:block; }
               <p class="tl-org">CQPUE 资助政策 <span class="tl-place">· 上线，21 个项目 · 13 份政策依据 · 47 项业务</span></p>
             </li>
           </ol>
-          <p class="photo-kicker">留影 · 中国银行</p>
           <div class="photo-strip photo-strip--one">
             <figure>
               <img src="assets/photos/bank-steps.webp" alt="坐在大楼内的绿色台阶上，身后是一面红色圆形标志" width="1000" height="750" loading="lazy" decoding="async">
@@ -2964,7 +2867,6 @@ html.js .view.is-active{ display:block; }
         </div>
 
         <p class="race-note">「代表」是参赛单位。市级赛事代表就读学校，市运会代表沙坪坝区，全国中学生运动会是以重庆队出战，大学生联赛代表西安财经大学，在中国银行那两场分别代表中国金融体协和中国银行。</p>
-        <p class="photo-kicker">赛场 · 留档</p>
         <div class="photo-strip photo-strip--two">
           <figure>
             <img src="assets/photos/football-stand.webp" alt="坐在体育场看台上，胸前挂着赛事证件，身后是坐满人的看台" width="1000" height="750" loading="lazy" decoding="async">
@@ -2983,8 +2885,6 @@ html.js .view.is-active{ display:block; }
             <figcaption class="photo-rec"><span class="photo-rec-key">2018.11 · 惠州</span><span class="photo-rec-val">中国职工足球联赛总决赛，十一人制行业组。红色球衣在场上跑动，背景板印着「2018 中国足球发展基金会杯」。</span></figcaption>
           </figure>
         </div>
-
-        <p class="photo-kicker">队里 · 留档</p>
         <div class="photo-strip photo-strip--two photo-strip--wide">
           <figure>
             <img src="assets/photos/football-team-group.webp" alt="2021 年江津区第四届运动会的队内合影，二十多名队员，白蓝球衣，前排坐在长椅上" width="1000" height="667" loading="lazy" decoding="async">
@@ -3010,7 +2910,6 @@ html.js .view.is-active{ display:block; }
              年报写「第一名」、江津日报写「前两名」、学校新闻写「冠军」，
              三处措辞不同，出处里分别列出。 -->
         <section class="coach-block" aria-labelledby="coach-title">
-          <span class="coach-kicker">2019 年之后 · 带队也上场</span>
           <h2 class="h2" id="coach-title">带队</h2>
           <p class="coach-lead">后来上场少了，也带学生队。2021 年这一次是和几位同事一起带的，我自己也上场，是队长，每场都踢满。</p>
           <div class="coach-record">
@@ -3053,7 +2952,7 @@ html.js .view.is-active{ display:block; }
           <h1 class="h1" id="blog-h1">博客</h1>
           <p class="blog-count num" id="blog-count"></p>
           <div class="blog-places">
-            <span class="country-lead">写字之外，去过</span>
+            <span class="country-lead">去过</span>
             <ul class="country-row blog-countries" aria-label="去过的国家">
               <li><svg class="flag" role="img" aria-label="韩国国旗"><use href="#flag-kr"></use></svg>韩国</li>
               <li><svg class="flag" role="img" aria-label="美国国旗"><use href="#flag-us"></use></svg>美国</li>
@@ -3091,7 +2990,7 @@ html.js .view.is-active{ display:block; }
             <span id="post-foot-note"></span>
           </div>
           <div class="blog-places post-places">
-            <span class="country-lead">写字之外，去过</span>
+            <span class="country-lead">去过</span>
             <ul class="country-row blog-countries" aria-label="去过的国家">
               <li><svg class="flag" role="img" aria-label="韩国国旗"><use href="#flag-kr"></use></svg>韩国</li>
               <li><svg class="flag" role="img" aria-label="美国国旗"><use href="#flag-us"></use></svg>美国</li>
@@ -4254,7 +4153,6 @@ html.js .view.is-active{ display:block; }
         全部来自本人材料，编者没有新增事实；免责声明保留五项边界，只换说法。 -->
     <section class="site-about" aria-labelledby="about-title">
       <h2 class="site-about-title" id="about-title">关于这个网页</h2>
-      <p class="site-about-lead">做过银行，踢过球，写着公众号，现在做学生资助。</p>
       <p class="site-about-body">在中国银行当了五年理财经理，2016 年起间歇借调北京总行。踢了十几年后腰，拿过两次全国亚军。公众号写了 142 篇。资助那座能查的网站，是现在正在做的事。</p>
       <p class="site-about-self">上面那几行是履历，不是我。最开始写公众号，就是想把投资和工作里那些说不清的东西捋顺，写着写着，也逼着自己去学。后来读了《软技能》，才明白这东西还能当一扇窗，让别人看见我在干什么。</p>
       <p class="site-about-self">写来写去，其实都是同一件事：0.2% 和 1.5% 差在哪，一路算到三十年后的 221 万；一本读完的书，想办法用在一个真问题上；十几个文件里散着的资助政策，拆成学生自己能查的一张表；一场三小时的访谈，分两天看完，有一段没听明白，倒回去听了三遍。</p>
