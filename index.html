@@ -833,16 +833,20 @@ img{ display:block; max-width:100%; }
   border-radius:2px;
   padding:3px 8px;
 }
-/* J-32 · 省市一级：这一档分的是「谁派你去的」，不是名次。
-   原有两档（冠军=琥珀粗体、全国前三=琥珀细描边）分的是成绩，别混用。
-   只点亮代表单位：颜色 + 600 字重 + 细下划线，不动成绩栏、不新增字号档。 */
-.race-row--region .race-meta strong{
+/* J-58 · 赛事层级改成行内小签：原来靠「代表单位带下划线」暗示级别，
+   读者必须先读一段图例才敢下结论。现在每行直接写清 省级 / 大区 / 全国，
+   符号自己解释，图例整段删掉。 */
+.race-level{
+  display:inline-block;
+  padding:0 6px;
+  border:1px solid var(--color-border);
+  border-radius:999px;
+  font-family:var(--font-sans);
+  font-size:var(--fs-micro);
+  line-height:1.6;
   color:var(--brand-accent-text);
-  font-weight:600;
-  text-decoration:underline;
-  text-decoration-color:var(--brand-accent-text);
-  text-decoration-thickness:1px;
-  text-underline-offset:3px;
+  white-space:nowrap;
+  vertical-align:1px;
 }
 .race-legend{
   margin:var(--space-4) 0 0;
@@ -936,10 +940,10 @@ img{ display:block; max-width:100%; }
   line-height:1.85;
   color:var(--color-text-secondary);
 }
-/* 上面 .play-list 的最后一项已有一条底边线，这里不再补顶线：
-   两条线相隔 60px 且中间没有内容，只会变成噪声。改用纯间距分组。 */
+/* 兴趣与作品是同一张清单的两段，不再另起一组标题：
+   去掉「作品」小标后只留一点间距，读下来是一个连续列表。 */
 .play-work{
-  margin-top:var(--space-10);
+  margin-top:var(--space-5);
 }
 .play-work-head{
   margin:0 0 var(--space-4);
@@ -2375,7 +2379,6 @@ html.js .view.is-active{ display:block; }
         </ul>
 
         <div class="play-work">
-          <p class="play-work-head">作品</p>
           <ul class="play-work-list">
             <li>
               <span class="play-work-name">足球数据分析</span>
@@ -2659,7 +2662,6 @@ html.js .view.is-active{ display:block; }
 
         <h2 class="h2 fb-races-title">赛事</h2>
         <p class="section-kicker">19 项 · 2005 – 2019</p>
-        <p class="race-legend"><span class="race-legend-key">省市一级</span>名单里带琥珀下划线的代表单位，是代表省、直辖市或区县出战，或从省级赛区一级级打上去的场次。大学生联赛按省内赛、大区赛、全国总决赛三级打，规程里一个省能进大区赛的名额通常只有一两个，各届略有调整。这里标的是级别，不是名次。</p>
 
         <div class="race-group">
           <div class="race-group-head">
@@ -2702,11 +2704,11 @@ html.js .view.is-active{ display:block; }
               </div>
               <span class="race-result race-result--win">冠军</span>
             </li>
-            <li class="race-row race-row--region">
+            <li class="race-row">
               <span class="race-grade">高一下学期</span>
               <div class="race-body">
                 <p class="race-name">重庆市第三届运动会 男子足球青少年甲组（高中组）</p>
-                <p class="race-meta"><span>2008.7</span><span>重庆</span><span>代表<strong>沙坪坝区</strong></span></p>
+                <p class="race-meta"><span>2008.7</span><span>重庆</span><span>代表<strong>沙坪坝区</strong></span><span class="race-level">市级</span></p>
               </div>
               <span class="race-result race-result--win">冠军</span>
             </li>
@@ -2718,11 +2720,11 @@ html.js .view.is-active{ display:block; }
               </div>
               <span class="race-result race-result--national">全国亚军</span>
             </li>
-            <li class="race-row race-row--region">
+            <li class="race-row">
               <span class="race-grade">高二下学期</span>
               <div class="race-body">
                 <p class="race-name">第十届全国中学生运动会 男子足球（高中组）南京赛区预选赛</p>
-                <p class="race-meta"><span>2009.3</span><span>南京</span><span>代表<strong>重庆市</strong></span></p>
+                <p class="race-meta"><span>2009.3</span><span>南京</span><span>代表<strong>重庆市</strong></span><span class="race-level">全国</span></p>
               </div>
               <span class="race-result">赛区亚军</span>
             </li>
@@ -2734,11 +2736,11 @@ html.js .view.is-active{ display:block; }
               </div>
               <span class="race-result race-result--national">全国亚军</span>
             </li>
-            <li class="race-row race-row--region">
+            <li class="race-row">
               <span class="race-grade">高二暑假</span>
               <div class="race-body">
                 <p class="race-name">第十届全国中学生运动会 男子足球（高中组）全国总决赛</p>
-                <p class="race-meta"><span>2009.8.16–21</span><span>长沙</span><span>代表<strong>重庆市</strong></span></p>
+                <p class="race-meta"><span>2009.8.16–21</span><span>长沙</span><span>代表<strong>重庆市</strong></span><span class="race-level">全国</span></p>
               </div>
               <!-- 名次有出处，不许改写成「八强」「全国十六强」这类模糊说法：
                    搜狐体育 2009-08-21《中运会男足-北京人大附中点杀天津54中夺冠》原文
@@ -2765,59 +2767,59 @@ html.js .view.is-active{ display:block; }
           </div>
           <p class="race-group-note">「超级组」是大学生联赛的最高组别，按高水平运动员招生办法录取的学生只能打这一组，不能打普通高考生比的「校园组」。我 2010 年以高水平运动员身份入学，分组从 2012-2013 赛季才开始，前两季打的是不分组的大联赛，参赛的是同一批高水平运动队。</p>
           <ol class="race-list">
-            <li class="race-row race-row--region">
+            <li class="race-row">
               <span class="race-grade">大一上学期</span>
               <div class="race-body">
                 <p class="race-name">2010-2011 李宁中国大学生足球联赛 · 陕西赛区</p>
-                <p class="race-meta"><span>2010.10–11</span><span>西安</span><span>代表<strong>西安财经大学</strong></span></p>
+                <p class="race-meta"><span>2010.10–11</span><span>西安</span><span>代表<strong>西安财经大学</strong></span><span class="race-level">省级</span></p>
               </div>
               <span class="race-result race-result--win">冠军</span>
             </li>
-            <li class="race-row race-row--region">
+            <li class="race-row">
               <span class="race-grade">大一下学期</span>
               <div class="race-body">
                 <p class="race-name">2010-2011 李宁中国大学生足球联赛 · 北区决赛</p>
-                <p class="race-meta"><span>2011.5</span><span>延吉</span><span>代表<strong>西安财经大学</strong></span></p>
+                <p class="race-meta"><span>2011.5</span><span>延吉</span><span>代表<strong>西安财经大学</strong></span><span class="race-level">大区</span></p>
               </div>
               <span class="race-result">第四名</span>
             </li>
-            <li class="race-row race-row--region">
+            <li class="race-row">
               <span class="race-grade">大一下学期</span>
               <div class="race-body">
                 <p class="race-name">2010-2011 李宁中国大学生足球联赛 · 全国总决赛</p>
-                <p class="race-meta"><span>2011.6</span><span>北京</span><span>代表<strong>西安财经大学</strong></span></p>
+                <p class="race-meta"><span>2011.6</span><span>北京</span><span>代表<strong>西安财经大学</strong></span><span class="race-level">全国</span></p>
               </div>
               <span class="race-result">并列第五名</span>
             </li>
-            <li class="race-row race-row--region">
+            <li class="race-row">
               <span class="race-grade">大二上学期</span>
               <div class="race-body">
                 <p class="race-name">2011-2012 陕西省大学生足球联赛</p>
-                <p class="race-meta"><span>2011.10–11</span><span>西安</span><span>代表<strong>西安财经大学</strong></span></p>
+                <p class="race-meta"><span>2011.10–11</span><span>西安</span><span>代表<strong>西安财经大学</strong></span><span class="race-level">省级</span></p>
               </div>
               <span class="race-result race-result--win">冠军</span>
             </li>
-            <li class="race-row race-row--region">
+            <li class="race-row">
               <span class="race-grade">大二下学期</span>
               <div class="race-body">
                 <p class="race-name">2011-2012 李宁中国大学生足球联赛 · 北区决赛</p>
-                <p class="race-meta"><span>2012.5.22–29</span><span>秦皇岛</span><span>代表<strong>西安财经大学</strong></span></p>
+                <p class="race-meta"><span>2012.5.22–29</span><span>秦皇岛</span><span>代表<strong>西安财经大学</strong></span><span class="race-level">大区</span></p>
               </div>
               <span class="race-result">亚军</span>
             </li>
-            <li class="race-row race-row--region">
+            <li class="race-row">
               <span class="race-grade">大三上学期</span>
               <div class="race-body">
                 <p class="race-name">2012-2013 陕西省大学生足球联赛</p>
-                <p class="race-meta"><span>2012.10–11</span><span>西安</span><span>代表<strong>西安财经大学</strong></span></p>
+                <p class="race-meta"><span>2012.10–11</span><span>西安</span><span>代表<strong>西安财经大学</strong></span><span class="race-level">省级</span></p>
               </div>
               <span class="race-result race-result--win">冠军</span>
             </li>
-            <li class="race-row race-row--region">
+            <li class="race-row">
               <span class="race-grade">大四上学期</span>
               <div class="race-body">
                 <p class="race-name">2013-2014 特步中国大学生足球联赛 · 陕西赛区（超级组）</p>
-                <p class="race-meta"><span>2013.11.5–13</span><span>西安</span><span>代表<strong>西安财经大学</strong></span></p>
+                <p class="race-meta"><span>2013.11.5–13</span><span>西安</span><span>代表<strong>西安财经大学</strong></span><span class="race-level">省级</span></p>
               </div>
               <span class="race-result race-result--win">冠军</span>
             </li>
@@ -2864,18 +2866,17 @@ html.js .view.is-active{ display:block; }
             <span class="race-group-sub">2019.8</span>
           </div>
           <ol class="race-list">
-            <li class="race-row race-row--region">
+            <li class="race-row">
               <span class="race-grade">2019</span>
               <div class="race-body">
                 <p class="race-name">2019 年重庆市城市冠军杯足球赛</p>
-                <p class="race-meta"><span>2019.8</span><span>永川</span><span>代表<strong>江津区</strong></span></p>
+                <p class="race-meta"><span>2019.8</span><span>永川</span><span>代表<strong>江津区</strong></span><span class="race-level">市级</span></p>
               </div>
               <span class="race-result race-result--win">冠军</span>
             </li>
           </ol>
         </div>
 
-        <p class="race-note">「代表」是参赛单位。市级赛事代表就读学校，市运会代表沙坪坝区，全国中学生运动会是以重庆队出战，大学生联赛代表西安财经大学，在中国银行那两场分别代表中国金融体协和中国银行。</p>
         <div class="photo-strip photo-strip--two">
           <figure>
             <img src="assets/photos/football-stand.webp" alt="坐在体育场看台上，胸前挂着赛事证件，身后是坐满人的看台" width="1000" height="750" loading="lazy" decoding="async">
@@ -4390,12 +4391,8 @@ html.js .view.is-active{ display:block; }
       d.className = 'num';
       d.textContent = (p.date || '').slice(5);
 
-      var l = document.createElement('span');
-      l.className = 'num';
-      l.textContent = p.minutes + ' 分钟';
-
+      // 阅读时长不进列表：日期 + 标题 + 一句话摘要已经够判断要不要点
       meta.appendChild(d);
-      meta.appendChild(l);
 
       // h2 不是 h3：页面 h1 是「博客」，列表项再往下跳一级会出现 heading-order 违规
       var t = document.createElement('h2');
