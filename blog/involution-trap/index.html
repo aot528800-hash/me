@@ -1208,7 +1208,8 @@ body{ background:var(--page-bg); }
 .btn--blue:hover{ background:var(--brand-tint); filter:none; }
 .header-cta.btn--blue{ background:var(--brand-accent-text); color:#fff; border-color:var(--brand-accent-text); }
 .header-cta.btn--blue:hover{ background:var(--brand-accent-text); filter:brightness(1.12); }
-.btn--ink{ background:var(--brand-ink); color:#fff; }
+/* 主按钮不用深墨蓝（近黑）：改用深焦琥珀，与全站强调色同族；白字对比度 5.03:1 过 AA */
+.btn--ink{ background:var(--brand-accent-text); color:#fff; }
 .btn--ghost{ background:transparent; color:var(--brand-ink); border:1.5px solid var(--brand-ink); }
 .btn-row{ display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
 /* 手机端也保留联系入口：文字缩成「联系」、内边距收紧，
@@ -1634,6 +1635,8 @@ html.lb-locked .to-top{ display:none; }
   }
   /* 唯一的例外：拿金当实心背景的两处，作者色要退回深金，否则白字糊在金上 */
   .header-cta.btn--blue{ background:#A05F2E; border-color:#A05F2E; color:#fff; }
+  /* 主按钮与页头实心按钮同色：亮琥珀底白字只有 2.3:1，必须退回深金 */
+  .btn--ink{ background:#A05F2E; }
   /* 徽记在暗色下也用深金底：亮金底上白字只有 1.77:1，不够 */
   .race-honor{ background:#A05F2E; }
   .btn--blue{ border-color:#A05F2E; }
@@ -1641,8 +1644,8 @@ html.lb-locked .to-top{ display:none; }
      rgb(210,192,181)，压在深色圆底上清楚。不再叠 sepia/hue-rotate（旧绿金链路）。 */
   .hero-photo img{ filter:invert(1); }
   .figure-card{ background:#1E2630; }
-  /* --brand-ink 是深橄榄，暗色下会糊成一片：凡是用它当文字色的地方一律提亮。
-     注意不能直接覆盖变量本身 —— .btn--ink 拿它当背景，覆盖了按钮就没底了。 */
+  /* --brand-ink 是深墨蓝，暗色下会糊成一片：凡是用它当文字色的地方一律提亮。
+     注意不能直接覆盖变量本身，避免连带改掉别的深底元素。 */
   .hero-big, .hero-name, .h1, .h2,
   .race-group-title,
   .fb-stat-num,
