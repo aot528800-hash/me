@@ -1382,6 +1382,15 @@ html.lb-locked .to-top{ display:none; }
   }
 }
 .hero-text{ min-width:0; }
+.hero-big{
+  font-size:var(--fs-h2);
+  font-weight:600;
+  line-height:1.25;
+  letter-spacing:-.02em;
+  color:var(--brand-ink);
+  margin:0;
+}
+.hero-big em{ font-style:normal; color:var(--brand-accent-text); }
 .hero-desc{
   margin-top:var(--space-5);
   max-width:42em;
@@ -1661,7 +1670,7 @@ html.lb-locked .to-top{ display:none; }
   .figure-card{ background:#1E2630; }
   /* --brand-ink 是深橄榄，暗色下会糊成一片：凡是用它当文字色的地方一律提亮。
      注意不能直接覆盖变量本身 —— .btn--ink 拿它当背景，覆盖了按钮就没底了。 */
-  .hero-name, .h1, .h2,
+  .hero-big, .hero-name, .h1, .h2,
   .race-group-title,
   .fb-stat-num,
   /* 纸面化 header 后品牌字吃 --brand-ink，暗色下深字压深底看不见，一并提亮 */
@@ -2270,7 +2279,7 @@ html.js .view.is-active{ display:block; }
           <h1 class="hero-name" id="hero-name" lang="en">Chew Teck Wai</h1>
           <div class="hero-body">
             <div class="hero-text">
-              <p class="hero-desc">在中国银行做了五年理财经理，踢了十几年后腰，公众号写了 142 篇，现在在重庆工程职业技术大学做学生资助。</p>
+              <p class="hero-big">做过银行，踢过球<br><em>写着公众号，现在做学生资助</em></p>
               <p class="btn-row">
                 <a class="btn btn--ink" href="#/story">时间线</a>
                 <a class="btn btn--blue" href="#/football">足球记录</a>
