@@ -90,6 +90,15 @@
 
   /* A-4 圆角与描边 */
   --radius-img:3px;
+
+  /* 2026-11-22 taste 审计：把散落的圆角与阴影收成三档，可解释、可复用 */
+  --radius-chip:2px;      /* 标签、旗标这种小颗粒 */
+  --radius-card:10px;     /* 卡片、图框 */
+  --radius-pill:999px;    /* 胶囊按钮 */
+  --radius-code:4px;      /* 行内代码 */
+  --shadow-soft:0 4px 16px rgba(30,28,24,.12);
+  --shadow-raise:0 10px 24px rgba(120,70,30,.22);   /* 悬停抬升，暖色 */
+  --shadow-overlay:0 24px 64px rgba(24,20,16,.45);  /* 弹层，用墨色不用纯黑 */
   --border-w:1px;
 
   /* D 动效 */
@@ -414,7 +423,7 @@ img{ display:block; max-width:100%; }
   display:grid;
   grid-template-columns:1fr;
   row-gap:var(--space-2);
-  padding-block:18px;            /* 呼吸感：条目之间留出空隙，比 1fr 单列时更从容 */
+  padding-block:16px;            /* 呼吸感：条目之间留出空隙，比 1fr 单列时更从容 */
 }
 .tl-rail{ display:none; }          /* 360 档去掉圆点与竖线（C-2） */
 .tl-time{
@@ -830,7 +839,7 @@ img{ display:block; max-width:100%; }
   color:var(--brand-accent-text);
   font-weight:600;
   border:1px solid var(--brand-accent-text);
-  border-radius:2px;
+  border-radius:var(--radius-chip);
   padding:3px 8px;
 }
 /* J-58 · 赛事层级改成行内小签：原来靠「代表单位带下划线」暗示级别，
@@ -840,7 +849,7 @@ img{ display:block; max-width:100%; }
   display:inline-block;
   padding:0 6px;
   border:1px solid var(--color-border);
-  border-radius:999px;
+  border-radius:var(--radius-pill);
   font-family:var(--font-sans);
   font-size:var(--fs-micro);
   line-height:1.6;
@@ -855,7 +864,7 @@ img{ display:block; max-width:100%; }
   color:#fff;
   font-weight:600;
   background:var(--brand-accent-text);
-  border-radius:2px;
+  border-radius:var(--radius-chip);
   padding:2px 7px;
   margin-left:2px;
 }
@@ -955,12 +964,12 @@ img{ display:block; max-width:100%; }
   margin-top:var(--space-4);
   padding:var(--space-5) var(--space-5) var(--space-5);
   background:#A05F2E;
-  border-radius:12px;
+  border-radius:var(--radius-card);
   transition:transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease), filter var(--dur-base) var(--ease);
 }
 .play-work-list li.play-work-live:hover{
   transform:translateY(-2px);
-  box-shadow:0 10px 24px rgba(120,70,30,.28);
+  box-shadow:var(--shadow-raise);
   filter:brightness(1.08);
 }
 .play-work-list li.play-work-live .play-work-name,
@@ -1233,7 +1242,7 @@ body{ background:var(--page-bg); }
   border-radius:50%;
   background:var(--page-bg);
   color:var(--brand-ink);
-  box-shadow:0 4px 16px rgba(30,28,24,.12);
+  box-shadow:var(--shadow-soft);
   cursor:pointer;
   opacity:0; visibility:hidden; pointer-events:none;
   transform:translateY(8px);
@@ -1281,7 +1290,7 @@ html.lb-locked .to-top{ display:none; }
   max-width:100%; max-height:100%;
   width:auto; height:auto;
   background:#fff;                 /* 透明底线稿与二维码在暗底上要白背 */
-  box-shadow:0 24px 64px rgba(0,0,0,.5);
+  box-shadow:var(--shadow-overlay);
   cursor:zoom-in;
   transition:transform var(--dur-base) var(--ease);
 }
@@ -1461,7 +1470,7 @@ html.lb-locked .to-top{ display:none; }
 }
 .flag{
   display:block; width:26px; height:18px; flex:none;
-  border-radius:2px;
+  border-radius:var(--radius-chip);
   box-shadow:0 0 0 1px var(--color-border);
 }
 /* 博客页标题下的紧凑版 */
@@ -1588,7 +1597,7 @@ html.lb-locked .to-top{ display:none; }
   padding:3px 9px;
   font-size:var(--fs-small); line-height:1.5; font-weight:600;
   color:var(--brand-accent-text);
-  border:1px solid var(--brand-accent-text); border-radius:2px;
+  border:1px solid var(--brand-accent-text); border-radius:var(--radius-chip);
 }
 .coach-race{
   margin:0; font-size:var(--fs-lead); font-weight:600;
@@ -1612,10 +1621,10 @@ html.lb-locked .to-top{ display:none; }
 .figure-card{
   margin:22px 0 0; padding:16px;
   background:#fff; border:1px solid var(--card-border);
-  border-radius:10px;
+  border-radius:var(--radius-card);
 }
 .figure-card img{
-  display:block; width:100%; height:auto; border-radius:6px;
+  display:block; width:100%; height:auto; border-radius:calc(var(--radius-card) - 4px);
   filter:none; background:#fff;
 }
 .figure-card figcaption{
@@ -1657,7 +1666,7 @@ html.lb-locked .to-top{ display:none; }
   #view-blog .blog-row .blog-title{ color:#E8EDF2; }
   .btn--ghost{ color:#E8EDF2; border-color:#7A8BA0; }
   /* 回到顶部：底色跟 --page-bg 走（暗色是深底），字色必须提亮，否则深墨蓝糊在深底上 */
-  .to-top{ color:#E8EDF2; box-shadow:0 4px 16px rgba(0,0,0,.5); }
+  .to-top{ color:#E8EDF2; box-shadow:var(--shadow-soft); }
   .to-top:hover{ background:#1E2630; }
 }
 
@@ -1786,7 +1795,7 @@ html.lb-locked .to-top{ display:none; }
   width:100%;
   height:auto;
   background:#fff;               /* 图内容需要浅底衬托，但不再有边框圆角阴影的「卡片感」 */
-  border-radius:6px;
+  border-radius:calc(var(--radius-card) - 4px);
 }
 .art-figure figcaption{
   margin-top:12px;
@@ -1845,7 +1854,7 @@ html.lb-locked .to-top{ display:none; }
   font-family:var(--font-mono);
   font-size:var(--fs-small);
   background:var(--brand-tint);
-  border-radius:3px;
+  border-radius:var(--radius-code);
   padding:1px 5px;
 }
 
@@ -2168,7 +2177,7 @@ html.js .view.is-active{ display:block; }
 /* a11y-skip-links：键盘用户直达正文 */
 .skip-link{
   position:absolute; left:12px; top:-64px; z-index:1000;
-  padding:10px 16px; border-radius:8px;
+  padding:10px 16px; border-radius:var(--radius-card);
   background:var(--brand-ink); color:#fff; font-size:var(--fs-small);
   text-decoration:none; transition:top .15s ease;
 }
@@ -2216,10 +2225,10 @@ button{ cursor:pointer; }
 .route-toast{
   position:fixed; left:50%; bottom:24px; transform:translateX(-50%);
   z-index:1200; max-width:min(92vw,520px);
-  padding:12px 18px; border-radius:10px;
+  padding:12px 18px; border-radius:var(--radius-card);
   background:var(--brand-ink); color:#fff;
   font-size:var(--fs-small); line-height:1.6;
-  box-shadow:0 12px 32px rgba(0,0,0,.24);
+  box-shadow:var(--shadow-raise);
   cursor:pointer;
 }
 @media (prefers-reduced-motion:reduce){ .route-toast{ transform:translateX(-50%); } }
