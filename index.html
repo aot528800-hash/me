@@ -2196,6 +2196,26 @@ button{ cursor:pointer; }
 
 /* 1. Accessibility focus-not-obscured：锚点不被吸顶头挡住 */
 [id]{ scroll-margin-top:88px; }
+
+/* ===== 第二轮：按 ui-ux-pro-max 3.Performance / 9.Navigation ===== */
+/* 3.Performance：首屏之外的长列表延迟渲染，缩短首帧 */
+.blog-list > li,
+.race-row,
+.post-body > *{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 120px;
+}
+/* 9.Navigation：未知地址提示（aria-live 播报，不抢焦点） */
+.route-toast{
+  position:fixed; left:50%; bottom:24px; transform:translateX(-50%);
+  z-index:1200; max-width:min(92vw,520px);
+  padding:12px 18px; border-radius:10px;
+  background:var(--brand-ink); color:#fff;
+  font-size:var(--fs-small); line-height:1.6;
+  box-shadow:0 12px 32px rgba(0,0,0,.24);
+  cursor:pointer;
+}
+@media (prefers-reduced-motion:reduce){ .route-toast{ transform:translateX(-50%); } }
 </style>
 </head>
 <body>
@@ -2305,7 +2325,7 @@ button{ cursor:pointer; }
                    46KB 的 WebP，比原来 53KB 的 256px PNG 还小，却清晰一倍。
                    没用 AVIF：36KB 更小，但 GitHub Pages 的 .avif MIME 无法在本机验证，
                    <source> 加载失败不会回落到 <img>，赌不起。 -->
-              <img src="assets/avatar-640.webp" alt="Chew Teck Wai 的线稿肖像" width="640" height="640" decoding="async">
+              <img src="assets/avatar-640.webp" alt="Chew Teck Wai 的线稿肖像" width="640" height="640" decoding="async" fetchpriority="high">
               </div>
             </div>
           </div>
@@ -3676,6 +3696,37 @@ button{ cursor:pointer; }
   window.addEventListener('hashchange', function(){ setTimeout(sync, 0); });
   window.addEventListener('load', function(){ setTimeout(sync, 0); });
   sync();
+})();
+</script>
+
+<script>
+/* 9.Navigation：地址不存在时给出提示（原本静默回首页） */
+(function(){
+  var toast = null, timer = null;
+  function dismiss(){ if (toast && toast.parentNode) toast.parentNode.removeChild(toast); toast = null; clearTimeout(timer); }
+  function show(){
+    if (toast) return;
+    toast = document.createElement('div');
+    toast.className = 'route-toast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    toast.textContent = '这个地址没找到，已经带你回首页了。点一下关闭。';
+    toast.addEventListener('click', dismiss);
+    document.body.appendChild(toast);
+    timer = setTimeout(dismiss, 6000);
+  }
+  function check(){
+    setTimeout(function(){
+      var h = location.hash.replace(/^#/, '');
+      if (!h || h === '/' || h === '') return;
+      var route = document.documentElement.getAttribute('data-route') || '/';
+      var known = ['/story','/football','/blog','/contact','/post','/'];
+      var isPost = /^\/post\//.test(h) || /^\/blog\//.test(h);
+      if (!isPost && known.indexOf(h) === -1 && route === '/') show();
+    }, 120);
+  }
+  window.addEventListener('hashchange', check);
+  window.addEventListener('load', check);
 })();
 </script>
 </body>
