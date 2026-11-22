@@ -73,7 +73,7 @@
      J-29：全站只准这 9 档，每档一个语义角色。禁止再写裸 px 或 em 派生字号 ——
      原先 20+ 档里那些 11 / 12.5 / 13 / 15 / 17 / 19px 和 1px 级差，就是「一些大一些小」的根源。
      强调靠琥珀色 + 600 字重，不靠再开一档字号。 */
-  --fs-display:clamp(56px,9vw,104px);   /* 104 · 首页姓名，全站唯一超大字 */
+  --fs-display:clamp(40px,9vw,104px);   /* 104 · 首页姓名，全站唯一超大字 */
   --fs-h2-xl:clamp(36px,5vw,56px);      /*  56 · 内页主标题 / 大数字 / 「冠军」 */
   --fs-h2:clamp(24px,3vw,32px);         /*  32 · 章节标题 / Hero 副题 */
   --fs-emph:clamp(22px,2.6vw,28px);     /*  28 · 强调词（兴趣名），配琥珀 600 */
@@ -2163,9 +2163,43 @@ a.blog-row:hover .blog-title{ color:var(--brand-accent-text); }
    ========================================================================== */
 html.js .view{ display:none; }
 html.js .view.is-active{ display:block; }
+
+/* ===== 2026-11-22 按 ui-ux-pro-max 规则补：窄屏头部 / 跳转链接 / 触控反馈 / 锚点避让 ===== */
+/* a11y-skip-links：键盘用户直达正文 */
+.skip-link{
+  position:absolute; left:12px; top:-64px; z-index:1000;
+  padding:10px 16px; border-radius:8px;
+  background:var(--brand-ink); color:#fff; font-size:var(--fs-small);
+  text-decoration:none; transition:top .15s ease;
+}
+.skip-link:focus,
+.skip-link:focus-visible{ top:12px; }
+
+/* 5. Layout & Responsive：≤480px 时头部禁止折行（360–393 常见机型） */
+@media (max-width:480px){
+  .brand{ white-space:nowrap; font-size:13px; letter-spacing:0; }
+  .site-nav{ gap:10px; }
+  .site-nav a{ white-space:nowrap; font-size:13px; padding-inline:6px; margin-inline:-6px; }
+  .header-cta{ white-space:nowrap; font-size:13px; padding-inline:10px; }
+}
+@media (max-width:400px){
+  .brand{ font-size:12px; }
+  .site-nav{ gap:8px; }
+  .site-nav a{ font-size:12px; }
+  .header-cta{ font-size:12px; padding-inline:8px; }
+}
+
+/* 2. Touch & Interaction：去掉点击延迟 + 按下反馈（不改变布局） */
+a,button,[role="button"]{ touch-action:manipulation; }
+button{ cursor:pointer; }
+.site-nav a:active,.btn:active,button:active,.post-item:active,a.card:active{ opacity:.72; }
+
+/* 1. Accessibility focus-not-obscured：锚点不被吸顶头挡住 */
+[id]{ scroll-margin-top:88px; }
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">跳到正文</a>
 
 <!-- 小国旗 sprite：Windows 的 emoji 国旗会显示成 KR/US/JP/AU 字母，
      所以全部用内联 SVG 画，零外链、暗色也清晰。 -->
@@ -2243,7 +2277,7 @@ html.js .view.is-active{ display:block; }
   </div>
 </header>
 
-<main>
+<main id="main">
 
   <!-- ======================================================================
        视图 1 · 首页（PRD v1.2 附录 A.2，4 个区块）
@@ -3624,5 +3658,25 @@ html.js .view.is-active{ display:block; }
 })();
 </script>
 
+
+<script>
+/* a11y：当前页导航项加 aria-current=page（读屏可播报） */
+(function(){
+  var nav = document.querySelector('.site-nav');
+  if(!nav) return;
+  function sync(){
+    var r = document.documentElement.getAttribute('data-route') || '/';
+    if (r.length > 1) r = r.replace(/\/+$/,'');
+    nav.querySelectorAll('a').forEach(function(a){
+      var h = (a.getAttribute('href')||'').replace(/^#/,'');
+      if (h === r) a.setAttribute('aria-current','page');
+      else a.removeAttribute('aria-current');
+    });
+  }
+  window.addEventListener('hashchange', function(){ setTimeout(sync, 0); });
+  window.addEventListener('load', function(){ setTimeout(sync, 0); });
+  sync();
+})();
+</script>
 </body>
 </html>
