@@ -2188,6 +2188,13 @@ html.js .view.is-active{ display:block; }
   .site-nav a{ font-size:12px; }
   .header-cta{ font-size:12px; padding-inline:8px; }
 }
+/* 320px（WCAG 1.4.10 重排线）：头部再收一档，避免品牌与导航贴在一起 */
+@media (max-width:360px){
+  .brand{ font-size:11px; margin-right:6px; }
+  .site-nav{ gap:6px; }
+  .site-nav a{ font-size:11px; padding-inline:5px; margin-inline:-5px; }
+  .header-cta{ font-size:11px; padding-inline:7px; }
+}
 
 /* 2. Touch & Interaction：去掉点击延迟 + 按下反馈（不改变布局） */
 a,button,[role="button"]{ touch-action:manipulation; }
