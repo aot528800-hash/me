@@ -2232,6 +2232,27 @@ button{ cursor:pointer; }
   cursor:pointer;
 }
 @media (prefers-reduced-motion:reduce){ .route-toast{ transform:translateX(-50%); } }
+
+/* ===== 两站共用语义别名（见 DESIGN.md 第 5 节）=====
+   新组件只用 --ds-*；老代码不动，出现一次改一次。 */
+:root{
+  --ds-bg:var(--color-bg);
+  --ds-surface:var(--color-surface);
+  --ds-text:var(--color-text-primary);
+  --ds-text-2:var(--color-text-secondary);
+  --ds-text-3:var(--color-text-tertiary);
+  --ds-line:var(--color-border);
+  --ds-line-subtle:var(--color-border-subtle);
+  --ds-accent:var(--brand-accent);
+  --ds-accent-text:var(--brand-accent-text);
+  --ds-radius-card:var(--radius-card);
+  --ds-radius-pill:var(--radius-pill);
+  --ds-shadow-soft:var(--shadow-soft);
+  --ds-shadow-raise:var(--shadow-raise);
+  --ds-shadow-overlay:var(--shadow-overlay);
+  --ds-dur:var(--dur-base);
+  --ds-ease:var(--ease);
+}
 </style>
 </head>
 <body>
