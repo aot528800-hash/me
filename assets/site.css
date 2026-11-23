@@ -1,0 +1,2224 @@
+/* ==========================================================================
+   设计令牌 · 全部取自《设计规范.md》A 节。页面中不出现任何散落硬编码色值。
+   ========================================================================== */
+:root{
+  /* A-1 色彩 */
+  --color-bg:#F7F2E8;
+  --color-surface:#EFE9DD;
+  --color-text-primary:#1A2229;
+  --color-text-secondary:#55606B;
+  --color-text-tertiary:#5E6874;
+  --color-border-subtle:rgba(30,28,24,.08);
+  --color-border:rgba(30,28,24,.15);
+  --color-border-strong:rgba(30,28,24,.30);
+  --color-accent:#B8703A; /* 焦琥珀：进度线 + 焦点环 */
+
+  /* A-1-2 文本选区：默认的浏览器蓝是这套配色里唯一一处「不是我的颜色」。
+     选区底色用品牌淡底、字色用深橄榄，选中一段话时画面仍然是一个色系。 */
+  --sel-bg:#E4E9D2;
+  --sel-fg:#1B2A3A;
+
+  /* A-2 字体
+     苹果字体优先：macOS/iOS 自动加载 SF Pro（-apple-system / BlinkMacSystemFont /
+     "SF Pro Display"）与苹方 PingFang SC。苹果字体是版权字体，不能像开源字体
+     那样分发，只能靠系统自带 —— 所以非苹果设备会回退到后面的系统字体，
+     这是所有顶级站（含 Apple 官方）的同一做法，不是遗漏。 */
+  --font-sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",
+              "Helvetica Neue","PingFang SC","Hiragino Sans GB",
+              "Microsoft YaHei UI","Microsoft YaHei",
+              "Source Han Sans SC","Noto Sans CJK SC",sans-serif;
+  --font-mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Monaco,Consolas,
+              "Liberation Mono","Courier New",monospace;
+
+  /* A-2-2 字号阶梯 · 编辑部式
+     J-29：全站只准这 9 档，每档一个语义角色。禁止再写裸 px 或 em 派生字号 ——
+     原先 20+ 档里那些 11 / 12.5 / 13 / 15 / 17 / 19px 和 1px 级差，就是「一些大一些小」的根源。
+     强调靠琥珀色 + 600 字重，不靠再开一档字号。 */
+  --fs-display:clamp(40px,9vw,104px);   /* 104 · 首页姓名，全站唯一超大字 */
+  --fs-h2-xl:clamp(36px,5vw,56px);      /*  56 · 内页主标题 / 大数字 / 「冠军」 */
+  --fs-h2:clamp(24px,3vw,32px);         /*  32 · 章节标题 / Hero 副题 */
+  --fs-emph:clamp(22px,2.6vw,28px);     /*  28 · 强调词（兴趣名），配琥珀 600 */
+  --fs-sub:clamp(20px,2.2vw,24px);      /*  24 · 文章正文内小标题 */
+  --fs-lead:18px;                        /*  18 · 导语 / 长文正文 / 博客标题 */
+  --fs-body:16px;                        /*  16 · 正文 / 单位 / 年份锚 */
+  --fs-small:14px;                       /*  14 · 说明 / 成绩 */
+  --fs-micro:12px;                       /*  12 · 注脚 / 标签 */
+
+  /* A-3 间距 · 4px 网格（UNSLOP tokens），区块呼吸加大 */
+  --space-1:4px;  --space-2:8px;   --space-3:12px;  --space-4:16px;
+  --space-5:20px; --space-6:24px;  --space-7:32px;  --space-8:40px;
+  --space-9:64px; --space-10:96px; --space-11:128px; --space-12:160px;
+
+  /* A-4 圆角与描边 */
+  --radius-img:3px;
+
+  /* 2026-11-22 taste 审计：把散落的圆角与阴影收成三档，可解释、可复用 */
+  --radius-chip:2px;      /* 标签、旗标这种小颗粒 */
+  --radius-card:10px;     /* 卡片、图框 */
+  --radius-pill:999px;    /* 胶囊按钮 */
+  --radius-code:4px;      /* 行内代码 */
+  --shadow-soft:0 4px 16px rgba(30,28,24,.12);
+  --shadow-raise:0 10px 24px rgba(120,70,30,.22);   /* 悬停抬升，暖色 */
+  --shadow-overlay:0 24px 64px rgba(24,20,16,.45);  /* 弹层，用墨色不用纯黑 */
+  --border-w:1px;
+
+  /* D 动效 */
+  --dur-fast:140ms;
+  --dur-base:240ms;
+  --dur-slow:400ms;
+  --ease:cubic-bezier(.2,0,0,1);
+
+  /* D-3 下划线（中文/中英混排一律 0.25em） */
+  --ul-offset:.25em;
+
+  /* C 栅格 · 360 档 */
+  --pad-inline:20px;
+  --content-max:1120px;
+
+  /* 纵向节奏 · 360 档 */
+  --section-gap:56px;
+  --hero-top:40px;
+
+  /* B-9 长文 measure */
+  --measure:612px;
+}
+
+/* C-1 · 断点只管栅格与节奏；字号交给 clamp 自适应，禁止在断点里写死字号 */
+@media (min-width:768px){
+  :root{
+    --pad-inline:40px;
+    --section-gap:80px; --hero-top:56px;
+  }
+}
+@media (min-width:1024px){
+  :root{
+    --section-gap:96px; --hero-top:64px;
+  }
+}
+@media (min-width:1200px){ :root{ --pad-inline:56px; } }
+@media (min-width:1440px){
+  :root{
+    --section-gap:120px; --hero-top:80px;
+  }
+}
+
+/* A-6 暗色：逐条覆盖，不新增令牌 */
+@media (prefers-color-scheme:dark){
+  :root{
+    --color-bg:#121820;
+    --color-surface:#1A222C;
+    --color-text-primary:#E8EDF2;
+    --color-text-secondary:#A8B2BD;
+    --color-text-tertiary:#8A959F;
+    --color-border-subtle:rgba(232,237,242,.09);
+    --color-border:rgba(232,237,242,.17);
+    --color-border-strong:rgba(232,237,242,.42);
+    --color-accent:#D9955C;
+    --sel-bg:#33402F;
+    --sel-fg:#EDEAE1;
+  }
+  /* A-6 照片只降亮度，不叠 contrast / saturate */
+  img{ filter:brightness(.88); }
+}
+
+/* ==========================================================================
+   基础
+   ========================================================================== */
+*,*::before,*::after{ box-sizing:border-box; }
+
+html{
+  font-family:var(--font-sans);
+  font-synthesis:none;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-size-adjust:100%;
+  color-scheme:light dark;
+  background:var(--color-bg);
+}
+body{
+  margin:0;
+  background:var(--color-bg);
+  color:var(--color-text-primary);
+  font-size:var(--fs-body);
+  line-height:1.75;
+  /* 中文标点挤压：行首的 ，。」 】 自带半格空白，左边缘看上去总像缩进了一格。
+     trim-start 把这半格吃掉，左边界才是真正的对齐线。不认这条的浏览器维持原样，不会更差。 */
+  text-spacing-trim:trim-start;
+  /* 行首的引号、书名号悬挂到版心之外，第一行才和其余行对齐。目前只有 Safari 认。 */
+  hanging-punctuation:first allow-end;
+}
+h1,h2,h3,p,ol,ul,figure,blockquote{ margin:0; padding:0; }
+/* 折行这件事，浏览器默认只会「塞满一行再换」，于是中文标题常剩一两个字吊在末行。
+   balance 让各行长度接近，pretty 让段落末行不出现孤字。都不支持时退回默认，无副作用。 */
+h1,h2,h3{ text-wrap:balance; }
+p,li,figcaption{ text-wrap:pretty; }
+ol,ul{ list-style:none; }
+a{ color:inherit; text-decoration:none; }
+img{ display:block; max-width:100%; }
+
+.num{
+  font-family:var(--font-mono);
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.01em;
+}
+
+/* D-4 焦点环 · 全站统一，瞬态无过渡 */
+:focus-visible{
+  outline:2px solid var(--color-accent);
+  outline-offset:3px;
+  border-radius:var(--radius-img);
+}
+
+/* 选区跟着品牌走。默认蓝是这套配色里唯一一处不属于它的颜色，一选中就露馅。 */
+::selection{ background:var(--sel-bg); color:var(--sel-fg); }
+:focus:not(:focus-visible){ outline:none; }
+
+/* ==========================================================================
+   布局
+   ========================================================================== */
+.container{
+  width:100%;
+  max-width:calc(var(--content-max) + var(--pad-inline) * 2);
+  margin-inline:auto;
+  padding-inline:var(--pad-inline);
+}
+
+.cols{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  column-gap:16px;
+}
+@media (min-width:768px){
+  .cols{ grid-template-columns:repeat(8,minmax(0,1fr)); column-gap:20px; }
+}
+@media (min-width:1024px){
+  .cols{ grid-template-columns:repeat(12,minmax(0,1fr)); column-gap:24px; }
+}
+
+.section{ margin-top:var(--section-gap); }
+
+/* 每个视图的第一个 section 用 Hero 上边距，不叠加区块间距 */
+.view > .section:first-child{ margin-top:0; padding-top:var(--hero-top); }
+
+/* ==========================================================================
+   排版原子
+   ========================================================================== */
+.h1{ font-size:var(--fs-h2-xl); font-weight:500; letter-spacing:0; line-height:1.15; }
+.h1--latin{ letter-spacing:-.03em; line-height:1.05; }
+
+.h2{ font-size:var(--fs-h2); font-weight:500; line-height:1.3; letter-spacing:0; }
+.h2--xl{ font-size:var(--fs-h2-xl); line-height:1.2; }
+
+.micro{
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.04em;
+  line-height:1.5;
+}
+
+/* ---- 章节开篇：序号 + 标题 + 细线（编辑部式） ---- */
+.sec-open{
+  display:flex;
+  align-items:baseline;
+  gap:var(--space-4);
+  padding-top:20px;
+  border-top:var(--border-w) solid var(--color-border);
+}
+.sec-open .h2{ margin:0; }
+
+/* D-3 链接下划线与 hover 展开 —— 全站动效 #1 */
+.link{
+  position:relative;
+  color:var(--color-text-primary);
+  display:inline-block;
+}
+.link::after{
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  bottom:calc(-1 * var(--ul-offset));
+  height:1px;
+  background:currentColor;
+  transform:scaleX(0);
+  transform-origin:left center;
+  transition:transform var(--dur-base) var(--ease);
+}
+.link:hover::after,
+.link:focus-visible::after{ transform:scaleX(1); }
+
+.arrow{
+  color:var(--color-text-tertiary);
+  display:inline-block;
+  transition:transform var(--dur-fast) var(--ease);
+}
+/* 箭头跟着手指走一点点：鼠标进链接时右上移 2px。幅度小到说不清哪里变了，但会觉得「活的」。 */
+.link:hover .arrow,
+.link:focus-visible .arrow{ transform:translate(2px,-2px); }
+
+/* ==========================================================================
+   B-0 Header（静态，不吸顶）
+   ========================================================================== */
+.site-header .header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:56px;
+}
+@media (min-width:768px){
+  .site-header .header-inner{ height:64px; }
+}
+.brand{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.02em;
+  padding-block:12px;   /* 撑到 ≥44px 热区，视觉不变 */
+}
+/* 单线头像 · 放在「找到我」左栏，当签名用。
+   为什么不做页头 28–40px 的小头像：原图 1024px、线宽 6px，缩到 40px 只剩 0.37px，
+   会灰成一团认不出人；这张图能认出来的下限大约 72px。**不要再缩小到 48px 以下。**
+   底色固定纸白：暗色模式全站有 img{filter:brightness(.88)}，必须 filter:none，
+   压暗会让本来就细的蓝线在近黑底上彻底消失；线也必须落在浅底上。 */
+.ct-avatar{
+  display:block;
+  width:72px;
+  height:72px;
+  margin-top:var(--space-7);
+  border-radius:50%;
+  background:var(--page-bg);
+  filter:none;
+}
+@media (min-width:768px){ .brand{ font-size:var(--fs-small); } }
+
+.site-nav{ display:flex; gap:20px; }
+@media (min-width:768px){ .site-nav{ gap:32px; } }
+.site-nav a{
+  font-size:var(--fs-small);
+  color:var(--color-text-tertiary);
+  padding-block:12px;
+  /* 点击区补到 44×44（WCAG 2.2 SC 2.5.8 / Apple HIG 最小可点尺寸）。
+     用负 margin 把多出来的 8px 抵回去，视觉间距和原来一模一样：
+     纯文字链的宽度只有 28–42px，手指点不准。 */
+  padding-inline:8px;
+  margin-inline:-8px;
+}
+/* 导航当前页不做下划线、不加粗、不改色（B-0） */
+
+/* ==========================================================================
+   B-2 ① Hero
+   ========================================================================== */
+/* 旧的 .hero-inner 网格已废除：杂志式布局由 .hero-plate 接管 */
+.hero-text{ min-width:0; }
+.hero-media{ display:flex; justify-content:center; }
+
+
+
+
+.hero-claim{
+  margin-top:var(--space-6);      /* 24 */
+  font-size:var(--fs-lead);
+  color:var(--color-text-secondary);
+  line-height:1.9;                /* 三拍之间要断开，不能连读 */
+  text-wrap:pretty;               /* 只影响折行美化，不支持时退化为普通换行 */
+}
+.hero-place{
+  margin-top:var(--space-6);      /* 24 */
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.04em;
+  line-height:1.5;
+}
+
+/* 照片容器：hover 微放大 —— 全站动效 #3 */
+.photo-frame{
+  position:relative;
+  overflow:hidden;
+  border-radius:var(--radius-img);
+}
+.photo-frame img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transform:scale(1);
+  transition:transform var(--dur-slow) var(--ease);
+}
+.photo-frame:hover img{ transform:scale(1.03); }
+
+/* B-2 无照片状态：格子不动，只换格子里的内容 */
+.photo-empty{
+  aspect-ratio:4 / 5;                       /* 360 档用 4:5（C-3） */
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:flex-start;
+  padding:var(--space-6);
+  background:var(--color-surface);
+  border:var(--border-w) solid var(--color-border-strong);  /* 内描边，box-sizing 保证换图不跳版 */
+  border-radius:var(--radius-img);
+}
+@media (min-width:768px){
+  .photo-empty{ aspect-ratio:3 / 4; }       /* 768 起 3:4 */
+}
+.pe-label{
+  font-size:var(--fs-micro);
+  color:var(--color-text-secondary);   /* C1：tertiary on surface 仅 4.31:1，提到 secondary 后 6.11:1 */
+  letter-spacing:.04em;
+  line-height:1.5;
+}
+.pe-note{
+  margin-top:var(--space-1);
+  font-size:var(--fs-micro);
+  color:var(--color-text-secondary);   /* C1：同上，6.11 / 暗色 6.62 */
+  line-height:1.6;
+  text-align:left;
+}
+
+/* ==========================================================================
+   B-3 ② 来路（时间线）
+   ========================================================================== */
+.timeline{ margin-top:var(--space-6); }
+
+.tl-item{
+  display:grid;
+  grid-template-columns:1fr;
+  row-gap:var(--space-2);
+  padding-block:16px;            /* 呼吸感：条目之间留出空隙，比 1fr 单列时更从容 */
+}
+.tl-rail{ display:none; }          /* 360 档去掉圆点与竖线（C-2） */
+.tl-time{
+  font-family:var(--font-mono);
+  font-size:var(--fs-body);                  /* 大年份：每条的锚，不再是脚注 */
+  color:var(--color-text-primary);
+  letter-spacing:0;
+  font-variant-numeric:tabular-nums;
+}
+/* 单位 / 事件是每一条的主线，保持正文字号。 */
+.tl-org{
+  font-size:var(--fs-body);
+  font-weight:600;                 /* 加粗：单位是这一条里最该被看见的词 */
+  color:var(--color-text-primary);
+  line-height:1.6;
+}
+/* 说明是副行：从「紧跟单位的一串小字」改成独立一行，字大一级、墨色浅一级。
+   这样扫时间线时先读到单位，想看细节再看说明，两级信息不再互相干扰。 */
+.tl-place{
+  display:block;
+  margin-top:6px;
+  max-width:56ch;                  /* 长说明折行不越过版心，保持阅读节奏 */
+  font-size:var(--fs-small);
+  font-weight:400;
+  color:var(--color-text-secondary);
+  letter-spacing:0;
+  line-height:1.7;
+}
+/* J-30 · 时间线里的「这支球队是什么」注：紧跟条目、与正文同列，不另起标题层级。
+   字号仍走 --fs-small，不破 J-29 的九档阶梯。 */
+.tl-aside{
+  grid-column:1 / -1;
+  margin:10px 0 0;
+  max-width:62ch;
+  font-size:var(--fs-small);
+  line-height:1.85;
+  color:var(--color-text-secondary);
+}
+
+@media (min-width:768px){
+  .tl-item{
+    grid-template-columns:132px 24px minmax(0,1fr);
+    column-gap:16px;
+    row-gap:0;
+    align-items:start;
+  }
+  .tl-aside{ grid-column:3; }
+  .tl-time{ text-align:right; padding-top:4px; }
+  .tl-rail{
+    display:block;
+    position:relative;
+    align-self:stretch;
+    /* 负外边距让竖线穿过行内上下 padding，首尾圆点之间的线才不会断 */
+    margin-block:-18px;
+  }
+  /* 竖线 1px，比原来更浅（subtle），让它在场但不抢内容 */
+  .tl-rail::before{
+    content:"";
+    position:absolute;
+    top:0; bottom:0;
+    left:calc(50% - .5px);
+    width:1px;
+    background:var(--color-border-subtle);
+  }
+  .tl-item:first-child .tl-rail::before{ top:36px; }
+  /* 并行条目（在职读研这类）：只保留空心点表示「和上面的工作同期」。
+     字重、字号、颜色一律与其他条目相同 —— 在职读研不是次要经历，不做视觉降级。 */
+  .tl-item--parallel .tl-dot{
+    width:7px; height:7px;
+    left:calc(50% - 3.5px);
+    background:transparent;
+    border:1.5px solid var(--brand-accent);
+  }
+
+  .tl-item:last-child .tl-rail::before{ top:0; bottom:auto; height:36px; }
+  /* 圆点 5px 实心 · 品牌金：时间线上的"此刻"，是这条色系的锚点色 */
+  .tl-dot{
+    position:absolute;
+    top:36px;
+    left:calc(50% - 2.5px);
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:var(--brand-accent);
+    transform:scale(1);
+    transform-origin:center;
+    transition:transform var(--dur-fast) var(--ease);  /* 全站动效 #4 */
+  }
+  .tl-item:hover .tl-dot{ transform:scale(1.4); }
+}
+@media (min-width:1024px){
+  .tl-item{ grid-template-columns:132px 24px minmax(0,1fr); }
+}
+
+.turn-more{
+  margin-top:var(--space-7);     /* 32 */
+  font-size:var(--fs-body);
+}
+/* 「完整时间线 ↗」自带 28px 高的行内框，直接加 padding 会把 ::after 的下划线一起推下去
+   （下划线以 padding box 定位）。改用一层透明伪元素把命中区撑到 44px，版式完全不动。 */
+.turn-more .link::before{
+  content:"";
+  position:absolute;
+  inset:-8px -6px;
+}
+
+/* ==========================================================================
+   B-5 ④ 后腰
+   ========================================================================== */
+.fb-intro,.fb-fields,.fb-photo{ grid-column:1 / -1; }
+.fb-fields{ margin-top:var(--space-6); }
+
+.fb-intro-line{
+  max-width:42em;
+  margin-top:var(--space-4);
+  font-size:var(--fs-lead);
+  font-weight:600;
+  line-height:1.85;
+  color:var(--brand-accent-text);
+}
+
+/* 数字锚点：后腰区的视觉重心 */
+.fb-stats{
+  display:flex;
+  gap:var(--space-8);
+  margin-top:var(--space-7);
+  padding-top:var(--space-6);
+  border-top:1px solid var(--color-border-subtle);
+}
+.fb-stat{ display:flex; flex-direction:column; gap:var(--space-1); }
+.fb-stat-num{
+  font-family:var(--font-mono);
+  font-size:var(--fs-h2-xl);
+  font-weight:300;
+  color:var(--brand-ink);
+  line-height:1;
+  letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;
+}
+.fb-stat-label{
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.06em;
+}
+
+@media (min-width:1024px){
+  .fb-inner{ row-gap:0; }
+  .fb-intro{ grid-column:1 / span 6; }
+  .fb-fields{ grid-column:8 / span 5; margin-top:0; }
+  .fb-photo{ grid-column:1 / span 8; margin-top:var(--space-8); }
+}
+
+.field-group{
+  border-top:var(--border-w) solid var(--color-border-subtle);
+  border-bottom:var(--border-w) solid var(--color-border-subtle);
+  padding-block:var(--space-5);
+}
+.field-row{
+  display:grid;
+  grid-template-columns:88px minmax(0,1fr);
+  column-gap:var(--space-4);
+  align-items:baseline;
+}
+.field-row + .field-row{ margin-top:var(--space-4); }   /* 行间 16，不加线 */
+.field-key{
+  font-size:var(--fs-micro);
+  /* 原来是 tertiary(#74716B)，12px 小字只有 4.31:1，不够 4.5 —— 降到 secondary 的 6.11:1 */
+  color:var(--color-text-secondary);
+  letter-spacing:.04em;
+  line-height:1.5;
+}
+.field-val{
+  font-size:var(--fs-body);
+  color:var(--color-text-primary);
+  line-height:1.75;
+}
+/* 窄屏把标签列收窄：两个字的标签占 88px 太浪费，值那一列本来最容易折行 */
+@media (max-width:560px){
+  .field-row{ grid-template-columns:64px minmax(0,1fr); column-gap:12px; }
+}
+
+/* 球场照 3:2（C-2：360 下 320×213 已是 3:2，全断点统一） */
+.fb-photo .photo-empty,
+.fb-photo-wide .photo-empty{ aspect-ratio:3 / 2; }
+
+/* ==========================================================================
+   B-10 /football 页内专用
+   ========================================================================== */
+.fb-lead{
+  margin-top:var(--space-6);      /* 24 */
+  max-width:var(--measure);
+  font-size:var(--fs-lead);       /* 17px，本页主体 */
+  line-height:1.75;
+  color:var(--color-text-primary);
+}
+.fb-field-group{
+  margin-top:var(--space-8);      /* 48 */
+  max-width:738px;                /* 与下方球场照左边缘对齐 */
+}
+.fb-photo-wide{ max-width:738px; }
+
+/* ==========================================================================
+   B-8 ⑦ 找到我
+   ========================================================================== */
+.ct-left,.ct-right{ grid-column:1 / -1; }
+.ct-right{ margin-top:var(--space-6); }
+@media (min-width:1024px){
+  .ct-left{ grid-column:1 / span 5; }
+  .ct-right{ grid-column:7 / span 6; margin-top:0; }
+}
+.ct-call{
+  margin-top:var(--space-3);      /* 约球一句紧跟 H2，位于联系区左侧文案 */
+  font-size:var(--fs-lead);
+  color:var(--color-text-secondary);
+  line-height:1.7;
+}
+.ct-row{
+  display:grid;
+  grid-template-columns:88px minmax(0,1fr);
+  column-gap:var(--space-4);
+  align-items:baseline;
+  padding-block:var(--space-4);
+}
+.ct-row + .ct-row{ border-top:var(--border-w) solid var(--color-border-subtle); }
+.ct-row:first-child{ border-top:var(--border-w) solid var(--color-border-subtle); }
+.ct-key{
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.04em;
+  line-height:1.5;
+}
+.ct-val{
+  font-size:var(--fs-body);
+  color:var(--color-text-primary);
+  line-height:1.75;
+}
+.ct-sub{
+  display:block;
+  margin-top:3px;
+  font-size:var(--fs-micro);
+  line-height:1.6;
+  color:var(--color-text-secondary);
+}
+/* J-26：旧版二维码卡片（C9 details / .qr-card / .qr-row）整套删除。
+   它和 v3 里另一套同名规则互相覆盖，正是二维码贴左、图注居中那次错位的根源；
+   HTML 里已无一处使用，留着只会让下次改版再踩一次。新样式见 J-26 段。 */
+
+/* ==========================================================================
+   B-0 Footer
+   ========================================================================== */
+.site-footer{
+  margin-top:var(--space-10);     /* 96 */
+  padding-bottom:var(--space-8);  /* 48 */
+}
+.site-footer p{
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.04em;
+  line-height:1.5;
+}
+/* 收尾那句话：全站最后一屏的最后一行，把它做成「页脚里的正文」而不是又一条版权小字。
+   注意特异性必须写到 .site-footer .foot-creed —— 上面那条 .site-footer p 会把它压回 12px。
+   max-width 用 px 不用 ch：13px 中文字体下的 ch 只有约 6px，46ch 会被算成 350px 挤成四行。 */
+.site-footer .foot-creed{
+  max-width:620px;
+  margin-bottom:var(--space-5);   /* 24 */
+  font-size:var(--fs-small);       /* 14px，比版权行大，仍是页脚尺度 */
+  color:var(--color-text-secondary);
+  letter-spacing:0;
+  line-height:1.85;
+}
+.site-footer .foot-creed::before{
+  content:"——";
+  display:block;
+  margin-bottom:10px;
+  color:var(--brand-accent-text);
+  font-weight:600;
+  letter-spacing:.1em;
+}
+.site-footer .foot-creed-link{
+  margin-bottom:var(--space-6);
+  font-size:var(--fs-micro);
+}
+/* 「全文」是个 11px 小链，命中区只有 20px 高。和「完整时间线」同一招：
+   透明伪元素把命中区撑到 44px，版式不动。 */
+.site-footer .foot-creed-link .link::before{
+  content:"";
+  position:absolute;
+  inset:-14px -12px;
+}
+.site-footer .foot-creed-link .link{ color:var(--brand-accent-text); }
+.site-footer .foot-copyright .link--accent{ color:var(--brand-accent-text); font-weight:600; }
+.site-footer .foot-copyright{
+  padding-top:var(--space-3);      /* 12 */
+  border-top:1px solid var(--color-border-subtle);
+}
+
+/* ==========================================================================
+   B-9 /story 阅读版式
+   最容易做错的一条：正文 measure 612px 独立居中，不受 1120 通用容器约束。
+   /story 全站禁止滚动位移 / 淡入 / 视差（C-1、E-12）
+   ========================================================================== */
+.progress{
+  position:fixed;
+  top:0; left:0;
+  width:100%;
+  height:2px;
+  background:var(--color-accent);
+  transform:scaleX(var(--p,0));
+  transform-origin:left center;
+  transition:none;
+  z-index:10;
+}
+
+.story-note{ margin-top:var(--space-4); }   /* A4：/story 示例文案的可见提示，只给间距，不新造视觉 */
+
+.story-head{
+  padding-top:var(--hero-top);
+}
+.story-body{
+  margin-top:var(--space-8);      /* 64 */
+  font-size:var(--fs-lead);
+  line-height:1.88;
+  color:var(--color-text-primary);
+}
+/* /story 标题下的一句说明：只交代这一页放什么，不写任何感受 */
+.story-body p + p{ margin-top:28px; }            /* 段间距 28 > 0.8 倍行高 */
+.story-body p{
+  overflow-wrap:break-word;
+}
+
+/* 时间线下方的一行学历注记 */
+.tl-note{ margin-top:var(--space-5); }
+
+/* /football 赛事记录：按学段分组，每行一条赛事 */
+.fb-races-title{ margin-top:var(--space-9); }
+
+.race-group{ margin-top:var(--space-7); }
+.race-group-head{
+  display:flex;
+  align-items:baseline;
+  gap:9px;
+  flex-wrap:wrap;
+  padding-bottom:9px;
+  border-bottom:1.5px solid var(--brand-ink);
+}
+.race-group-title{
+  font-size:var(--fs-body);
+  font-weight:600;
+  color:var(--brand-ink);
+}
+.race-group-sub{
+  font-size:var(--fs-micro);
+  color:var(--color-text-secondary);
+}
+.race-group-count{
+  margin-left:auto;
+  font-size:var(--fs-micro);
+  font-weight:600;
+  color:var(--brand-accent-text);
+  white-space:nowrap;
+}
+
+.race-list{ list-style:none; margin:0; padding:0; }
+.race-row{
+  display:grid;
+  grid-template-columns:84px minmax(0,1fr) auto;
+  align-items:baseline;
+  gap:2px 14px;
+  padding:15px 0;
+  border-bottom:1px solid var(--color-border-subtle);
+}
+.race-row:last-child{ border-bottom:0; }
+.race-grade{
+  font-family:var(--font-mono);
+  font-size:var(--fs-micro);
+  font-weight:600;
+  color:var(--brand-accent-text);
+  white-space:nowrap;
+}
+.race-name{
+  margin:0;
+  font-size:var(--fs-body);
+  line-height:1.45;
+  color:var(--color-text-primary);
+  overflow-wrap:break-word;
+}
+.race-meta{
+  margin:5px 0 0;
+  font-size:var(--fs-micro);
+  line-height:1.55;
+  color:var(--color-text-secondary);
+}
+.race-meta span + span::before{ content:" · "; }
+.race-meta strong{ font-weight:500; color:var(--color-text-primary); }
+.race-detail{
+  margin:4px 0 0;
+  font-size:var(--fs-micro);
+  line-height:1.55;
+  color:var(--brand-accent-text);
+}
+.race-result{
+  font-size:var(--fs-small);
+  color:var(--color-text-secondary);
+  white-space:nowrap;
+  text-align:right;
+}
+.race-result--win{ color:var(--brand-accent-text); font-weight:600; }
+/* 全国前三单列一档：琥珀细描边框，与「冠军」的纯粗体拉开层次。
+   J-29：不铺 --brand-tint 淡底 —— 琥珀字压 #EDE6D8 只有 4.05:1 不达 AA；
+   改透明底后琥珀压纸白 4.51:1，暗色吃令牌切 #D9955C 也够，无需暗色特例。 */
+.race-result--national{
+  color:var(--brand-accent-text);
+  font-weight:600;
+  border:1px solid var(--brand-accent-text);
+  border-radius:var(--radius-chip);
+  padding:3px 8px;
+}
+/* J-58 · 赛事层级改成行内小签：原来靠「代表单位带下划线」暗示级别，
+   读者必须先读一段图例才敢下结论。现在每行直接写清 市级 / 省级 / 全国，
+   符号自己解释，图例整段删掉。 */
+.race-level{
+  display:inline-block;
+  padding:0 6px;
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-pill);
+  font-family:var(--font-sans);
+  font-size:var(--fs-micro);
+  line-height:1.6;
+  color:var(--brand-accent-text);
+  white-space:nowrap;
+  vertical-align:1px;
+}
+/* 个人高光的单独一档：金色底白字，是全赛绩里唯一的「个人荣誉」标记，
+   与团队成绩（冠军=深绿加粗 / 全国前三=淡绿底）彻底区分。 */
+.race-honor{
+  display:inline-block;
+  color:#fff;
+  font-weight:600;
+  background:var(--brand-accent-text);
+  border-radius:var(--radius-chip);
+  padding:2px 7px;
+  margin-left:2px;
+}
+.race-group-note{
+  /* 这段是解释「超级组」的正文，不是脚注：12px 撑 60 个字读着吃力，抬到 14px。
+     4 行压在组头和第一条赛事之间会打断列表，所以加一道左竖线，让它退成注解块。 */
+  margin:14px 0 8px;
+  padding-left:14px;
+  border-left:2px solid var(--color-border-strong);
+  max-width:56ch;
+  font-size:var(--fs-small);
+  line-height:1.78;
+  color:var(--color-text-secondary);
+}
+@media (max-width:720px){
+  .race-row{
+    grid-template-columns:minmax(0,1fr) auto;
+    row-gap:5px;
+    padding:13px 0;
+  }
+  .race-grade{ grid-column:1; grid-row:1; }
+  .race-result{ grid-column:2; grid-row:1; }
+  .race-body{ grid-column:1 / -1; grid-row:2; }
+}
+
+/* ==========================================================================
+   J-27 · 区块 ② 兴趣是主角，作品退成从属
+   J-28 · 字号归位：标题 32 > 兴趣名 28（琥珀高亮）> 陈述句 24 > 说明 14。
+   J-27 版把陈述句放到 56px（--fs-h2-xl），压过了 32px 的章节标题——「大」给错了
+   对象：该大的是五个兴趣名，不是那句导语。现在兴趣名升为琥珀大字（沿 hero-big em
+   和后腰数字锚点的先例，暗色令牌自动切 #D9955C），陈述句退回导语档，
+   手机端不再把兴趣名压到 16px。
+   ========================================================================== */
+.play-list{
+  list-style:none;
+  margin:var(--space-9) 0 0;
+  padding:0;
+  border-top:1px solid var(--color-border-subtle);
+}
+.play-list li{
+  display:grid;
+  grid-template-columns:200px minmax(0,1fr);
+  gap:var(--space-5);
+  align-items:baseline;
+  padding:var(--space-4) 0;
+  border-bottom:1px solid var(--color-border-subtle);
+}
+.play-key{
+  font-size:var(--fs-emph);
+  font-weight:600;
+  line-height:1.4;
+  letter-spacing:-.01em;
+  color:var(--brand-accent-text);   /* 深琥珀：兴趣名是本节该高亮的词 */
+}
+.play-note{
+  font-size:var(--fs-small);
+  line-height:1.85;
+  color:var(--color-text-secondary);
+}
+/* 兴趣与作品是同一张清单的两段，不再另起一组标题：
+   去掉「作品」小标后只留一点间距，读下来是一个连续列表。 */
+.play-work{
+  margin-top:var(--space-5);
+}
+.play-work-list{ list-style:none; margin:0; padding:0; }
+.play-work-list li{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:4px var(--space-5);
+  align-items:baseline;
+  padding:var(--space-4) 0;
+  border-top:1px solid var(--color-border-subtle);
+}
+.play-work-list li:first-child{ border-top:0; padding-top:0; }
+.play-work-name{
+  font-size:var(--fs-body);
+  font-weight:600;
+  color:var(--brand-ink);
+}
+.play-work-tag{
+  font-family:var(--font-mono);
+  font-size:var(--fs-micro);
+  text-align:right;
+  color:var(--color-text-tertiary);
+}
+.play-work-desc{
+  grid-column:1 / -1;
+  font-size:var(--fs-small);
+  line-height:1.8;
+  color:var(--color-text-secondary);
+}
+/* J-50 「正在做的事」整块做成焦琥珀实底卡：三条里只有 CQPUE 有底色，
+   米纸上一块暖琥珀，从任何位置扫下来都先看见它，又不至于压成一块黑。
+   白字压 #A05F2E 是 5.03:1，够 AA；这块底色对米纸 4.51:1，边界清楚。 */
+.play-work-list li.play-work-live{
+  border-top:0;
+  margin-top:var(--space-4);
+  padding:var(--space-5) var(--space-5) var(--space-5);
+  background:#A05F2E;
+  border-radius:var(--radius-card);
+  transition:transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease), filter var(--dur-base) var(--ease);
+}
+.play-work-list li.play-work-live:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-raise);
+  filter:brightness(1.08);
+}
+.play-work-list li.play-work-live .play-work-name,
+.play-work-list li.play-work-live .play-work-name .arrow{
+  color:#FFF;
+}
+.play-work-list li.play-work-live .play-work-tag{ color:rgba(255,255,255,.74); }
+.play-work-list li.play-work-live .play-work-desc{ color:rgba(255,255,255,.9); }
+/* 暗色主题：深底上再压一块深琥珀会发闷，提亮到 #D9955C 并改用深字（6.44:1） */
+@media (prefers-color-scheme:dark){
+  .play-work-list li.play-work-live{ background:#D9955C; }
+  .play-work-list li.play-work-live .play-work-name,
+  .play-work-list li.play-work-live .play-work-name .arrow{ color:#1A2229; }
+  .play-work-list li.play-work-live .play-work-tag{ color:rgba(26,34,41,.7); }
+  .play-work-list li.play-work-live .play-work-desc{ color:rgba(26,34,41,.88); }
+}
+@media (max-width:640px){
+  .play-list li{ grid-template-columns:1fr; gap:6px; }
+  .play-work-list li{ grid-template-columns:1fr; gap:2px; }
+  .play-work-tag{ text-align:left; }
+}
+@media (prefers-color-scheme:dark){
+  .play-work-name{ color:#E8EDF2; }
+  /* .play-key 不在这里提亮：它吃 --brand-accent-text，暗色令牌段已把它切到 #D9955C */
+}
+/* 短句版：一句一行，行距放大；组与组之间靠 p+p 的 28px 断开 */
+.story-body--lines p{ line-height:2.05; }
+.story-body--lines p + p{ margin-top:38px; }
+.story-body h2{
+  font-size:var(--fs-h2);
+  font-weight:500;
+  line-height:1.3;
+  letter-spacing:0;
+  margin-top:var(--space-9);                     /* 64 */
+}
+.story-body h2 + p{ margin-top:var(--space-6); } /* H2 后 24 */
+@media (min-width:1024px){
+  /* 1440/1024：612px 居中，一行约 36 字 */
+  .story-measure{ max-width:var(--measure); margin-inline:auto; }
+  .story-body h2{ margin-top:var(--space-10); }  /* 96 */
+}
+
+/* ==========================================================================
+   D-2 滚动淡入 · 全站动效 #2
+   红线 1：必须 html.js 门控 + reduced-motion 双保险。禁用 JS 时正文全可读。
+   ========================================================================== */
+html.js .reveal{
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity var(--dur-slow) var(--ease),
+             transform var(--dur-slow) var(--ease);
+}
+html.js .reveal.is-in{
+  opacity:1;
+  transform:none;
+}
+
+/* ==========================================================================
+   D-1 reduced-motion 降级：#2 #3 #4 全关；#1 保留但无过渡
+   ========================================================================== */
+@media (prefers-reduced-motion:reduce){
+  html.js .reveal{
+    opacity:1 !important;
+    transform:none !important;
+    transition:none !important;
+  }
+  .link::after,
+  .photo-frame img,
+  .tl-dot{
+    transition:none !important;
+  }
+  .photo-frame:hover img{ transform:none; }
+  .tl-item:hover .tl-dot{ transform:scale(1); }
+}
+
+/* ==========================================================================
+   B-9 /story 正文流：H1 之后 64px 进入正文，不再叠加区块间距
+   ========================================================================== */
+.story-flow{ margin-top:0; }
+
+/* 页面内的紧邻区块（/football 的 48 节奏，B-10） */
+.section--tight{ margin-top:var(--space-8); }
+
+/* ==========================================================================
+   B-10 「最近一场」：已取消，不再建
+   本人 2026-11-13 明确决定不写「最近一场 · 日期 + 对手 + 比分」，也不写赛后
+   那句话。理由是这一栏本身不成立——他的正式比赛止于 2014 年，今天再挂一个
+   「最近一场」，只会显得在撑。**不要以任何形式恢复这一块**：
+   不加 <details>、不加字段行、不加一句「好久没踢了」的补白。
+   赛事记录（.race-group / .race-row）取代了它的位置，只写有记录的正式比赛。
+   ========================================================================== */
+
+/* ==========================================================================
+   B-12 /blog 博客列表
+   行规格平移自原「现在 3 条」，零新增颜色 / 字重 / 动效 / 字号档。
+   ========================================================================== */
+.blog-list{ margin-top:var(--space-5); }
+
+.blog-count{
+  margin-top:14px;
+  font-family:var(--font-mono);
+  font-size:var(--fs-micro);
+  color:var(--color-text-secondary);
+}
+/* J-29：所有内页主标题统一 56px；本条只调行距 */
+#blog-h1{
+  font-size:var(--fs-h2-xl);
+  line-height:1.28;
+  letter-spacing:-.01em;
+}
+
+/* 列表收成一根阅读栏（宽度由 #view-blog 的卡片决定，见 v3 段）。 */
+
+/* 年份：一个数字加一条细线，安静地分段，不抢戏 */
+.blog-year{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  margin-top:var(--space-8);
+  padding-bottom:10px;
+  font-family:var(--font-mono);
+  font-size:var(--fs-micro);
+  letter-spacing:.08em;
+  color:var(--color-text-secondary);
+}
+.blog-year:first-child{ margin-top:var(--space-6); }
+/* 年份自带那条线就是分隔，紧跟其后的第一行不再画一条 */
+.blog-year + .blog-row{ border-top:0; }
+.blog-year::after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:var(--color-border-subtle);
+}
+
+/* 一行 = 左边窄轨（日期 / 时长）+ 右边正文。
+   窄轨只有 76px，「5 分钟」不再被甩到屏幕另一头。 */
+.blog-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  grid-template-areas:
+    "meta"
+    "title"
+    "desc";
+  row-gap:5px;
+  padding-block:24px;
+  border-top:1px solid var(--color-border-subtle);
+}
+.blog-row:last-child{ border-bottom:1px solid var(--color-border-subtle); }
+@media (min-width:768px){
+  .blog-row{
+    grid-template-columns:92px minmax(0,1fr);
+    grid-template-areas:
+      "meta title"
+      "meta desc";
+    column-gap:28px;
+    row-gap:7px;
+    align-items:start;
+  }
+}
+
+.blog-meta{
+  grid-area:meta;
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  font-family:var(--font-mono);
+  font-size:var(--fs-micro);
+  line-height:1.5;
+  color:var(--color-text-tertiary);
+  white-space:nowrap;
+}
+/* 目录式：桌面上日期是 16px mono 锚点，时长退成 12px 注脚 */
+@media (min-width:768px){
+  .blog-meta{ flex-direction:column; gap:4px; align-items:flex-start; }
+  .blog-meta span:first-child{
+    font-size:var(--fs-body);
+    color:var(--color-text-primary);
+  }
+  .blog-meta span + span{
+    font-size:var(--fs-micro);
+  }
+}
+
+.blog-title{
+  grid-area:title;
+  margin:0;
+  font-size:var(--fs-lead);
+  font-weight:600;
+  line-height:1.45;
+  color:var(--color-text-primary);
+  transition:color var(--dur-fast) var(--ease);
+}
+.blog-desc{
+  grid-area:desc;
+  font-size:var(--fs-small);
+  line-height:1.7;
+  color:var(--color-text-secondary);
+}
+.blog-row:hover .blog-title{ color:var(--brand-accent-text); }
+
+
+/* ==========================================================================
+   v3 视觉重做 · 依据用户 2026-11-14 给的三张参考案例
+   共同语言：品牌主色 / 超大双色标题 / 卡片 / 实心按钮 / 真人照片主视觉 / 装饰点阵
+   本段只覆盖视觉层，不动路由、动效降级、语义结构。
+   ========================================================================== */
+:root{
+  --brand-ink:#1B2A3A;   /* 深墨蓝：银行五年的信任底色，比纯黑有温度 */
+  --brand-accent:#B8703A;
+  --brand-accent-text:#A05F2E; /* 焦琥珀的深版，给小字用（5.2:1 够 AA） */
+  --brand-tint:#EDE6D8;
+  --card-bg:#FFFFFF;
+  --card-border:#E0D8C8;
+  --card-shadow:0 2px 14px rgba(44,59,38,.07);
+  --radius-card:14px;
+  --radius-btn:9px;
+  --page-bg:#F7F2E8;   /* 暖米纸：写作者的底色 */
+}
+body{ background:var(--page-bg); }
+
+/* ---- Header：深色品牌栏 + 实心 CTA（参考案例 1 与 3） ---- */
+/* B-0 Header · 编辑部式：纸面 + 底部一条 hairline，不再用深绿实心条。
+   深绿从「铺满背景」退到「文字色」和「锚点色」，层级靠色彩不是靠面积。 */
+.site-header{
+  background:var(--page-bg);
+  border-bottom:1px solid var(--color-border-subtle);
+}
+.site-header .header-inner{ height:64px; }
+@media (min-width:768px){ .site-header .header-inner{ height:72px; } }
+.brand{
+  color:var(--brand-ink); font-size:var(--fs-body); font-weight:600; letter-spacing:-.01em;
+}
+.site-nav a{ color:var(--color-text-secondary); font-size:var(--fs-small); }
+.site-nav a:hover{ color:var(--brand-ink); }
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:44px; padding:0 20px;
+  border-radius:var(--radius-btn);
+  font-size:var(--fs-small); font-weight:600; line-height:1;
+  transition:transform .18s ease, filter .18s ease;
+}
+.btn:hover{ transform:translateY(-1px); filter:brightness(1.08); }
+/* 次按钮改描边金：原来和主按钮一样是实心，金色又把深绿压过去，主次颠倒。
+   实心金只留给导航里的「联系我」——那一处需要跳出深绿条。 */
+.btn--blue{ background:transparent; color:var(--brand-accent-text); border:1.5px solid var(--brand-accent); }
+.btn--blue:hover{ background:var(--brand-tint); filter:none; }
+.header-cta.btn--blue{ background:var(--brand-accent-text); color:#fff; border-color:var(--brand-accent-text); }
+.header-cta.btn--blue:hover{ background:var(--brand-accent-text); filter:brightness(1.12); }
+/* 主按钮不用深墨蓝（近黑）：改用深焦琥珀，与全站强调色同族；白字对比度 5.03:1 过 AA */
+.btn--ink{ background:var(--brand-accent-text); color:#fff; }
+.btn--ghost{ background:transparent; color:var(--brand-ink); border:1.5px solid var(--brand-ink); }
+.btn-row{ display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+/* 手机端也保留联系入口：文字缩成「联系」、内边距收紧，
+   320 宽下仍与品牌 + 三个导航项同处一行（实测无溢出）。 */
+.header-cta{ display:inline-flex; align-items:center; min-height:40px; padding:0 10px; font-size:var(--fs-micro); }
+@media (min-width:768px){ .header-cta{ min-height:44px; padding:0 16px; font-size:var(--fs-small); } }
+.header-nav-wrap{ display:flex; align-items:center; gap:28px; }
+
+/* ---- 回到顶部：常驻但不抢戏的返回控件 ----
+   规则：滚动过一屏才淡入；44×44 触控目标；纸面底 + 墨蓝描边，跟亮暗主题走；
+   默认 visibility:hidden —— JS 没跑起来时它不可见也不可聚焦，不会留一个死按钮。 */
+.to-top{
+  position:fixed; z-index:40;
+  right:calc(var(--pad-inline) + env(safe-area-inset-right, 0px));
+  bottom:calc(var(--space-6) + env(safe-area-inset-bottom, 0px));
+  width:44px; height:44px; padding:0;
+  display:inline-flex; align-items:center; justify-content:center;
+  border:1.5px solid var(--color-border-strong);
+  border-radius:50%;
+  background:var(--page-bg);
+  color:var(--brand-ink);
+  box-shadow:var(--shadow-soft);
+  cursor:pointer;
+  opacity:0; visibility:hidden; pointer-events:none;
+  transform:translateY(8px);
+  transition:opacity var(--dur-base) var(--ease),
+             transform var(--dur-base) var(--ease),
+             background var(--dur-fast) var(--ease);
+}
+.to-top.is-visible{ opacity:1; visibility:visible; pointer-events:auto; transform:none; }
+.to-top:hover{ background:var(--brand-tint); }
+.to-top:active{ transform:translateY(1px); }
+.to-top:focus-visible{ outline:2px solid var(--brand-accent); outline-offset:3px; }
+@media (max-width:767px){
+  .to-top{ bottom:calc(var(--space-5) + env(safe-area-inset-bottom, 0px)); }
+}
+@media (prefers-reduced-motion:reduce){
+  .to-top{ transition:none; }
+}
+@media print{
+  .to-top{ display:none !important; }
+}
+
+/* ---- 图片放大：点任意图片独立铺满窗口 ----
+   规则：只在视口里出现，不改文档流（无 CLS）；图片直接复用原 src，不新增请求；
+   点一下在「适应窗口」与「原始像素」间切换，原来模糊的小图这时能看细节。
+   二维码也一样能放大——扫码时省得眯眼睛。 */
+.lightbox{
+  position:fixed; inset:0; z-index:80;
+  display:flex; align-items:center; justify-content:center;
+  padding:clamp(12px,3vw,40px);
+  background:rgba(12,16,22,.93);
+  overscroll-behavior:contain;
+}
+html.lb-locked{ overflow:hidden; }
+html.lb-locked .to-top{ display:none; }
+.lightbox[hidden]{ display:none; }
+.lightbox-stage{
+  position:relative;
+  width:100%; height:100%;
+  display:flex; align-items:center; justify-content:center;
+  overflow:auto;
+  overscroll-behavior:contain;
+}
+.lightbox-media{
+  display:block; flex:none;
+  max-width:100%; max-height:100%;
+  width:auto; height:auto;
+  background:#fff;                 /* 透明底线稿与二维码在暗底上要白背 */
+  box-shadow:var(--shadow-overlay);
+  cursor:zoom-in;
+  transition:transform var(--dur-base) var(--ease);
+}
+.lightbox.is-raw .lightbox-media{
+  max-width:none; max-height:none;
+  cursor:zoom-out;
+}
+/* 内联 SVG 信息图：线稿颜色走主题变量，白底会让暗色主题的浅线看不见，用纸色底 */
+.lightbox-media--svg{ background:var(--page-bg); }
+.lightbox-close{
+  position:absolute; top:clamp(8px,2vw,20px); right:clamp(8px,2vw,20px);
+  z-index:1;
+  width:44px; height:44px; padding:0;
+  display:inline-flex; align-items:center; justify-content:center;
+  border:1.5px solid rgba(255,255,255,.42);
+  border-radius:50%;
+  background:rgba(12,16,22,.72);
+  color:#F7F2E8;
+  font-size:22px; line-height:1;
+  cursor:pointer;
+}
+.lightbox-close:hover{ background:rgba(255,255,255,.16); }
+.lightbox-close:focus-visible{ outline:2px solid var(--brand-accent); outline-offset:3px; }
+/* 页内所有图片与信息图：鼠标移上去就是「可放大」，不用另外加提示文字 */
+.view img,
+.view svg.art-fig{ cursor:zoom-in; }
+.view img:focus-visible,
+.view svg.art-fig:focus-visible{ outline:2px solid var(--brand-accent); outline-offset:3px; }
+.lightbox-cap{
+  position:absolute; left:clamp(12px,3vw,40px); right:clamp(12px,3vw,40px);
+  bottom:calc(clamp(12px,3vw,40px) - 8px);
+  margin:0; padding:0;
+  font-size:var(--fs-micro); line-height:1.6;
+  color:rgba(247,242,232,.72);
+  text-align:center;
+  pointer-events:none;
+}
+@media (prefers-reduced-motion:reduce){
+  .lightbox-media{ transition:none; }
+}
+@media print{
+  .lightbox{ display:none !important; }
+}
+
+/* ---- Hero：超大双色标题 + 圆形照片 + 点阵（参考案例 3） ---- */
+.hero-wrap{
+  padding-block:56px 48px;
+  border-bottom:1px solid var(--color-border-subtle);
+}
+/* 杂志封面式 Hero：姓名是绝对主角，头像是右侧锚点 */
+.hero-plate{ position:relative; }
+.hero-name{
+  font-family:var(--font-sans);
+  font-size:var(--fs-display);
+  font-weight:600;
+  letter-spacing:-.035em;
+  line-height:1.0;
+  color:var(--brand-ink);
+  margin:0;
+}
+.hero-body{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:var(--space-8);
+  margin-top:var(--space-8);
+}
+@media (min-width:768px){
+  .hero-body{
+    /* 头像列从 280 提到 360：姓名 104px 时，280px 的圆撑不住右侧的视觉重量 */
+    grid-template-columns:minmax(0,1fr) 360px;
+    align-items:center;
+    gap:var(--space-10);
+  }
+}
+.hero-text{ min-width:0; }
+.hero-big{
+  text-wrap:balance;
+  font-size:var(--fs-h2);
+  font-weight:600;
+  line-height:1.25;
+  letter-spacing:-.02em;
+  color:var(--brand-ink);
+  margin:0;
+}
+.hero-big em{ font-style:normal; color:var(--brand-accent-text); }
+.hero-desc{
+  margin-top:var(--space-5);
+  max-width:42em;
+  font-size:var(--fs-lead);
+  line-height:1.85;
+  color:var(--color-text-secondary);
+}
+.hero-media{ display:flex; justify-content:center; }
+.hero-photo{
+  position:relative; display:flex; align-items:center; justify-content:center;
+  aspect-ratio:1/1; width:100%; max-width:420px; margin-inline:auto;
+  border-radius:50%;
+  background:var(--brand-tint);
+  overflow:hidden;
+}
+.hero-photo img{
+  /* 新头像是透明底 + 深墨蓝线稿（rgb 45,63,74），本身就是「纸与墨」同族色。
+     铺满圆框，让人成为唯一主角；不再套 sepia 染色、不再正片叠底。 */
+  width:100%; height:100%; object-fit:contain;
+  border-radius:50%;
+  background:transparent;
+}
+.hero-dots{
+  position:absolute; left:-6%; top:8%;
+  width:88px; height:76px;
+  background-image:radial-gradient(var(--brand-accent) 1.4px, transparent 1.4px);
+  background-size:12px 12px; opacity:.45;
+}
+@media (max-width:1023px){ .hero-photo{ max-width:300px; margin-top:32px; } .hero-dots{ left:2%; } }
+
+/* ---- 卡片化：首页 Hero 之后各区块、博客页（参考案例 1 双列卡片） ---- */
+/* 卡片化全部废除 → 纸面分区：
+   区块不再是「浮在米白上的白卡」，就是纸的一部分，靠上下留白分段。
+   区块之间由 hero 底部的分隔线 + section 自身的 padding 撑开，不靠描边。 */
+.card-surface{ padding:0; }
+#view-home > section:not(:first-child) > .container,
+#view-blog > section > .container,
+#view-football > section > .container{
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+  padding-block:56px;
+  max-width:var(--content-max);
+}
+@media (min-width:768px){
+  #view-home > section:not(:first-child) > .container,
+  #view-blog > section > .container,
+  #view-football > section > .container{ padding-block:48px; }
+}
+/* 博客页：一间窄卡片。
+   全站是卡片语言，博客如果光秃秃铺在白底上，会和其它页像两个网站；
+   但卡片一旦拉满 1172px，一行字又长到没法读。折中：卡片本身收窄到 760，
+   里面一根 680 的正文栏 —— 既在同一套语言里，又是可读的行长。 */
+#view-blog > section > .container{
+  max-width:680px;
+  padding-block:56px;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+}
+@media (min-width:768px){
+  #view-blog > section > .container{ padding-block:48px; }
+}
+.section-kicker{
+  font-size:var(--fs-micro); font-weight:600; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--brand-accent-text);
+  margin:0 0 10px;
+}
+.h2{ color:var(--brand-ink); }
+.h1{ color:var(--brand-ink); }
+
+/* 博客列表：不套卡片。外层 .container 本身就是白卡，卡片套卡片会让行失去呼吸 */
+#view-blog .blog-row .blog-title{ color:var(--brand-ink); font-weight:600; }
+#view-blog .blog-list{ margin-top:var(--space-4); }
+
+/* J-26：v3 里第二套 .qr-* 规则一并删除（与旧 C9 同名选择器互相覆盖，
+   `text-align:center` 的卡片 + `display:block` 贴左的码 = 两条轴）。
+   联系区新样式统一放在 J-26 段，全站只留一套。 */
+
+/* ---- 去过的国家 · 小国旗（内联 SVG，不用 emoji） ---- */
+.flag-sprite{ position:absolute; overflow:hidden; }
+.country-row{
+  display:flex; flex-wrap:wrap; gap:var(--space-4) var(--space-6);
+  list-style:none; margin:var(--space-6) 0 0; padding:0;
+}
+.country-row li{
+  display:inline-flex; align-items:center; gap:var(--space-2);
+  font-size:var(--fs-small);
+  color:var(--color-text-secondary);
+}
+.flag{
+  display:block; width:26px; height:18px; flex:none;
+  border-radius:var(--radius-chip);
+  box-shadow:0 0 0 1px var(--color-border);
+}
+/* 博客页标题下的紧凑版 */
+.blog-countries{ margin-top:var(--space-4); gap:var(--space-3) var(--space-5); }
+.blog-countries li{ font-size:var(--fs-micro); }
+.blog-countries .flag{ width:22px; height:15px; }
+
+/* ---- 照片条（J-23）：编辑部式，无卡片无边框，靠小字图注说明 ---- */
+.photo-strip{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:var(--space-8) var(--space-6);
+  margin-top:var(--space-8);
+}
+@media (min-width:640px){ .photo-strip{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (min-width:1024px){
+  .photo-strip{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .photo-strip--two{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+/* 单张：必须显式覆盖成单列，否则会继承 3 列栅格被挤成一小格。
+   时间线页版心居中，单张照片也跟着居中，否则会贴左显得偏。 */
+.photo-strip--one{ grid-template-columns:1fr; max-width:620px; margin-inline:auto; }
+.photo-strip figure{ margin:0; min-width:0; }
+.photo-strip img{
+  display:block; width:100%; height:auto;
+  aspect-ratio:4 / 3; object-fit:cover;
+  border-radius:var(--radius-img);
+  background:var(--brand-tint);
+}
+.photo-strip figcaption{
+  margin-top:var(--space-3);
+  max-width:38ch;
+  font-size:var(--fs-micro);
+  line-height:1.7;
+  color:var(--color-text-tertiary);
+}
+.photo-strip figcaption em{ font-style:normal; color:var(--color-text-secondary); }
+/* 实拍照片在深底上过亮，压一档亮度融入纸与墨 */
+@media (prefers-color-scheme:dark){
+  .photo-strip img{ filter:brightness(.86) saturate(.9); }
+}
+
+/* ---- J-24 · 照片不是配图，是记录 ----
+   图注拆两行：等宽小字的「记录头」写年份 / 地点 / 成绩，下面一行写画面里
+   或官方记录里能核对的事实；信息不全的记录头写「未记」。
+   J-34：这类编写规则只留在注释里，不写进访客可见的文案。 */
+/* J-37 · 合影用 3:2，避免 4:3 把两侧的人裁掉 */
+.photo-strip--wide img{ aspect-ratio:3 / 2; }
+.photo-strip--doc{ grid-template-columns:1fr; max-width:900px; margin-inline:auto; }
+.photo-strip--doc img{ aspect-ratio:auto; object-fit:contain; }
+.photo-strip figcaption.photo-rec{
+  display:flex; flex-direction:column; gap:3px; max-width:52ch;
+}
+.photo-rec-key{
+  font-family:var(--font-mono);
+  font-size:var(--fs-micro);
+  letter-spacing:.04em;
+  color:var(--brand-accent-text);
+}
+.photo-rec-key--unknown{ color:var(--color-text-tertiary); }
+.photo-rec-val{
+  font-size:var(--fs-micro);
+  line-height:1.7;
+  color:var(--color-text-tertiary);
+}
+
+/* 走过的地方：一段自述 + 四面小旗，不堆旅游照 */
+.travel-intro{ margin-top:var(--space-6); max-width:62ch; }
+.travel-lead{ font-size:var(--fs-lead); line-height:1.8; color:var(--color-text-primary); }
+.travel-sub{
+  margin-top:var(--space-3);
+  font-size:var(--fs-small); line-height:1.85;
+  color:var(--color-text-secondary);
+}
+.country-lead{
+  font-size:var(--fs-micro); letter-spacing:.08em;
+  color:var(--color-text-tertiary);
+}
+.blog-places{
+  display:flex; flex-wrap:wrap; align-items:center;
+  gap:var(--space-2) var(--space-4);
+  margin-top:var(--space-4);
+}
+.blog-countries{ margin-top:0; }
+/* 首页「走过的地方」是独立章节，旗帜用标准档，不跟着博客页缩成紧凑档 */
+.travel-countries{ margin-top:0; }
+.travel-countries li{ font-size:var(--fs-small); }
+.travel-countries .flag{ width:26px; height:18px; }
+.post-places{ margin-top:var(--space-5); }
+/* 去过的国家：只在博客与文章页留一行注脚——不用国旗、不做清单、
+   不占视觉焦点。首页不单列，四个国家已经写在叙述里。 */
+.travel-note{
+  margin:var(--space-4) 0 0;
+  font-size:var(--fs-micro); line-height:1.7;
+  letter-spacing:.04em;
+  color:var(--color-text-tertiary);
+}
+
+/* 带队高光（足球页）：一项成果从赛绩列表里抬出来，单独成档 */
+.coach-block{
+  margin-top:var(--space-10);
+  padding-top:var(--space-6);
+  border-top:var(--border-w) solid var(--color-border);
+}
+.coach-block .h2{ margin:var(--space-2) 0 0; }
+.coach-lead{
+  margin-top:var(--space-3); font-size:var(--fs-body);
+  line-height:1.85; color:var(--color-text-secondary);
+}
+.coach-record{
+  display:grid; grid-template-columns:1fr; gap:var(--space-5);
+  margin-top:var(--space-7);
+}
+@media (min-width:768px){
+  .coach-record{ grid-template-columns:160px minmax(0,1fr); gap:var(--space-8); }
+}
+.coach-result-word{
+  display:block;
+  font-size:var(--fs-h2-xl); font-weight:600; line-height:1;
+  letter-spacing:.02em; color:var(--brand-accent-text);
+}
+.coach-result-sub{
+  display:block; margin-top:var(--space-2);
+  font-family:var(--font-mono); font-size:var(--fs-micro);
+  letter-spacing:.04em; color:var(--brand-accent-text);
+}
+/* J-33 · 本人参赛身份：队长不是官方职务头衔，是本人自述。
+   描边小标签与 56px 的「冠军」拉开层次，字号仍走 --fs-small，暗色吃琥珀令牌自动切换。 */
+.coach-role{
+  display:block; width:fit-content; max-width:100%;
+  margin-top:var(--space-3);
+  padding:3px 9px;
+  font-size:var(--fs-small); line-height:1.5; font-weight:600;
+  color:var(--brand-accent-text);
+  border:1px solid var(--brand-accent-text); border-radius:var(--radius-chip);
+}
+.coach-race{
+  margin:0; font-size:var(--fs-lead); font-weight:600;
+  line-height:1.55; color:var(--brand-ink);
+}
+.coach-meta{
+  margin-top:var(--space-3); font-size:var(--fs-small);
+  line-height:1.85; color:var(--color-text-secondary);
+}
+.coach-src{
+  margin-top:var(--space-4); padding-left:var(--space-4);
+  border-left:2px solid var(--color-border);
+  font-size:var(--fs-micro); line-height:1.9;
+  color:var(--color-text-tertiary);
+}
+@media (prefers-color-scheme:dark){
+  .coach-race{ color:#E8EDF2; }
+}
+
+/* ---- 图片卡（获奖原表 / 操场照）：直接用用户给的原图，零转录零编造 ---- */
+.figure-card{
+  margin:22px 0 0; padding:16px;
+  background:#fff; border:1px solid var(--card-border);
+  border-radius:var(--radius-card);
+}
+.figure-card img{
+  display:block; width:100%; height:auto; border-radius:calc(var(--radius-card) - 4px);
+  filter:none; background:#fff;
+}
+.figure-card figcaption{
+  margin-top:12px; font-size:var(--fs-small); line-height:1.7;
+  color:var(--color-text-secondary);
+}
+.figure-card--wide img{ max-height:420px; object-fit:contain; }
+
+/* 暗色下卡片跟随系统，避免白块刺眼 */
+@media (prefers-color-scheme:dark){
+  :root{
+    --card-bg:#1E2630; --card-border:#33414F; --brand-tint:#24303C;
+    --card-shadow:0 2px 14px rgba(0,0,0,.42);
+    --page-bg:#121820;
+    /* 土金在暗底上只有 2.5:1，直接换变量，省得漏掉某一处小字。
+       金只被拿去当文字/描边/点阵，不当大面积背景，所以整体提亮是安全的。 */
+    --brand-accent:#D9955C;
+    --brand-accent-text:#D9955C;
+  }
+  /* 唯一的例外：拿金当实心背景的两处，作者色要退回深金，否则白字糊在金上 */
+  .header-cta.btn--blue{ background:#A05F2E; border-color:#A05F2E; color:#fff; }
+  /* 主按钮与页头实心按钮同色：亮琥珀底白字只有 2.3:1，必须退回深金 */
+  .btn--ink{ background:#A05F2E; }
+  /* 徽记在暗色下也用深金底：亮金底上白字只有 1.77:1，不够 */
+  .race-honor{ background:#A05F2E; }
+  .btn--blue{ border-color:#A05F2E; }
+  /* 头像在暗色下反相：透明底不受影响，深墨蓝线 rgb(45,63,74) 反相成浅暖米
+     rgb(210,192,181)，压在深色圆底上清楚。不再叠 sepia/hue-rotate（旧绿金链路）。 */
+  .hero-photo img{ filter:invert(1); }
+  .figure-card{ background:#1E2630; }
+  /* --brand-ink 是深墨蓝，暗色下会糊成一片：凡是用它当文字色的地方一律提亮。
+     注意不能直接覆盖变量本身，避免连带改掉别的深底元素。 */
+  .hero-big, .hero-name, .h1, .h2,
+  .race-group-title,
+  .fb-stat-num,
+  /* 纸面化 header 后品牌字吃 --brand-ink，暗色下深字压深底看不见，一并提亮 */
+  .site-header .brand{ color:#E8EDF2; }
+  #view-blog .blog-row{ background:#1E2630; }
+  #view-blog .blog-row .blog-title{ color:#E8EDF2; }
+  .btn--ghost{ color:#E8EDF2; border-color:#7A8BA0; }
+  /* 回到顶部：底色跟 --page-bg 走（暗色是深底），字色必须提亮，否则深墨蓝糊在深底上 */
+  .to-top{ color:#E8EDF2; box-shadow:var(--shadow-soft); }
+  .to-top:hover{ background:#1E2630; }
+}
+
+/* ==========================================================================
+   B-14 /post 博客详情（站内全文）
+   正文用 p/h2/h3/blockquote/ul/ol/hr 六种块，不引入任何富文本控件。
+   ========================================================================== */
+.post-measure{ max-width:none; }
+
+/* 文章页与博客列表同一间卡片、同一根栏宽，点进去不会「换了个网站」 */
+#view-post > section > .container{
+  max-width:680px;
+  padding-block:56px;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+}
+@media (min-width:768px){
+  #view-post > section > .container{ padding:44px 40px; }
+}
+
+/* 窄屏护栏（2026-11-14 修）：卡片必须离屏幕边缘留一道缝。
+   卡片的边框与圆角一直挂在 .container 自己身上，而 .container 是 width:100%，
+   窄屏下 max-width 不起作用，盒子左边缘就直接顶到 x=0 —— 圆角贴着屏幕边，
+   看上去像被裁掉一块。第 2 个问题是贴边之后，标题几乎怼到屏幕边框。
+   这里只补一道 14px 的外缝，内边距同比例收一点，保证 375 宽下正文还有 300px。 */
+@media (max-width:767px){
+  #view-home > section:not(:first-child) > .container,
+  #view-blog > section > .container,
+  #view-football > section > .container,
+  #view-post > section > .container{
+    width:auto;
+    margin-inline:14px;
+    padding:24px 20px;
+  }
+}
+
+.post-back{
+  display:inline-block;
+  margin-bottom:var(--space-5);
+  font-size:var(--fs-micro);
+  color:var(--color-text-secondary);
+}
+.post-back:hover{ color:var(--brand-accent-text); }
+
+/* 标题下面先给一句导语，再给元信息。
+   原来只有标题 + 一行小字，整页看着是「一个孤零零的 h1」，这是它显得空的主因。 */
+#post-h1{
+  font-size:var(--fs-h2-xl);
+  line-height:1.28;
+  letter-spacing:-.01em;
+}
+.post-lede{
+  margin:16px 0 0;
+  font-size:var(--fs-lead);
+  line-height:1.72;
+  color:var(--color-text-secondary);
+}
+.post-meta{
+  margin-top:20px;
+  padding-top:14px;
+  border-top:1px solid var(--color-border-subtle);
+  font-family:var(--font-mono);
+  font-size:var(--fs-micro);
+  color:var(--color-text-secondary);
+}
+
+.post-body{
+  margin-top:var(--space-7);
+  font-size:var(--fs-lead);
+  line-height:1.85;
+  color:var(--color-text-primary);
+}
+.post-body > *:first-child{ margin-top:0; }
+.post-body p{ margin:0 0 1.4em; }
+.post-body h2{
+  /* 24px 而不是 --fs-h2：那是页面级标题的尺度，放进正文会把段落节奏砸碎 */
+  margin:2.6em 0 .9em;
+  font-size:var(--fs-sub);
+  font-weight:600;
+  line-height:1.45;
+  letter-spacing:0;
+}
+.post-body h3{
+  margin:2.1em 0 .7em;
+  font-size:var(--fs-lead);
+  font-weight:600;
+  line-height:1.6;
+  color:var(--brand-ink);
+}
+.post-body h2 + p,
+.post-body h3 + p,
+.post-body h2 + ul,
+.post-body h3 + ul{ margin-top:0; }
+.post-body blockquote{
+  margin:1.9em 0;
+  padding:2px 0 2px 1.1em;
+  border-left:2px solid var(--brand-accent);
+  color:var(--color-text-secondary);
+}
+.post-body blockquote p{ margin:0; }
+.post-body ul{ margin:0 0 1.4em; padding-left:1.35em; list-style:disc; }
+.post-body ol{ margin:0 0 1.4em; padding-left:1.5em; list-style:decimal; }
+.post-body li{ margin-bottom:.5em; padding-left:.15em; }
+.post-body li::marker{ color:var(--brand-accent-text); }
+.post-body hr{
+  /* 杂志式分隔：一小截居中的线，不是横贯整行的长条 */
+  width:46px;
+  margin:2.8em auto;
+  border:0;
+  border-top:1px solid var(--color-border-strong);
+}
+.post-body a{ color:var(--brand-accent-text); text-decoration:underline; text-underline-offset:3px; }
+.post-body strong{ font-weight:600; color:var(--brand-ink); }
+.post-body img{ margin:var(--space-6) 0; border-radius:var(--radius-img); }
+
+/* ---- 正文里的图 ----
+   图是正文唯一的换气口：段落密到十几段之后，读者需要一个不用读的东西。
+   所以图必须「像一张放在纸上的图」，不是网页里的装饰块 —— 白卡、细边、微投影，
+   和图注一起构成一个单元，和正文的米白分开一层。 */
+.art-figure{ margin:2.3em 0; }
+.art-figure svg,
+.art-figure img{
+  display:block;
+  width:100%;
+  height:auto;
+  background:#fff;               /* 图内容需要浅底衬托，但不再有边框圆角阴影的「卡片感」 */
+  border-radius:calc(var(--radius-card) - 4px);
+}
+.art-figure figcaption{
+  margin-top:12px;
+  padding-left:2px;
+  font-size:var(--fs-micro);
+  line-height:1.7;
+  color:var(--color-text-secondary);
+}
+/* SVG 里的三种字：标签、数字、刻度。
+   viewBox 是 720 宽，落到正文里约 600，所以这里写大一号才不会缩得看不见。 */
+.fg-lab{ font-family:var(--font-sans); font-size:var(--fs-small); fill:var(--color-text-primary); }
+.fg-num{ font-family:var(--font-mono); font-size:var(--fs-small); fill:var(--brand-ink); font-variant-numeric:tabular-nums; }
+.fg-tick{ font-family:var(--font-sans); font-size:var(--fs-micro); fill:var(--color-text-tertiary); }
+
+/* 窄屏放不下就横滑，而不是把字缩成 8px 让人眯着眼看。
+   图本身按 520px 保底，滚动容器给出可滚动的暗示（右侧渐隐）。 */
+@media (max-width:640px){
+  .art-figure{ overflow-x:auto; scrollbar-width:thin; }
+  .art-figure svg,
+  .art-figure img{ min-width:520px; padding:14px; }
+  .art-figure figcaption{ padding-right:14px; }
+}
+
+.post-body table{
+  width:100%;
+  margin:1.9em 0;
+  border-collapse:collapse;
+  font-size:var(--fs-small);
+  line-height:1.65;
+}
+.post-body th,
+.post-body td{
+  padding:10px 12px 10px 0;
+  border-bottom:1px solid var(--color-border-subtle);
+  text-align:left;
+  vertical-align:top;
+}
+.post-body th{
+  font-weight:500;
+  color:var(--brand-ink);
+  border-bottom:1.5px solid var(--brand-ink);
+}
+/* 三列表的前两列按内容定宽、不折行，把宽度让给后面写长句的那一列：
+   否则「认知模式」被挤成三行，整张表又高又碎。data-cols 由转换器写出。 */
+.post-body table[data-cols="3"] th:first-child,
+.post-body table[data-cols="3"] td:first-child,
+.post-body table[data-cols="3"] th:nth-child(2),
+.post-body table[data-cols="3"] td:nth-child(2){
+  width:1%;
+  white-space:nowrap;
+  padding-right:20px;
+}
+.post-body th + th,
+.post-body td + td{ padding-left:12px; }
+.post-body code{
+  font-family:var(--font-mono);
+  font-size:var(--fs-small);
+  background:var(--brand-tint);
+  border-radius:var(--radius-code);
+  padding:1px 5px;
+}
+
+/* 文末收束：细线 + 回到列表。文章读完要有个落点，不能直接撞进页脚 */
+.post-foot{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:var(--space-4);
+  margin-top:var(--space-9);
+  padding-top:var(--space-5);
+  border-top:1px solid var(--color-border-subtle);
+  font-size:var(--fs-micro);
+  color:var(--color-text-secondary);
+}
+
+/* ---- 「继续读」：文章读完之后的同一主题出口 ----
+   与博客列表同系：标题 + 日期两栏，分隔线用细线。
+   它是正文与页脚之间的一层，视觉上比页脚轻、比正文静。 */
+.post-more{
+  margin-top:var(--space-9);
+  padding-top:var(--space-5);
+  border-top:1px solid var(--color-border);
+}
+.post-more-head{
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:var(--space-3);
+}
+.post-more-list{
+  list-style:none;
+}
+.post-more-link{
+  display:flex;
+  align-items:baseline;
+  gap:var(--space-5);
+  padding-block:11px;
+  border-top:1px solid var(--color-border-subtle);
+  color:var(--color-text-primary);
+}
+.post-more-link:first-child{ border-top:0; }
+.post-more-title{
+  flex:1;
+  font-size:var(--fs-body);
+  font-weight:500;
+  line-height:1.5;
+}
+.post-more-date{
+  font-size:var(--fs-micro);
+  color:var(--color-text-tertiary);
+  letter-spacing:.04em;
+}
+.post-more-link:hover .post-more-title{ color:var(--brand-accent-text); }
+.post-more-link:hover .post-more-date{ color:var(--brand-accent-text); }
+.post-foot a{ color:var(--color-text-secondary); }
+.post-foot a:hover{ color:var(--brand-accent-text); }
+@media (max-width:720px){
+  .post-body table{ display:block; overflow-x:auto; }
+}
+
+a.blog-row{ text-decoration:none; }
+a.blog-row:hover .blog-title{ color:var(--brand-accent-text); }
+
+@media (prefers-color-scheme:dark){
+  .post-body h3, .post-body strong, .post-body th{ color:#E8EDF2; }
+  .post-body code{ background:#26302A; }
+  /* 焦琥珀小字在深底上对比度不足时，正文链接与列表圆点要提亮 */
+  .post-body a, .post-body li::marker{ color:#B7D8BE; }
+  .post-back:hover, .post-foot a:hover,
+  .blog-row:hover .blog-title, .blog-row:hover .blog-link{ color:var(--brand-accent-text); }
+}
+
+/* ==========================================================================
+   J-25 · 办公室信息 + 班级小贴士（2026-11-15）
+   岗位、工位、工作时间由本人给出，逐字照抄；联系电话明确不写，也不编造别的入口。
+   ========================================================================== */
+
+/* 找到我：办公信息是一张「值班牌」，不是宣传语 */
+.office{
+  display:grid; grid-template-columns:1fr; gap:var(--space-6);
+  margin-top:var(--space-7);
+}
+@media (min-width:768px){
+  .office{ grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:var(--space-9); }
+}
+.ct-card-label{
+  font-family:var(--font-mono); font-size:var(--fs-micro);
+  letter-spacing:.06em; color:var(--brand-accent-text);
+}
+.ct-place{
+  margin:var(--space-2) 0 0;
+  font-size:var(--fs-h2); font-weight:600; line-height:1.4;
+  color:var(--brand-ink);
+}
+.ct-desk{
+  margin:var(--space-2) 0 0;
+  font-family:var(--font-mono); font-size:var(--fs-small);
+  color:var(--color-text-secondary);
+}
+.ct-hours{
+  list-style:none; margin:var(--space-5) 0 0; padding:0;
+  border-top:1px solid var(--color-border-subtle);
+}
+.ct-hours li{
+  display:flex; align-items:baseline; justify-content:space-between;
+  flex-wrap:wrap; gap:0 var(--space-4);
+  padding:var(--space-3) 0;
+  border-bottom:1px solid var(--color-border-subtle);
+}
+.ct-hours-key{ font-size:var(--fs-small); color:var(--color-text-secondary); }
+.ct-hours-val{
+  font-family:var(--font-mono); font-size:var(--fs-small);
+  color:var(--color-text-primary); font-variant-numeric:tabular-nums;
+}
+.ct-hours-val--rest{
+  font-family:var(--font-sans); color:var(--color-text-tertiary);
+}
+.office-side{ align-self:end; }
+.ct-tips-link{
+  display:inline-flex; align-items:center; gap:8px;
+  min-height:44px;                 /* WCAG 2.2 SC 2.5.8 */
+  margin-top:var(--space-3);
+  font-size:var(--fs-small);
+  color:var(--brand-accent-text);
+  border-bottom:1px solid currentColor;
+}
+.ct-tips-link:hover{ color:var(--brand-ink); }
+
+/* 小贴士页：一根阅读栏，宽窄与博客页一致 */
+#view-tips > section > .container{
+  max-width:760px; padding-block:56px;
+  background:transparent; border:0; border-radius:0; box-shadow:none;
+}
+@media (min-width:768px){ #view-tips > section > .container{ padding-block:48px; } }
+@media (max-width:767px){
+  #view-tips > section > .container{ width:auto; margin-inline:14px; padding:24px 20px; }
+}
+.tips-back{ display:inline-flex; align-items:center; min-height:44px; }
+.tips-lead{
+  margin-top:var(--space-5); max-width:62ch;
+  font-size:var(--fs-lead); line-height:1.8;
+  color:var(--color-text-secondary);
+}
+.tips-h2{ margin-top:var(--space-9); }
+.tips-steps{
+  list-style:none; counter-reset:tipstep;
+  margin:var(--space-5) 0 0; padding:0;
+}
+.tips-steps li{
+  counter-increment:tipstep;
+  display:grid; grid-template-columns:34px minmax(0,1fr);
+  gap:var(--space-3);
+  padding:var(--space-4) 0;
+  border-top:1px solid var(--color-border-subtle);
+  font-size:var(--fs-body); line-height:1.85;
+  color:var(--color-text-primary);
+}
+.tips-steps li::before{
+  content:counter(tipstep,decimal-leading-zero);
+  font-family:var(--font-mono); font-size:var(--fs-small);
+  color:var(--brand-accent-text); line-height:1.85;
+}
+.tips-steps strong{ font-weight:600; color:var(--brand-ink); }
+.tips-warn{
+  margin-top:var(--space-6); padding:var(--space-4) var(--space-5);
+  border-left:3px solid var(--brand-accent);
+  background:var(--brand-tint);
+  font-size:var(--fs-small); line-height:1.8;
+  color:var(--color-text-primary);
+}
+.tpl-head{
+  display:flex; flex-wrap:wrap; align-items:center;
+  justify-content:space-between; gap:var(--space-3);
+  margin-top:var(--space-10);
+  padding-top:var(--space-5);
+  border-top:var(--border-w) solid var(--color-border);
+}
+.tpl-head .h2{ margin:0; }
+.tpl-copy{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:44px; min-width:96px; padding:0 var(--space-5);
+  font-family:var(--font-sans); font-size:var(--fs-small); font-weight:500;
+  color:#fff; background:var(--brand-accent-text);
+  border:0; border-radius:var(--radius-img); cursor:pointer;
+}
+.tpl-copy:hover{ filter:brightness(1.1); }
+.tpl-copy:focus-visible{ outline:2px solid var(--brand-accent); outline-offset:2px; }
+.tpl-status{
+  margin-left:var(--space-2);
+  font-size:var(--fs-micro); white-space:nowrap;
+}
+.tpl-pre{
+  max-width:100%; margin:var(--space-5) 0 0; padding:var(--space-5);
+  overflow-x:auto;
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:var(--radius-img);
+  font-family:var(--font-mono); font-size:var(--fs-small); line-height:1.9;
+  color:var(--color-text-primary);
+  white-space:pre-wrap; overflow-wrap:anywhere;
+  -webkit-user-select:text; user-select:text;
+}
+.tpl-note{
+  margin-top:var(--space-4);
+  font-size:var(--fs-micro); line-height:1.8;
+  color:var(--color-text-tertiary);
+}
+@media (prefers-color-scheme:dark){
+  .ct-place, .tips-steps strong{ color:#E8EDF2; }
+  .tpl-copy{ background:#A05F2E; }
+}
+
+/* ==========================================================================
+   J-26 · 联系区重做（单轴）+ 关于这个网页 / 免责声明
+   旧版两张白卡片里 img 是 display:block 贴左，figcaption 却 text-align:center，
+   两条轴错开：1440 差 22.5px、900 差 104.5px、390 差 64px；整块还只占右半栏，
+   左边一大片空白。现在全宽、全部左对齐、同一条纵轴，二维码只留白底小方章。
+   ========================================================================== */
+.contact-intro{
+  margin:var(--space-6) 0 0; max-width:62ch;
+  font-size:var(--fs-lead); line-height:1.8;
+  color:var(--color-text-secondary);
+}
+.contact-block{
+  margin-top:var(--space-9);
+  padding-top:var(--space-5);
+  border-top:var(--border-w) solid var(--color-border);
+}
+.contact-kicker{
+  margin:0 0 var(--space-5);
+  font-family:var(--font-mono); font-size:var(--fs-micro);
+  letter-spacing:.06em; color:var(--brand-accent-text);
+}
+.contact-list{ list-style:none; margin:0; padding:0; }
+.contact-item{
+  display:grid;
+  grid-template-columns:128px minmax(0,1fr);
+  gap:var(--space-5);
+  align-items:start;
+  padding:var(--space-5) 0;
+  border-bottom:1px solid var(--color-border-subtle);
+}
+.contact-item:first-child{ padding-top:0; }
+.contact-num{
+  font-family:var(--font-mono); font-size:var(--fs-micro);
+  line-height:1.9; color:var(--color-text-tertiary);
+}
+/* 二维码必须落在白底上，暗色也不例外；压暗会掉扫码成功率。
+   只给码本身一块方章，不再把整段文字裹进白卡片。 */
+.contact-qr{
+  display:block; margin:0;
+  width:128px; height:128px; padding:10px;
+  background:#fff; border:1px solid var(--card-border);
+  border-radius:var(--radius-img);
+}
+.contact-qr img{
+  display:block; width:100%; height:100%;
+  object-fit:contain; background:#fff; filter:none;
+}
+.contact-name{
+  margin:0; font-size:var(--fs-h2); font-weight:600;
+  line-height:1.4; color:var(--brand-ink);
+}
+.contact-desc{
+  margin:var(--space-2) 0 0;
+  font-size:var(--fs-small); line-height:1.85;
+  color:var(--color-text-secondary);
+}
+@media (max-width:640px){
+  .contact-item{ grid-template-columns:26px 100px minmax(0,1fr); gap:var(--space-3); }
+  .contact-qr{ width:100px; height:100px; padding:7px; }
+  .contact-name{ font-size:var(--fs-body); }
+  .contact-desc{ font-size:var(--fs-micro); }
+}
+@media (prefers-color-scheme:dark){
+  .contact-name{ color:#E8EDF2; }
+  .contact-qr{ background:#fff; border-color:#33414F; }
+}
+
+/* 页脚「关于这个网页」：全站共用，介绍 + 免责声明 */
+.site-footer .site-about{
+  max-width:760px;
+  margin-bottom:var(--space-8);
+  padding-top:var(--space-6);
+  border-top:var(--border-w) solid var(--color-border);
+}
+.site-footer .site-about-title{
+  margin:0; font-size:var(--fs-small); font-weight:600;
+  letter-spacing:.06em; color:var(--brand-accent-text);
+}
+.site-footer .site-about-body{
+  margin:var(--space-3) 0 0;
+  font-size:var(--fs-small); line-height:1.95;
+  letter-spacing:0; color:var(--color-text-secondary);
+}
+/* J-36 · 个人陈述是本人自述，不是编者概括：用正文档 16px + 主文色，
+   读起来像在说话；免责附注仍留在 12px 三级灰，两者不同权重。 */
+.site-footer .site-about-self{
+  margin:var(--space-3) 0 0;
+  font-size:var(--fs-body); line-height:1.9;
+  letter-spacing:0; color:var(--color-text-primary);
+}
+.site-footer .site-about-note{
+  margin:var(--space-5) 0 0;
+  padding-top:var(--space-4);
+  border-top:1px solid var(--color-border-subtle);
+  font-size:var(--fs-micro); line-height:1.9;
+  letter-spacing:0; color:var(--color-text-tertiary);
+}
+
+/* ==========================================================================
+   视图切换（hash 路由）。禁用 JS 时 6 个视图顺序全展开，正文 100% 可读。
+   ========================================================================== */
+html.js .view{ display:none; }
+html.js .view.is-active{ display:block; }
+
+/* ===== 2026-11-22 按 ui-ux-pro-max 规则补：窄屏头部 / 跳转链接 / 触控反馈 / 锚点避让 ===== */
+/* a11y-skip-links：键盘用户直达正文 */
+.skip-link{
+  position:absolute; left:12px; top:-64px; z-index:1000;
+  padding:10px 16px; border-radius:var(--radius-card);
+  background:var(--brand-ink); color:#fff; font-size:var(--fs-small);
+  text-decoration:none; transition:top .15s ease;
+}
+.skip-link:focus,
+.skip-link:focus-visible{ top:12px; }
+
+/* 5. Layout & Responsive：≤480px 时头部禁止折行（360–393 常见机型） */
+@media (max-width:480px){
+  .brand{ white-space:nowrap; font-size:13px; letter-spacing:0; }
+  .site-nav{ gap:10px; }
+  .site-nav a{ white-space:nowrap; font-size:13px; padding-inline:6px; margin-inline:-6px; }
+  .header-cta{ white-space:nowrap; font-size:13px; padding-inline:10px; }
+}
+@media (max-width:400px){
+  .brand{ font-size:12px; }
+  .site-nav{ gap:8px; }
+  .site-nav a{ font-size:12px; }
+  .header-cta{ font-size:12px; padding-inline:8px; }
+}
+/* 320px（WCAG 1.4.10 重排线）：头部再收一档，避免品牌与导航贴在一起 */
+@media (max-width:360px){
+  .brand{ font-size:11px; margin-right:6px; }
+  .site-nav{ gap:6px; }
+  .site-nav a{ font-size:11px; padding-inline:5px; margin-inline:-5px; }
+  .header-cta{ font-size:11px; padding-inline:7px; }
+}
+
+/* 2. Touch & Interaction：去掉点击延迟 + 按下反馈（不改变布局） */
+a,button,[role="button"]{ touch-action:manipulation; }
+button{ cursor:pointer; }
+.site-nav a:active,.btn:active,button:active,.post-item:active,a.card:active{ opacity:.72; }
+
+/* 1. Accessibility focus-not-obscured：锚点不被吸顶头挡住 */
+[id]{ scroll-margin-top:88px; }
+
+/* ===== 第二轮：按 ui-ux-pro-max 3.Performance / 9.Navigation ===== */
+/* 3.Performance：首屏之外的长列表延迟渲染，缩短首帧 */
+.blog-list > li,
+.race-row,
+.post-body > *{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 120px;
+}
+/* 9.Navigation：未知地址提示（aria-live 播报，不抢焦点） */
+.route-toast{
+  position:fixed; left:50%; bottom:24px; transform:translateX(-50%);
+  z-index:1200; max-width:min(92vw,520px);
+  padding:12px 18px; border-radius:var(--radius-card);
+  background:var(--brand-ink); color:#fff;
+  font-size:var(--fs-small); line-height:1.6;
+  box-shadow:var(--shadow-raise);
+  cursor:pointer;
+}
+@media (prefers-reduced-motion:reduce){ .route-toast{ transform:translateX(-50%); } }
+
+/* ===== 两站共用语义别名（见 DESIGN.md 第 5 节）=====
+   新组件只用 --ds-*；老代码不动，出现一次改一次。 */
+:root{
+  --ds-bg:var(--color-bg);
+  --ds-surface:var(--color-surface);
+  --ds-text:var(--color-text-primary);
+  --ds-text-2:var(--color-text-secondary);
+  --ds-text-3:var(--color-text-tertiary);
+  --ds-line:var(--color-border);
+  --ds-line-subtle:var(--color-border-subtle);
+  --ds-accent:var(--brand-accent);
+  --ds-accent-text:var(--brand-accent-text);
+  --ds-radius-card:var(--radius-card);
+  --ds-radius-pill:var(--radius-pill);
+  --ds-shadow-soft:var(--shadow-soft);
+  --ds-shadow-raise:var(--shadow-raise);
+  --ds-shadow-overlay:var(--shadow-overlay);
+  --ds-dur:var(--dur-base);
+  --ds-ease:var(--ease);
+}
