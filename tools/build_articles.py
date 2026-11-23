@@ -13,9 +13,11 @@
 
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 import re
+import sys
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent.parent
@@ -221,24 +223,70 @@ def build_sitemap(posts: list[dict]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def asset_version(name: str) -> str:
+    """用资产内容指纹做缓存失效参数，改了就变，不用手记版本号。"""
+    return hashlib.md5((BASE / "assets" / name).read_bytes()).hexdigest()[:8]
+
+
+def stamp_assets(source: str, write: bool) -> str:
+    """把 CSS/JS 的 ?v= 统一成当前指纹；check 模式只算不落盘。"""
+    pairs = (
+        (r"assets/site\.css(?:\?v=[0-9a-z]+)?", f"assets/site.css?v={asset_version('site.css')}"),
+        (r"assets/site\.js(?:\?v=[0-9a-z]+)?", f"assets/site.js?v={asset_version('site.js')}"),
+    )
+    stamped = source
+    for pattern, repl in pairs:
+        stamped = re.sub(pattern, repl, stamped)
+    if write and stamped != source:
+        SRC.write_text(stamped, encoding="utf-8")
+    return stamped
+
+
+def strip_ver(text: str) -> str:
+    """比对时忽略版本戳，否则每次指纹变化都会被当成正文差异。"""
+    return re.sub(r"\?v=[0-9a-z]+", "", text)
+
+
 def main() -> None:
-    source = SRC.read_text(encoding="utf-8")
+    check = "--check" in sys.argv
+    source = stamp_assets(SRC.read_text(encoding="utf-8"), write=not check)
     posts = load_posts(ARTICLES_SRC.read_text(encoding="utf-8"))
     if not posts:
         raise SystemExit("未解析到任何文章，构建终止")
 
     OUT.mkdir(parents=True, exist_ok=True)
+    stale = []
     for post in posts:
         target = OUT / post["slug"] / "index.html"
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(build_page(source, post), encoding="utf-8")
-        print(f"生成 {target.relative_to(BASE)}")
+        content = build_page(source, post)
+        if check:
+            actual = target.read_text(encoding="utf-8") if target.exists() else ""
+            if strip_ver(actual) != strip_ver(content):
+                stale.append(str(target.relative_to(BASE)))
+        else:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(content, encoding="utf-8")
+            print(f"生成 {target.relative_to(BASE)}")
 
-    (BASE / "sitemap.xml").write_text(build_sitemap(posts), encoding="utf-8")
-    (BASE / "robots.txt").write_text(
-        f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n",
-        encoding="utf-8",
-    )
+    sitemap = build_sitemap(posts)
+    robots = f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n"
+
+    if check:
+        for name, content in (("sitemap.xml", sitemap), ("robots.txt", robots)):
+            path = BASE / name
+            actual = path.read_text(encoding="utf-8") if path.exists() else ""
+            if actual != content:
+                stale.append(name)
+        if stale:
+            print("以下产物与 index.html 不同步，请运行 python tools/build_articles.py：")
+            for item in stale:
+                print(" -", item)
+            raise SystemExit(1)
+        print(f"全部同步：{len(posts)} 篇文章 + sitemap + robots")
+        return
+
+    (BASE / "sitemap.xml").write_text(sitemap, encoding="utf-8")
+    (BASE / "robots.txt").write_text(robots, encoding="utf-8")
     print(f"完成：{len(posts)} 篇文章，sitemap.xml，robots.txt")
 
 

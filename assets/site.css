@@ -1418,27 +1418,6 @@ html.lb-locked .to-top{ display:none; }
    `text-align:center` 的卡片 + `display:block` 贴左的码 = 两条轴）。
    联系区新样式统一放在 J-26 段，全站只留一套。 */
 
-/* ---- 去过的国家 · 小国旗（内联 SVG，不用 emoji） ---- */
-.flag-sprite{ position:absolute; overflow:hidden; }
-.country-row{
-  display:flex; flex-wrap:wrap; gap:var(--space-4) var(--space-6);
-  list-style:none; margin:var(--space-6) 0 0; padding:0;
-}
-.country-row li{
-  display:inline-flex; align-items:center; gap:var(--space-2);
-  font-size:var(--fs-small);
-  color:var(--color-text-secondary);
-}
-.flag{
-  display:block; width:26px; height:18px; flex:none;
-  border-radius:var(--radius-chip);
-  box-shadow:0 0 0 1px var(--color-border);
-}
-/* 博客页标题下的紧凑版 */
-.blog-countries{ margin-top:var(--space-4); gap:var(--space-3) var(--space-5); }
-.blog-countries li{ font-size:var(--fs-micro); }
-.blog-countries .flag{ width:22px; height:15px; }
-
 /* ---- 照片条（J-23）：编辑部式，无卡片无边框，靠小字图注说明 ---- */
 .photo-strip{
   display:grid;
@@ -1498,7 +1477,7 @@ html.lb-locked .to-top{ display:none; }
   color:var(--color-text-tertiary);
 }
 
-/* 走过的地方：一段自述 + 四面小旗，不堆旅游照 */
+/* 走过的地方：一段自述 + 照片条，不堆旅游照 */
 .travel-intro{ margin-top:var(--space-6); max-width:62ch; }
 .travel-lead{ font-size:var(--fs-lead); line-height:1.8; color:var(--color-text-primary); }
 .travel-sub{
@@ -1506,21 +1485,6 @@ html.lb-locked .to-top{ display:none; }
   font-size:var(--fs-small); line-height:1.85;
   color:var(--color-text-secondary);
 }
-.country-lead{
-  font-size:var(--fs-micro); letter-spacing:.08em;
-  color:var(--color-text-tertiary);
-}
-.blog-places{
-  display:flex; flex-wrap:wrap; align-items:center;
-  gap:var(--space-2) var(--space-4);
-  margin-top:var(--space-4);
-}
-.blog-countries{ margin-top:0; }
-/* 首页「走过的地方」是独立章节，旗帜用标准档，不跟着博客页缩成紧凑档 */
-.travel-countries{ margin-top:0; }
-.travel-countries li{ font-size:var(--fs-small); }
-.travel-countries .flag{ width:26px; height:18px; }
-.post-places{ margin-top:var(--space-5); }
 /* 去过的国家：只在博客与文章页留一行注脚——不用国旗、不做清单、
    不占视觉焦点。首页不单列，四个国家已经写在叙述里。 */
 .travel-note{
@@ -2069,10 +2033,6 @@ a.blog-row:hover .blog-title{ color:var(--brand-accent-text); }
   border-bottom:1px solid var(--color-border-subtle);
 }
 .contact-item:first-child{ padding-top:0; }
-.contact-num{
-  font-family:var(--font-mono); font-size:var(--fs-micro);
-  line-height:1.9; color:var(--color-text-tertiary);
-}
 /* 二维码必须落在白底上，暗色也不例外；压暗会掉扫码成功率。
    只给码本身一块方章，不再把整段文字裹进白卡片。 */
 .contact-qr{
